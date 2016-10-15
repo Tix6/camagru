@@ -1,0 +1,14 @@
+body {
+    background-color: gray;
+}
+
+header, footer, section, aside {
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+}
+
+.title {
+    text-align: center;
+}

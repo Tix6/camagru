@@ -12,7 +12,7 @@ final class Database {
     private static function _init_pdo() {
         $persistent = array(PDO::ATTR_PERSISTENT => TRUE);
         try {
-          self::$_pdo_st = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD, $persistent);
+          self::$_pdo_st = new PDO($DB_DSN, $persistent);
           self::$_pdo_st->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
           self::$_pdo_st->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         }
@@ -33,10 +33,19 @@ final class Database {
         self::$_pdo_st = NULL;
     }
 
-    public static function insert($sql, $params) {
+    private static function prepare($sql) {
         self::_connect();
-        $stmt = self::$_pdo_st->prepare($sql);
-        return ($stmt->execute($params));
+        return self::$_pdo_st->prepare($sql);
+    }
+
+    public static function execute($sql, array $params) {
+        $stmt = self::prepare($sql);
+        return $stmt->execute($params);
+    }
+
+    public static function fetch($sql, array $params) {
+        $stmt = self::execute($sql, $params);
+        return $stmt->fetchAll();
     }
 }
 

@@ -6,8 +6,10 @@ echo '------ Database setup BEGIN ------' . PHP_EOL;
 
 /* --------------------------- CREATE DATABASE -------------------------------*/
 
+/* Sqlite database is created on pdo instantiation */
+
 try {
-    $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+    $pdo = new PDO($DB_DSN);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 catch (PDOException $e) {
@@ -19,25 +21,11 @@ catch (PDOException $e) {
 
 /* ---------------------------- CREATE TABLES --------------------------------*/
 
-/* USER */
-echo 'create user table : ';
-$count = $pdo->exec($CREATE_TABLE_USER);
-echo "$count rows affected." . PHP_EOL;
-
-/* PICTURE */
-echo 'create picture table : ';
-$count = $pdo->exec($CREATE_TABLE_PICTURE);
-echo "$count rows affected." . PHP_EOL;
-
-/* COMMENT */
-echo 'create comment table : ';
-$count = $pdo->exec($CREATE_TABLE_COMMENT);
-echo "$count rows affected." . PHP_EOL;
-
-/* LIKE */
-echo 'create like table : ';
-$count = $pdo->exec($CREATE_TABLE_LIKE);
-echo "$count rows affected." . PHP_EOL;
+foreach ($TABLES as $table => $sql) {
+    echo "create $table table : ";
+    $count = $pdo->exec($sql);
+    echo "$count rows affected." . PHP_EOL;
+}
 
 /* -------------------------------------------------------------------------- */
 

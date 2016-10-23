@@ -28,8 +28,8 @@ header > .title {
 
 .container {
     background-color: white;
-    border: 2px solid #eee;
-    border-radius: 10px;
+    border: 2px solid #ddd;
+    border-radius: 15px;
 }
 
 footer, section, aside {
@@ -37,7 +37,10 @@ footer, section, aside {
 }
 
 .register {
-    text-align: center;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .register div {
@@ -47,14 +50,26 @@ footer, section, aside {
 hr {
     display: inline-block;
     width: 200px;
-    border: 1px solid gray;
+    border: 1px solid #ddd;
 }
 
 label {
     display: block;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+input[type="submit"] {
+    padding:5px 15px;
+    background: #ddd;
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
 }
 
 input {
+    width: inherit;
     padding: 5px 0 5px 0;
 }
 

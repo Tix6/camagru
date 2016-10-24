@@ -12,7 +12,8 @@ $TABLES = array(
     `token` varchar(255) DEFAULT NULL,
     `confirmed` tinyint DEFAULT 0,
     `level` tinyint DEFAULT 0,
-    UNIQUE (`mail`)
+    UNIQUE (`mail`),
+    UNIQUE (`name`)
     );",
 
     /* PICTURE TABLE */

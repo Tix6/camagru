@@ -10,6 +10,7 @@ $TABLES = array(
     `passwd` varchar(255) NOT NULL,
     `mail` varchar(255) NOT NULL,
     `token` varchar(255) DEFAULT NULL,
+    `confirmed` tinyint DEFAULT 0,
     `level` tinyint DEFAULT 0,
     UNIQUE (`mail`)
     );",

@@ -8,9 +8,9 @@ final class Main_Ctrl extends Controller {
     private $_user;
     private $_reg;
 
-    public function __construct( array $args ) {
-        if (isset($args['id']) === TRUE)
-            $this->_user = User::get_item_by_id($args['id']);
+    public function __construct() {
+        // if (isset($args['id']) === TRUE)
+        //     $this->_user = User::get_item_by_id($args['id']);
     }
 
     public function render() {

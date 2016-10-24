@@ -38,7 +38,6 @@ hr {
     border-radius: 15px;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: center;
     align-items: center;
 }
 
@@ -66,6 +65,13 @@ hr {
     margin-top: 20px;
 }
 
+.register p {
+    max-width: 200px;
+    margin-top: 5px;
+    font-size: 0.8em;
+    color: #f14d4d;
+}
+
 label {
     display: block;
     text-align: left;
@@ -83,13 +89,11 @@ button {
     text-decoration: none;
     border-radius: 2px;
     cursor: pointer;
-    transition: 0.5s;
 }
 
 button:hover {
     background-color: #2186c4;
     color: white;
-    transition: 0.5s;
 }
 
 input {

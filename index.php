@@ -1,6 +1,6 @@
 <?php
 /*
-** This file is a router
+** This file is simply a router
 */
 
 session_start();
@@ -8,11 +8,15 @@ session_start();
 switch ($_GET['page']) {
     case 'register':
         require_once dirname(__FILE__) . '/controllers/Register.controller.php';
-        $controller = new Register_Ctrl();
+        $controller = new Register_Ctrl($_POST);
+        break ;
+    case 'connect':
+        require_once dirname(__FILE__) . '/controllers/Connect.controller.php';
+        $controller = new Connect_Ctrl();
         break ;
     default:
         require_once dirname(__FILE__) . '/controllers/Main.controller.php';
-        $controller = new Main_Ctrl(array('id' => $_SESSION['id']));
+        $controller = new Main_Ctrl();
     break ;
 }
 
@@ -34,7 +38,9 @@ switch ($_GET['page']) {
       <h1 class="title"><a href="index.php">Camagru</a></h1>
   </header>
   <div class="container">
-      <?php $controller->render(); ?>
+      <?php
+      $controller->render();
+      ?>
   </div>
   <footer>
       <p>Réalisé dans le cadre d'un projet avec l'école 42. - dev by <a href="http://github.com/tix6" target="_blank">tix6</a></p>

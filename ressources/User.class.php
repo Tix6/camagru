@@ -11,11 +11,23 @@ final class User extends Ressource {
         'name' => '',
         'passwd' => '',
         'mail' => '',
-        'level' => '',
         'token' => ''
     );
 
-    public static function _init_token() {
+    public static function add_item ( array $params ) {
+        $params[':passwd'] = self::_passwd_hash($params[':passwd']);
+        return parent::add_item($params);
+    }
+
+    private static function _passwd_hash($passwd) {
+        return password_hash($passwd, PASSWORD_DEFAULT);
+    }
+
+    private static function _passwd_verify($passwd, $hashed) {
+        return password_verify($passwd, $hashed);
+    }
+
+    public static function init_token() {
         return bin2hex(random_bytes(32));
     }
 }

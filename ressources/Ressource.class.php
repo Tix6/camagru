@@ -28,7 +28,7 @@ abstract class Ressource {
         $params_str = implode(array_keys($params), ', ');
         $sql = "INSERT INTO `$table` ($columns_str) VALUES ($params_str)";
         // echo $sql . PHP_EOL;
-        return Database::execute($sql, $params);
+        return Database::insert($sql, $params);
     }
 
     public static function get_item_by_id ( $id ) {

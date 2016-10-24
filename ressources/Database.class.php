@@ -42,6 +42,12 @@ final class Database {
         return $stmt->rowCount();
     }
 
+    public static function insert($sql, $params) {
+        $stmt = self::prepare($sql);
+        $stmt->execute($params);
+        return self::$_pdo_st->lastInsertId();
+    }
+
     public static function fetch($sql, $params) {
         $stmt = self::prepare($sql);
         $stmt->execute($params);

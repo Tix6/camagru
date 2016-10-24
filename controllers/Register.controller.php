@@ -7,22 +7,22 @@ final class Register_Ctrl extends Controller {
     private $_name;
     private $_passwd;
     private $_mail;
-    private $_token;
 
     private static $_name_regexp = "/^[A-Za-z]{4,12}$/";
     private static $_passwd_regexp = "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/";
     private static $_mail_regexp = "/^\w{3,}@\w{2,}\.\w{2,}$/";
 
-    private static $_error_name = 'Doit contenir au moins 4 caracteres (alphabetiques).';
-    private static $_error_passwd = 'Une majuscule, une minuscule et un chiffre (taille >= 8)';
-    private static $_error_mail = 'Adresse mail invalide.';
+    private static $_name_error = 'Doit contenir au moins 4 caracteres (alphabetiques).';
+    private static $_passwd_error = 'Une majuscule, une minuscule et un chiffre (taille >= 8)';
+    private static $_mail_error = 'Adresse mail invalide.';
 
+    private $_token;
     private $is_valid_form = FALSE;
 
     private function check_form() {
-        $this->error_name = preg_match(Register_Ctrl::$_name_regexp, $this->_name) ? NULL : Register_Ctrl::$_error_name;
-        $this->error_passwd = preg_match(Register_Ctrl::$_passwd_regexp, $this->_passwd) ? NULL : Register_Ctrl::$_error_passwd;
-        $this->error_mail = preg_match(Register_Ctrl::$_mail_regexp, $this->_mail) ? NULL : Register_Ctrl::$_error_mail;
+        $this->error_name = preg_match(self::$_name_regexp, $this->_name) ? NULL : self::$_name_error;
+        $this->error_passwd = preg_match(self::$_passwd_regexp, $this->_passwd) ? NULL : self::$_passwd_error;
+        $this->error_mail = preg_match(self::$_mail_regexp, $this->_mail) ? NULL : self::$_mail_error;
         return (is_null($this->error_name) && is_null($this->error_passwd) && is_null($this->error_mail));
     }
 
@@ -58,7 +58,7 @@ final class Register_Ctrl extends Controller {
     }
 
     public function __construct( array $posted ) {
-        if ($posted['register'] === 'ok')
+        if (isset($posted['register']) && $posted['register'] === 'ok')
         {
             $this->_name = $posted['name'];
             $this->_passwd = $posted['passwd'];
@@ -67,9 +67,13 @@ final class Register_Ctrl extends Controller {
             if ($this->is_valid_form === TRUE)
             {
                 $this->_token = User::init_token();
-                if ($this->create_user() == TRUE)
-                {
-                    echo "utilisateur cree.<br>";
+                if ($id = $this->create_user()) {
+                    echo "utilisateur cree. <br>";
+                    echo "[" . $id . "]";
+                    // $user_created = User::get_item_by_name
+                }
+                else {
+                    echo "Erreur";
                 }
             }
         }

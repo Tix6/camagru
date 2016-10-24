@@ -5,19 +5,25 @@
 
 session_start();
 
-switch ($_GET['page']) {
-    case 'register':
+if (isset($_GET['page']))
+{
+    switch ($_GET['page']) {
+        case 'register':
         require_once dirname(__FILE__) . '/controllers/Register.controller.php';
         $controller = new Register_Ctrl($_POST);
         break ;
-    case 'connect':
+        case 'connect':
         require_once dirname(__FILE__) . '/controllers/Connect.controller.php';
         $controller = new Connect_Ctrl();
         break ;
-    default:
+        default:
         require_once dirname(__FILE__) . '/controllers/Main.controller.php';
         $controller = new Main_Ctrl();
-    break ;
+        break ;
+    }
+} else {
+    require_once dirname(__FILE__) . '/controllers/Main.controller.php';
+    $controller = new Main_Ctrl();
 }
 
 ?>

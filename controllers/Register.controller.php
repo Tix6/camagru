@@ -27,6 +27,15 @@ final class Register_Ctrl extends Controller {
         )
     );
 
+    /* alerts array */
+    private $_alerts = array(
+        'success' => '<p class="alert-success">Compte crée, vous allez recevoir un mail de confirmation.</p>',
+        'failure' => '<p class="alert-danger">Echec de création du compte. (nom ou mail deja utilisé).</p>'
+    );
+
+    /* alert to display */
+    private $alert = '';
+
     private function check_form() {
         $is_valid_form = TRUE;
         foreach ($this->_err_handler as $key => $array) {
@@ -53,7 +62,11 @@ final class Register_Ctrl extends Controller {
         return mail($this->_inputs[':mail'], $title, $message, implode("\r\n", $headers));
     }
 
-    private function create_user() {
+    private function _reset_form_and_inputs() {
+        $this->_inputs = array_fill_keys(array_keys($this->_inputs), '');
+    }
+
+    private function _create_user() {
         $fields = User::get_fields();
         $sql_params = array_intersect_key($this->_inputs, $fields);
         return User::add_item($sql_params);
@@ -66,13 +79,14 @@ final class Register_Ctrl extends Controller {
             if ($this->check_form() === TRUE)
             {
                 $this->_inputs[':token'] = User::init_token();
-                if ($this->_user_id = $this->create_user())
+                if ($this->_user_id = $this->_create_user())
                 {
-                    $ret = $this->_send_confirmation_mail();
-                    echo 'mail sended: ' . $ret;
+                    $this->_send_confirmation_mail();
+                    $this->_alert = $this->_alerts['success'];
+                    $this->_reset_form_and_inputs();
                 }
                 else {
-                    echo "Erreur.";
+                    $this->_alert = $this->_alerts['failure'];
                 }
             }
         }
@@ -86,22 +100,23 @@ final class Register_Ctrl extends Controller {
             }
         }
         echo '
- <h1 class="title">Inscription</h1>
- <hr>
- <div class="register">
-     <form action="index.php?page=register" method="POST">
-         <label>Pseudo</label>
-         <input type="text" name=":name" value="' . $this->_inputs[':name'] . '">
-         <p>' . $errors[':name'] . '</p>
-         <label>Mot de passe</label>
-         <input type="password" name=":passwd" value="' . $this->_inputs[':passwd'] . '">
-         <p>' . $errors[':passwd'] . '</p>
-         <label>Adresse mail</label>
-         <input type="email" name=":mail" value="' . $this->_inputs[':mail'] . '">
-         <p>' . $errors[':mail'] . '</p>
-         <button type="submit" name="register" value="ok">Valider</button>
+<h1 class="title">Inscription</h1>
+<hr>'
+. $this->_alert .
+'<div class="register">
+    <form action="index.php?page=register" method="POST">
+        <label>Pseudo</label>
+        <input type="text" name=":name" value="' . $this->_inputs[':name'] . '">
+        <p>' . $errors[':name'] . '</p>
+        <label>Mot de passe</label>
+        <input type="password" name=":passwd" value="' . $this->_inputs[':passwd'] . '">
+        <p>' . $errors[':passwd'] . '</p>
+        <label>Adresse mail</label>
+        <input type="email" name=":mail" value="' . $this->_inputs[':mail'] . '">
+        <p>' . $errors[':mail'] . '</p>
+        <button type="submit" name="register" value="ok">Valider</button>
     </form>
- </div>';
+</div>';
     }
 }
 

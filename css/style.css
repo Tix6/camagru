@@ -116,6 +116,21 @@ a:hover {
     color: #2186c4;
 }
 
+.alert-success, .alert-danger {
+    margin-top: 10px;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: green;
+}
+
+.alert-danger {
+    background-color: red;
+}
+
 footer {
     margin-top: 5px;
     text-align: center;

@@ -6,7 +6,7 @@ final class Register_Ctrl extends Controller {
 
     /* filled by user's form */
     private $_inputs = NULL;
-    /* filled by database */
+    /* database response on user creation */
     private $_user_id;
 
     private $_err_handler = array(
@@ -56,7 +56,7 @@ final class Register_Ctrl extends Controller {
 
         $title = "Camagru - Confirmez votre compte {$this->_inputs[':name']}.";
 
-        $link = '<a href="http://' . $_SERVER['HTTP_HOST'] . '/camagru/index.php?page=register&confirm=ok&id=' . urlencode($this->_user_id) . '&token=' . urlencode($this->_inputs[':token']) . '">Cliquez ici pour activer votre compte.</a>';
+        $link = '<a href="http://' . $_SERVER['HTTP_HOST'] . '/camagru/index.php?page=confirm&id=' . urlencode($this->_user_id) . '&token=' . urlencode($this->_inputs[':token']) . '">Cliquez ici pour activer votre compte.</a>';
         $message = "Bonjour {$this->_inputs[':name']}, merci de confirmer ton inscription en cliquant sur le lien suivant :<br><br>$link";
         $message = wordwrap($message, 70, "\r\n");
         return mail($this->_inputs[':mail'], $title, $message, implode("\r\n", $headers));

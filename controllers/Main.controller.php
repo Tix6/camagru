@@ -1,12 +1,10 @@
 <?php
 
 require_once dirname(__FILE__) . '/Controller.class.php';
-require_once dirname(__FILE__) . '/Register.controller.php';
 
 final class Main_Ctrl extends Controller {
 
     private $_user;
-    private $_reg;
 
     public function __construct() {
         // if (isset($args['id']) === TRUE)

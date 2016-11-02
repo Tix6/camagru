@@ -1,6 +1,6 @@
 <?php
 /*
-** This file is simply a router
+** This file is simply a router with the basic HTML template
 */
 
 session_start();
@@ -14,7 +14,7 @@ if (isset($_GET['page']))
             break ;
         case 'connect':
             require_once dirname(__FILE__) . '/controllers/Connect.controller.php';
-            $controller = new Connect_Ctrl();
+            $controller = new Connect_Ctrl($_POST);
             break ;
         case 'confirm':
             require_once dirname(__FILE__) . '/controllers/Confirm.controller.php';
@@ -29,8 +29,8 @@ if (isset($_GET['page']))
     require_once dirname(__FILE__) . '/controllers/Main.controller.php';
     $controller = new Main_Ctrl();
 }
-
 ?>
+<?php $controller->init_header(); ?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -48,9 +48,8 @@ if (isset($_GET['page']))
       <h1 class="title"><a href="index.php">Camagru</a></h1>
   </header>
   <div class="container">
-      <?php
-      $controller->render();
-      ?>
+      <p>Bienvenue <?php echo (isset($_SESSION['name'])) ? ucfirst($_SESSION['name']) : 'invité'; ?>
+      <?php $controller->render(); ?>
   </div>
   <footer>
       <p>Réalisé dans le cadre d'un projet avec l'école 42. - dev by <a href="http://github.com/tix6" target="_blank">tix6</a></p>

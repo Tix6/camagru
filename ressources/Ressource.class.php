@@ -9,8 +9,7 @@ abstract class Ressource {
     protected static $_table_name;
     protected static $_columns;
 
-    protected function __construct() {
-    }
+    protected function __construct() {}
 
     /* returns array with pdo params as key. Useful for pdo to bind params */
     public static function get_fields() {

@@ -1,6 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/Controller.class.php';
+require_once dirname(__FILE__) . '/../ressources/User.class.php';
 
 final class Register_Ctrl extends Controller {
 
@@ -27,14 +28,13 @@ final class Register_Ctrl extends Controller {
         )
     );
 
-    /* alerts array */
     private $_alerts = array(
         'success' => '<p class="alert-success">Compte crée, vous allez recevoir un mail de confirmation.</p>',
         'failure' => '<p class="alert-danger">Echec de création du compte. (nom ou mail deja utilisé).</p>'
     );
 
     /* alert to display */
-    private $alert = '';
+    private $_alert = '';
 
     private function check_form() {
         $is_valid_form = TRUE;
@@ -93,8 +93,8 @@ final class Register_Ctrl extends Controller {
     }
 
     public function render() {
+        $errors = array(':name' => '', ':passwd' => '', ':mail' => '');
         if (isset($this->_inputs)) {
-            $errors = array();
             foreach ($this->_err_handler as $key => $array) {
                 $errors[$key] = ($array['is_valid'] === FALSE) ? $array['err_str'] : '';
             }

@@ -1,7 +1,5 @@
 <?php
 
-require_once dirname(__FILE__) . '/../ressources/User.class.php';
-
 abstract class Controller {
 
     public function console_log( $data ) {
@@ -11,6 +9,8 @@ abstract class Controller {
             $output = "<script>console.log( 'Debug Objects: " . $data . "' );</script>";
         echo $output;
     }
+
+    public function init_header() {}
 
     abstract public function render();
 }

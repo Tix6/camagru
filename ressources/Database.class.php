@@ -48,6 +48,12 @@ final class Database {
         return self::$_pdo_st->lastInsertId();
     }
 
+    public static function fetch_one($sql, $params) {
+        $stmt = self::prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch();
+    }
+
     public static function fetch($sql, $params) {
         $stmt = self::prepare($sql);
         $stmt->execute($params);

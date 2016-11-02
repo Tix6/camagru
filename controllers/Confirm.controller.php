@@ -1,12 +1,12 @@
 <?php
 
 require_once dirname(__FILE__) . '/Controller.class.php';
+require_once dirname(__FILE__) . '/../ressources/User.class.php';
 
 final class Confirm_Ctrl extends Controller {
 
     private $_user;
 
-    /* alerts array */
     private $_alerts = array(
         'success' => '<p class="alert-success">Compte crée, vous pouvez maintenant vous connecter.</p>',
         'failure' => '<p class="alert-danger">Echec de création du compte. Contactez l\'administrateur.</p>'

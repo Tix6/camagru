@@ -20,6 +20,13 @@ if (isset($_GET['page']))
             require_once dirname(__FILE__) . '/controllers/Confirm.controller.php';
             $controller = new Confirm_Ctrl(intval($_GET['id']), $_GET['token']);
             break ;
+        case 'forgot':
+            require_once dirname(__FILE__) . '/controllers/Forgot.controller.php';
+            $controller = new Forgot_Ctrl($_POST);
+            break ;
+        case 'disconnect':
+            $_SESSION = array();
+            session_destroy();
         default:
             require_once dirname(__FILE__) . '/controllers/Main.controller.php';
             $controller = new Main_Ctrl();
@@ -48,7 +55,7 @@ if (isset($_GET['page']))
       <h1 class="title"><a href="index.php">Camagru</a></h1>
   </header>
   <div class="container">
-      <p>Bienvenue <?php echo (isset($_SESSION['name'])) ? ucfirst($_SESSION['name']) : 'invité'; ?>
+      <p>Bienvenue <?php echo (isset($_SESSION['name'])) ? ucfirst($_SESSION['name']) : 'invité'; ?> <a href="index.php?page=disconnect">X</a></p>
       <?php $controller->render(); ?>
   </div>
   <footer>

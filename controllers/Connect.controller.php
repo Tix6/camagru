@@ -34,7 +34,7 @@ final class Connect_Ctrl extends Controller {
     }
 
     private function _auth() {
-        $user = User::get_user_by_mail($this->_inputs[':mail']);
+        $user = User::get_item_by('mail', $this->_inputs[':mail']);
         if ($user) {
             if ($user['confirmed'] != TRUE)
                 $this->_alert = $this->_alerts['not_confirmed'];

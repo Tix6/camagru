@@ -22,14 +22,22 @@ final class User extends Ressource {
         return parent::add_item($params);
     }
 
-    public static function get_user_by_mail($mail) {
-        $sql = "SELECT * FROM `User` WHERE `mail` = ?";
-        return Database::fetch_one($sql, array($mail));
+    /* override */
+    public static function update_item_by_id($id, $column, $value) {
+        if ($column === 'passwd') {
+            $value = self::passwd_hash($value);
+        }
+        return parent::update_item_by_id($id, $column, $value);
     }
 
     public static function confirm_registration($id, $token) {
         $sql = "UPDATE `User` SET confirmed = 1 WHERE id = ? AND token = ?";
         return Database::execute($sql, array($id, $token));
+    }
+
+    public static function update_token($id, $token) {
+        $sql = "UPDATE `User` SET token = ? WHERE id = ?";
+        return Database::execute($sql, array($token, $id));
     }
 
     public static function passwd_hash($passwd) {
@@ -41,6 +49,7 @@ final class User extends Ressource {
     }
 
     public static function init_token() {
+        /* php 7 only */
         return bin2hex(random_bytes((self::TOKEN_SIZE / 2)));
     }
 }

@@ -24,6 +24,10 @@ if (isset($_GET['page']))
             require_once dirname(__FILE__) . '/controllers/Forgot.controller.php';
             $controller = new Forgot_Ctrl($_POST);
             break ;
+        case 'reset':
+            require_once dirname(__FILE__) . '/controllers/Reset.controller.php';
+            $controller = new Reset_Ctrl($_GET['token'], $_POST);
+            break ;
         case 'disconnect':
             $_SESSION = array();
             session_destroy();

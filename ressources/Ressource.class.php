@@ -30,10 +30,22 @@ abstract class Ressource {
         return Database::insert($sql, $params);
     }
 
-    public static function get_item_by_id ( $id ) {
+    public static function get_item_by($column, $value) {
         $table = static::$_table_name;
-        $sql = "SELECT * FROM `$table` WHERE `id` = ?";
-        return Database::fetch($sql, array($id));
+        if (array_key_exists($column, static::$_columns) === TRUE) {
+            $sql = "SELECT * FROM `$table` WHERE `$column` = ?";
+            return Database::fetch_one($sql, array($value));
+        }
+        return FALSE;
+    }
+
+    public static function update_item_by_id($id, $column, $value) {
+        $table = static::$_table_name;
+        if (array_key_exists($column, static::$_columns) === TRUE) {
+            $sql = "UPDATE `$table` SET $column = ? WHERE id = ?";
+            return Database::execute($sql, array($value, $id));
+        }
+        return FALSE;
     }
 
     public static function del_item_by_id ( $id ) {

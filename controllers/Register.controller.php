@@ -2,6 +2,7 @@
 
 require_once dirname(__FILE__) . '/Controller.class.php';
 require_once dirname(__FILE__) . '/../ressources/User.class.php';
+require_once dirname(__FILE__) . '/../mail/Mailer.class.php';
 
 final class Register_Ctrl extends Controller {
 
@@ -47,19 +48,11 @@ final class Register_Ctrl extends Controller {
         return $is_valid_form;
     }
 
-    /* TODO: handle mail sending into special class */
     private function _send_confirmation_mail() {
-        $headers   = array();
-        $headers[] = 'MIME-Version: 1.0';
-        $headers[] = 'Content-type: text/html; charset=iso-8859-1';
-        $headers[] = 'From: Admin <admin@camagru.com>';
-
         $title = "Camagru - Confirmez votre compte {$this->_inputs[':name']}.";
-
         $link = '<a href="http://' . $_SERVER['HTTP_HOST'] . '/camagru/index.php?page=confirm&id=' . urlencode($this->_user_id) . '&token=' . urlencode($this->_inputs[':token']) . '">Cliquez ici pour activer votre compte.</a>';
         $message = "Bonjour {$this->_inputs[':name']}, merci de confirmer ton inscription en cliquant sur le lien suivant :<br><br>$link";
-        $message = wordwrap($message, 70, "\r\n");
-        return mail($this->_inputs[':mail'], $title, $message, implode("\r\n", $headers));
+        Mailer::send($this->_inputs[':mail'], $title, $message);
     }
 
     private function _reset_form_and_inputs() {

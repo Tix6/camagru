@@ -2,6 +2,7 @@
 
 require_once dirname(__FILE__) . '/Controller.class.php';
 require_once dirname(__FILE__) . '/../ressources/User.class.php';
+require_once dirname(__FILE__) . '/../mail/Mailer.class.php';
 
 final class Forgot_Ctrl extends Controller {
 
@@ -23,17 +24,10 @@ final class Forgot_Ctrl extends Controller {
     private $_alert = '';
 
     private function _send_reset_mail() {
-        $headers   = array();
-        $headers[] = 'MIME-Version: 1.0';
-        $headers[] = 'Content-type: text/html; charset=iso-8859-1';
-        $headers[] = 'From: Admin <admin@camagru.com>';
-
         $title = "Camagru - Nouveau mot de passe.";
-
         $link = '<a href="http://' . $_SERVER['HTTP_HOST'] . '/camagru/index.php?page=reset&token=' . urlencode($this->_reset_token) . '">Changer de mot de passe.</a>';
         $message = "Bonjour {$this->_user['name']}, changez votre mot de passe en cliquant sur le lien suivant :<br><br>$link";
-        $message = wordwrap($message, 70, "\r\n");
-        return mail($this->_inputs[':mail'], $title, $message, implode("\r\n", $headers));
+        Mailer::send($this->_inputs[':mail'], $title, $message);
     }
 
     public function __construct( array $posted ) {

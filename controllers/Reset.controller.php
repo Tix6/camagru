@@ -54,6 +54,11 @@ final class Reset_Ctrl extends Controller {
         }
     }
 
+    public function init_header() {
+        if ($this->_alert = $this->_alerts['success'])
+            header("refresh:5;url=index.php");
+    }
+
     public function render() {
         echo
 '<h1 class="title">Changement de mot de passe</h1>

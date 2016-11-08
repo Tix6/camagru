@@ -40,6 +40,9 @@ if (isset($_GET['page']))
     require_once dirname(__FILE__) . '/controllers/Main.controller.php';
     $controller = new Main_Ctrl();
 }
+
+require dirname(__FILE__) . '/controllers/Menu.controller.php';
+$menu = new Menu();
 ?>
 <?php $controller->init_header(); ?>
 <!doctype html>
@@ -52,14 +55,12 @@ if (isset($_GET['page']))
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Patrick+Hand+SC" rel="stylesheet">
 </head>
 <body>
   <header>
-      <h1 class="title"><a href="index.php">Camagru</a></h1>
+      <?php $menu->render(); ?>
   </header>
   <div class="container">
-      <p>Bienvenue <?php echo (isset($_SESSION['name'])) ? ucfirst($_SESSION['name']) : 'invité'; ?> <a href="index.php?page=disconnect">X</a></p>
       <?php $controller->render(); ?>
   </div>
   <footer>

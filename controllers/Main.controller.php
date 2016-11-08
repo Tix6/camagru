@@ -13,14 +13,6 @@ final class Main_Ctrl extends Controller {
     public function render() {
         echo '
 <section>
-<ul>
-    <li>
-        <a href="index.php?page=connect">connexion</a>
-    </li>
-    <li>
-        <a href="index.php?page=register">register</a>
-    </li>
-</ul>
 <p>SECTION</p>
 </section>
 <aside>

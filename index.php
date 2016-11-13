@@ -28,6 +28,14 @@ if (isset($_GET['page']))
             require_once dirname(__FILE__) . '/controllers/Camera.controller.php';
             $controller = new Camera_Ctrl($_POST);
             break ;
+        case 'upload':
+            require_once dirname(__FILE__) . '/controllers/Upload.controller.php';
+            $controller = new Upload_Ctrl($_POST);
+            break ;
+        case 'treat':
+            require_once dirname(__FILE__) . '/controllers/Treat.controller.php';
+            $controller = new Treat_Ctrl($_POST);
+            break ;
         case 'reset':
             require_once dirname(__FILE__) . '/controllers/Reset.controller.php';
             $controller = new Reset_Ctrl($_GET['token'], $_POST);
@@ -46,7 +54,8 @@ if (isset($_GET['page']))
 }
 
 require dirname(__FILE__) . '/controllers/Menu.controller.php';
-$menu = new Menu();
+$menu = new Menu_Ctrl();
+
 ?>
 <?php $controller->init_header(); ?>
 <!doctype html>

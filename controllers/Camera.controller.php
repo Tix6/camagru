@@ -10,12 +10,16 @@ final class Camera_Ctrl extends Controller {
         echo '
         <video id="video"></video>
         <button id="startbutton">Prendre une photo</button>
-        <button id="cinema">cinema</button>
+        <hr>
+        <h2>Visualisation</h2>
         <canvas id="canvas"></canvas>
-        <script type="text/javascript" src="/camagru/assets/camera.js"></script>
+        <form action="index.php?page=treat" method="POST">
+            <input id="pictureInput" type="hidden" name="picture" value="">
+            <button type="submit" class="next">Etape suivante</button>
+        </form>
+        <script type="text/javascript" src="/assets/camera.js"></script>
         ';
     }
 }
-// <img src="http://placekitten.com/g/320/261" id="photo" alt="photo">
 
  ?>

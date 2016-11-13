@@ -3,11 +3,10 @@
   var streaming = false,
       video        = document.querySelector('#video'),
       cover        = document.querySelector('#cover'),
-      canvas       = document.querySelector('#canvas'),
       startbutton  = document.querySelector('#startbutton'),
-      cinemaButton = document.querySelector('#cinema'),
-      cinemaMode   = false,
+      canvas       = document.querySelector('#canvas'),
       context      = canvas.getContext('2d'),
+      pictureInput = document.querySelector('#pictureInput'),
       width = 640,
       height = 400;
 
@@ -47,35 +46,30 @@
   }, false);
 
   function takepicture() {
-    canvas.width = width;
-    canvas.height = height;
+    canvas.setAttribute('width', width);
+    canvas.setAttribute('height', height);
     context.drawImage(video, 0, 0, width, height);
-    // context.save();
-    var data = canvas.toDataURL('image/png');
-    // console.log(data);
-    // photo.setAttribute('src', data);
   }
 
-  function cinema_switch() {
-      cinemaMode = !cinemaMode;
-      console.log('ciinema: ', cinemaMode);
-      if (cinemaMode === true) {
-          context.fillRect(0, 0, width, 100);
-          context.fillRect(0, height - 100, width, 100);
-      } else {
-          context.clearRect(0, 0, width,100);
-      }
-  }
+  // function cinema_switch() {
+  //     cinemaMode = !cinemaMode;
+  //     console.log('ciinema: ', cinemaMode);
+  //     if (cinemaMode === true) {
+  //         context.fillRect(0, 0, width, 100);
+  //         context.fillRect(0, height - 100, width, 100);
+  //     } else {
+  //         context.clearRect(0, 0, width,100);
+  //     }
+  // }
 
   startbutton.addEventListener('click', function(ev){
-      takepicture();
+    takepicture();
+    pictureInput.setAttribute('value', canvas.toDataURL('image/png'));
     ev.preventDefault();
   }, false);
-
-  cinemaButton.addEventListener('click', function(ev){
-      cinema_switch();
-    ev.preventDefault();
-  }, false);
-
-
+  //
+  // cinemaButton.addEventListener('click', function(ev){
+  //     cinema_switch();
+  //   ev.preventDefault();
+  // }, false);
 })();

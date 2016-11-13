@@ -1,6 +1,6 @@
 <?php
 
-final class Menu {
+final class Menu_Ctrl {
 
     private static $_items = array(
         'connect' => array('se connecter', 'index.php?page=connect'),
@@ -13,7 +13,7 @@ final class Menu {
     private $_to_display = array();
 
     public function __construct() {
-        if (isset($_SESSION) && $_SESSION['is_auth']) {
+        if (isset($_SESSION) && isset($_SESSION['is_auth'])) {
             $this->_to_display[] = self::$_items['disconnect'];
             $this->_user = ucfirst($_SESSION['name']);
         }

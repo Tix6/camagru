@@ -24,6 +24,10 @@ if (isset($_GET['page']))
             require_once dirname(__FILE__) . '/controllers/Forgot.controller.php';
             $controller = new Forgot_Ctrl($_POST);
             break ;
+        case 'add':
+            require_once dirname(__FILE__) . '/controllers/Add.controller.php';
+            $controller = new Add_Ctrl($_POST);
+            break ;
         case 'camera':
             require_once dirname(__FILE__) . '/controllers/Camera.controller.php';
             $controller = new Camera_Ctrl($_POST);

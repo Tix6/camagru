@@ -17,7 +17,7 @@ final class Camera_Ctrl extends Controller {
             <input id="pictureInput" type="hidden" name="picture" value="">
             <button type="submit" class="next">Etape suivante</button>
         </form>
-        <script type="text/javascript" src="/assets/camera.js"></script>
+        <script type="text/javascript" src="assets/camera.js"></script>
         ';
     }
 }

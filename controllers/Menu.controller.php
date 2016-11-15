@@ -5,6 +5,7 @@ final class Menu_Ctrl {
     private static $_items = array(
         'connect' => array('se connecter', 'index.php?page=connect'),
         'register' => array('s\'enregister', 'index.php?page=register'),
+        'add' => array('ajouter', 'index.php?page=add'),
         'disconnect' => array('se deconnecter', 'index.php?page=disconnect')
     );
 
@@ -14,6 +15,7 @@ final class Menu_Ctrl {
 
     public function __construct() {
         if (isset($_SESSION) && isset($_SESSION['is_auth'])) {
+            $this->_to_display[] = self::$_items['add'];
             $this->_to_display[] = self::$_items['disconnect'];
             $this->_user = ucfirst($_SESSION['name']);
         }

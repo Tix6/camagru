@@ -15,7 +15,7 @@ final class Upload_Ctrl extends Controller {
         </form>
         <h2>Visualisation</h2>
         <div id="visu"></div>
-        <script type="text/javascript" src="/assets/upload.js"></script>
+        <script type="text/javascript" src="assets/upload.js"></script>
         ';
     }
 

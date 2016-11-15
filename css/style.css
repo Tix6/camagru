@@ -19,15 +19,13 @@ header .title {
     font-weight: bold;
 }
 
-header .user {
-    padding: 15px;
-    float: right;
-}
-
 header > nav {
-    padding: 5px;
-    padding-left: 10px;
-    background-color: rgba(0,0,0,0.3);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px 5px 10px;
+    background-color: rgba(0,0,0,0.4);
     border-bottom: solid black 1px;
     left: 0;
     position: fixed;
@@ -152,6 +150,14 @@ a:hover {
 
 .alert-danger {
     background-color: red;
+}
+
+*[draggable=true] {
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
+    cursor: -o-grabbing;
+    cursor: -ms-grabbing;
+    cursor: grabbing;
 }
 
 footer {

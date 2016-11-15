@@ -8,7 +8,7 @@
       context      = canvas.getContext('2d'),
       pictureInput = document.querySelector('#pictureInput'),
       width = 640,
-      height = 400;
+      height = 480;
 
   navigator.getMedia = ( navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
@@ -51,25 +51,10 @@
     context.drawImage(video, 0, 0, width, height);
   }
 
-  // function cinema_switch() {
-  //     cinemaMode = !cinemaMode;
-  //     console.log('ciinema: ', cinemaMode);
-  //     if (cinemaMode === true) {
-  //         context.fillRect(0, 0, width, 100);
-  //         context.fillRect(0, height - 100, width, 100);
-  //     } else {
-  //         context.clearRect(0, 0, width,100);
-  //     }
-  // }
-
   startbutton.addEventListener('click', function(ev){
     takepicture();
     pictureInput.setAttribute('value', canvas.toDataURL('image/png'));
     ev.preventDefault();
   }, false);
-  //
-  // cinemaButton.addEventListener('click', function(ev){
-  //     cinema_switch();
-  //   ev.preventDefault();
-  // }, false);
+
 })();

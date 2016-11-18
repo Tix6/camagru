@@ -24,7 +24,6 @@ var rotate = {
 };
 var isCinemaMode = false;
 
-// var dragItem = document.querySelector("#drag");
 var sticker = document.querySelector('#dragItem');
 
 function setSticker() {
@@ -34,14 +33,24 @@ function setSticker() {
     sticker.style.backgroundRepeat = 'no-repeat';
 }
 
-// function setText() {
-//     textDrag = document.createElement('p');
-//     textDrag.innerHTML = textField.value;
-//     textDrag.setAttribute('draggable', true);
-//     textDrag.style.position = 'absolute';
-//     console.log(textDrag);
-//     parentDiv.appendChild(textDrag);
-// }
+function setCanvas() {
+    canvas.addEventListener('dragover', function(e) {
+        e.preventDefault();
+    }, false);
+    canvas.addEventListener('drop', function(e) {
+        e.preventDefault();
+        setStickerPos(e.clientX, e.clientY);
+    }, false);
+    canvas.width = width;
+    canvas.height = height;
+    ctx.drawImage(image, 0, 0, width, height);
+    putCanvasDataToForm();
+}
+
+function resetCanvas() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    putCanvasDataToForm();
+}
 
 function rotateCanvas(direction) {
     resetCanvas();
@@ -50,31 +59,52 @@ function rotateCanvas(direction) {
     ctx.rotate(rotate[direction]() * (Math.PI/180));
     ctx.drawImage(image, -width/2, -height/2, width, height);
     ctx.restore();
+    putCanvasDataToForm();
 }
 
-function setCanvas() {
-    canvas.addEventListener('dragover', function(e) {
-        e.preventDefault();
-    }, false);
-    canvas.addEventListener('drop', function(e) {
-        e.preventDefault();
-        setBounds(sticker, e.clientX, e.clientY);
-        // console.log(dragItem.getBoundingClientRect(), e.clientX, e.clientY);
-    }, false);
-    canvas.width = width;
-    canvas.height = height;
-    ctx.drawImage(image, 0, 0, width, height);
+function putCanvasDataToForm() {
+    var canvasInputForm = document.querySelector('#inputCanvas');
+    canvasInputForm.setAttribute('value', canvas.toDataURL());
 }
 
-function resetCanvas() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+function getStickerPosFromCanvas() {
+    var canvasBounds = canvas.getBoundingClientRect();
+    var stickerBounds = sticker.getBoundingClientRect();
+    var x = stickerBounds.x - canvasBounds.x;
+    var y = stickerBounds.y - canvasBounds.y;
+    return {x: x, y: y};
 }
 
-function setBounds(element, x, y) {
-    var new_x = x - (parseInt(element.style.width) / 2);
-    var new_y = y - (parseInt(element.style.height) / 2);
-    element.style.left = new_x + 'px';
-    element.style.top = new_y + 'px';
+function putStickerDataToForm() {
+    var stickerPos = getStickerPosFromCanvas();
+    var stickerInputX = document.querySelector('#inputX');
+    var stickerInputY = document.querySelector('#inputY');
+    stickerInputX.setAttribute('value', stickerPos.x);
+    stickerInputY.setAttribute('value', stickerPos.y);
+}
+
+function setStickerPos(windowX, windowY) {
+    var new_x = windowX - (parseInt(sticker.style.width) / 2);
+    var new_y = windowY - (parseInt(sticker.style.height) / 2);
+    sticker.style.left = new_x + 'px';
+    sticker.style.top = new_y + 'px';
+    setTimeout(correctStickerPos, 300);
+}
+
+/* like setStickerPos but invoked with timeout to inform user about misplacing sticker */
+function correctStickerPos() {
+    var stickerPos = getStickerPosFromCanvas();
+    var stickerBounds = sticker.getBoundingClientRect();
+    var canvasBounds = canvas.getBoundingClientRect();
+    if (stickerPos.x < 0)
+        sticker.style.left = canvasBounds.x + 'px';
+    else if (stickerPos.x + stickerBounds.width > canvasBounds.width)
+        sticker.style.left = canvasBounds.x + canvasBounds.width - stickerBounds.width + 'px';
+    if (stickerPos.y < 0)
+        sticker.style.top = canvasBounds.y + 'px';
+    else if (stickerPos.y + stickerBounds.height > canvasBounds.height)
+        sticker.style.top = canvasBounds.y + canvasBounds.height - stickerBounds.height + 'px';
+    putStickerDataToForm();
 }
 
 function cinemaMode() {
@@ -86,10 +116,16 @@ function cinemaMode() {
     } else {
         rotateCanvas('reset');
     }
+    putCanvasDataToForm();
 }
 
 (function() {
     parentDiv.removeChild(image);
     setCanvas();
     parentDiv.appendChild(canvas);
+    /* firefox compat. */
+    sticker.addEventListener('dragstart', function(e) {
+        e.dataTransfer.setData('text/plain', '');
+        e.dataTransfer.effectAllowed = 'move';
+    });
 })();

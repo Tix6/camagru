@@ -20,17 +20,19 @@ final class Treat_Ctrl extends Controller {
         }
         echo '
         <div id="visu">
-            <div id="dragItem" draggable="true" style="position:absolute;width:150px;height:100px;"></div>
+            <div id="dragItem" draggable="true" style="position:absolute;width:150px;height:100px;" ondragstart="return true;"></div>
             <img id="pictureInput" alt="Embedded Image" src="' . $this->_base64_pic . '" />
         </div>
         <a href="#" onclick="rotateCanvas(\'left\')"><-</a>
         <a href="#" onclick="rotateCanvas(\'right\')">-></a>
         <a href="#" onclick="cinemaMode()">Cinema</a>
         <form action="index.php?page=save" method="POST">
-            <input type="hidden" name="canvas" value="">
+            <input id="inputCanvas" type="hidden" name="canvas" value="">
             <select id="stickers" name="sticker" onclick="setSticker()">'
                 . implode("\n", $stickers) .
             '</select>
+            <input id="inputX" type="hidden" name="x" value="">
+            <input id="inputY" type="hidden" name="y" value="">
             <button type="submit" class="next">Valider</button>
         </form>
         <script type="text/javascript" src="assets/treat.js"></script>

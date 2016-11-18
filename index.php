@@ -40,6 +40,10 @@ if (isset($_GET['page']))
             require_once dirname(__FILE__) . '/controllers/Treat.controller.php';
             $controller = new Treat_Ctrl($_POST);
             break ;
+        case 'save':
+            require_once dirname(__FILE__) . '/controllers/Save.controller.php';
+            $controller = new Save_Ctrl($_POST);
+            break ;
         case 'reset':
             require_once dirname(__FILE__) . '/controllers/Reset.controller.php';
             $controller = new Reset_Ctrl($_GET['token'], $_POST);

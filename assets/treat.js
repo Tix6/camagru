@@ -122,8 +122,9 @@ function cinemaMode() {
 (function() {
     parentDiv.removeChild(image);
     setCanvas();
-    setTimeout(parentDiv.appendChild(canvas), 200);
-    /* firefox compat. */
+    var callback = (function() { parentDiv.appendChild(canvas) });
+    setTimeout(callback, 200);
+    /* firefox draggable compat. */
     sticker.addEventListener('dragstart', function(e) {
         e.dataTransfer.setData('text/plain', '');
         e.dataTransfer.effectAllowed = 'move';

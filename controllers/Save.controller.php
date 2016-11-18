@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/Controller.class.php';
-require_once dirname(__FILE__) . '/../scripts/image_merged.class.php';
+require_once dirname(__FILE__) . '/../scripts/Image_Merged.class.php';
 require_once dirname(__FILE__) . '/../ressources/Picture.class.php';
 
 final class Save_Ctrl extends Controller {
@@ -39,6 +39,7 @@ final class Save_Ctrl extends Controller {
         );
         $fields = Picture::get_fields();
         $sql_params = array_intersect_key($sql_params, $fields);
+        // print_r($sql_params);
         return Picture::add_item($sql_params);
     }
 

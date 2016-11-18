@@ -76,7 +76,7 @@ final class ImageMerged {
     }
 
     private function _save() {
-        imagepng($this->_image, $this->_pathname, $this->stickerOpt['quality']);
+        imagepng($this->_image, $this->_pathname, $this->_sticker['quality']);
     }
 
     private function _free() {

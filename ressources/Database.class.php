@@ -13,6 +13,8 @@ final class Database {
           self::$_pdo_st = new PDO($DB_DSN);
           self::$_pdo_st->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
           self::$_pdo_st->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+          // activate use of foreign key constraints
+          self::$_pdo_st->exec('PRAGMA foreign_keys = ON;');
         }
         catch (PDOException $e) {
           echo 'Connexion à la base de données échouée : ' . $e->getMessage();

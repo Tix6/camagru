@@ -23,12 +23,12 @@ $TABLES = array(
     `path` varchar(255) NOT NULL,
     `likes` int DEFAULT 0,
     `creation` timestamp DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (`user_id`) REFERENCES User(id),
+    FOREIGN KEY(user_id) REFERENCES user(id)
     UNIQUE (`path`)
     );",
 
     /* STICKER TABLE */
-    'picture' => "CREATE TABLE IF NOT EXISTS `Sticker` (
+    'sticker' => "CREATE TABLE IF NOT EXISTS `Sticker` (
     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
     `title` varchar(255) NOT NULL,
     `path` varchar(255) NOT NULL,

@@ -28,6 +28,7 @@ final class Treat_Ctrl extends Controller {
         <a href="#" onclick="cinemaMode()">Cinema</a>
         <form action="index.php?page=save" method="POST">
             <input id="inputCanvas" type="hidden" name="canvas" value="">
+            <input type="text" name="title" value="" placeholder="indiquez un titre">
             <select id="stickers" name="sticker" onclick="setSticker()">'
                 . implode("\n", $stickers) .
             '</select>

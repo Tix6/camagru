@@ -70,8 +70,8 @@ function putCanvasDataToForm() {
 function getStickerPosFromCanvas() {
     var canvasBounds = canvas.getBoundingClientRect();
     var stickerBounds = sticker.getBoundingClientRect();
-    var x = stickerBounds.x - canvasBounds.x;
-    var y = stickerBounds.y - canvasBounds.y;
+    var x = stickerBounds.left - canvasBounds.left;
+    var y = stickerBounds.top - canvasBounds.top;
     return {x: x, y: y};
 }
 
@@ -97,13 +97,13 @@ function correctStickerPos() {
     var stickerBounds = sticker.getBoundingClientRect();
     var canvasBounds = canvas.getBoundingClientRect();
     if (stickerPos.x < 0)
-        sticker.style.left = canvasBounds.x + 'px';
+        sticker.style.left = canvasBounds.left + 'px';
     else if (stickerPos.x + stickerBounds.width > canvasBounds.width)
-        sticker.style.left = canvasBounds.x + canvasBounds.width - stickerBounds.width + 'px';
+        sticker.style.left = canvasBounds.left + canvasBounds.width - stickerBounds.width + 'px';
     if (stickerPos.y < 0)
-        sticker.style.top = canvasBounds.y + 'px';
+        sticker.style.top = canvasBounds.top + 'px';
     else if (stickerPos.y + stickerBounds.height > canvasBounds.height)
-        sticker.style.top = canvasBounds.y + canvasBounds.height - stickerBounds.height + 'px';
+        sticker.style.top = canvasBounds.top + canvasBounds.height - stickerBounds.height + 'px';
     putStickerDataToForm();
 }
 
@@ -122,7 +122,7 @@ function cinemaMode() {
 (function() {
     parentDiv.removeChild(image);
     setCanvas();
-    parentDiv.appendChild(canvas);
+    setTimeout(parentDiv.appendChild(canvas), 200);
     /* firefox compat. */
     sticker.addEventListener('dragstart', function(e) {
         e.dataTransfer.setData('text/plain', '');

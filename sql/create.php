@@ -21,10 +21,12 @@ $TABLES = array(
     `user_id` int NOT NULL,
     `title` varchar(255) NOT NULL,
     `path` varchar(255) NOT NULL,
+    `md5` varchar(255) NOT NULL,
     `likes` int DEFAULT 0,
     `creation` timestamp DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(user_id) REFERENCES user(id)
-    UNIQUE (`path`)
+    FOREIGN KEY(user_id) REFERENCES User(id),
+    UNIQUE (`path`),
+    UNIQUE (`md5`)
     );",
 
     /* STICKER TABLE */

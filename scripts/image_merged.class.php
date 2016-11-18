@@ -70,8 +70,9 @@ final class ImageMerged {
     }
 
     private function _init_pathname() {
+        $id = (isset($_SESSION['id'])) ? $_SESSION['id'] : 'X';
         /* random_bytes php 7 only */
-        $this->_pathname = self::IMAGE_DIR . bin2hex(random_bytes(8)) . '.png';
+        $this->_pathname = self::IMAGE_DIR . $_SESSION['id'] . '_' . bin2hex(random_bytes(8)) . '.png';
     }
 
     private function _save() {
@@ -106,7 +107,7 @@ final class ImageMerged {
         $this->_init_pathname();
         $this->_save();
         $this->_free();
-        print_r($this->_sticker);
+        // print_r($this->_sticker);
         return $this->_pathname;
     }
 }

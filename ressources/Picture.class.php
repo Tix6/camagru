@@ -8,10 +8,13 @@ require_once dirname(__FILE__) . '/Ressource.class.php';
 final class Picture extends Ressource {
     protected static $_table_name = 'Picture';
     protected static $_columns = array(
+        'id' => '',
         'user_id' => '',
         'path' => '',
         'title' => '',
-        'md5' => ''
+        'md5' => '',
+        'likes' => '',
+        'creation' => ''
     );
 
     public static function delete_image_file( $path ) {

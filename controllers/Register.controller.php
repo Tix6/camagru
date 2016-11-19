@@ -12,17 +12,17 @@ final class Register_Ctrl extends Controller {
     private $_user_id;
 
     private $_err_handler = array(
-        ':name' => array(
+        'name' => array(
             'is_valid' => FALSE,
             'err_str' => 'Requiert au moins 4 caracteres (alphabetiques uniquement)',
             'regexp' => "/^[A-Za-z]{4,12}$/"
         ),
-        ':passwd' => array(
+        'passwd' => array(
             'is_valid' => FALSE,
             'err_str' => 'Une majuscule, une minuscule et un chiffre (taille >= 8)',
             'regexp' => "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/"
         ),
-        ':mail' => array(
+        'mail' => array(
             'is_valid' => FALSE,
             'err_str' => 'Adresse mail invalide',
             'regexp' => "/^\w{3,}@\w{2,}\.\w{2,}$/"
@@ -49,10 +49,10 @@ final class Register_Ctrl extends Controller {
     }
 
     private function _send_confirmation_mail() {
-        $title = "Camagru - Confirmez votre compte {$this->_inputs[':name']}.";
-        $link = '<a href="http://' . $_SERVER['HTTP_HOST'] . '/index.php?page=confirm&id=' . urlencode($this->_user_id) . '&token=' . urlencode($this->_inputs[':token']) . '">Cliquez ici pour activer votre compte.</a>';
-        $message = "Bonjour {$this->_inputs[':name']}, merci de confirmer ton inscription en cliquant sur le lien suivant :<br><br>$link";
-        Mailer::send($this->_inputs[':mail'], $title, $message);
+        $title = "Camagru - Confirmez votre compte {$this->_inputs['name']}.";
+        $link = '<a href="http://' . $_SERVER['HTTP_HOST'] . '/index.php?page=confirm&id=' . urlencode($this->_user_id) . '&token=' . urlencode($this->_inputs['token']) . '">Cliquez ici pour activer votre compte.</a>';
+        $message = "Bonjour {$this->_inputs['name']}, merci de confirmer ton inscription en cliquant sur le lien suivant :<br><br>$link";
+        Mailer::send($this->_inputs['mail'], $title, $message);
     }
 
     private function _reset_form_and_inputs() {
@@ -71,7 +71,7 @@ final class Register_Ctrl extends Controller {
             $this->_inputs = $posted;
             if ($this->check_form() === TRUE)
             {
-                $this->_inputs[':token'] = User::init_token();
+                $this->_inputs['token'] = User::init_token();
                 if ($this->_user_id = $this->_create_user())
                 {
                     $this->_send_confirmation_mail();
@@ -86,7 +86,7 @@ final class Register_Ctrl extends Controller {
     }
 
     public function render() {
-        $errors = array(':name' => '', ':passwd' => '', ':mail' => '');
+        $errors = array('name' => '', 'passwd' => '', 'mail' => '');
         if (isset($this->_inputs)) {
             foreach ($this->_err_handler as $key => $array) {
                 $errors[$key] = ($array['is_valid'] === FALSE) ? $array['err_str'] : '';
@@ -99,14 +99,14 @@ final class Register_Ctrl extends Controller {
 '<div class="register">
     <form action="index.php?page=register" method="POST">
         <label>Pseudo</label>
-        <input type="text" name=":name" value="' . $this->_inputs[':name'] . '">
-        <p>' . $errors[':name'] . '</p>
+        <input type="text" name="name" value="' . $this->_inputs['name'] . '">
+        <p>' . $errors['name'] . '</p>
         <label>Mot de passe</label>
-        <input type="password" name=":passwd" value="' . $this->_inputs[':passwd'] . '">
-        <p>' . $errors[':passwd'] . '</p>
+        <input type="password" name="passwd" value="' . $this->_inputs['passwd'] . '">
+        <p>' . $errors['passwd'] . '</p>
         <label>Adresse mail</label>
-        <input type="email" name=":mail" value="' . $this->_inputs[':mail'] . '">
-        <p>' . $errors[':mail'] . '</p>
+        <input type="email" name="mail" value="' . $this->_inputs['mail'] . '">
+        <p>' . $errors['mail'] . '</p>
         <button type="submit" name="register" value="ok">Valider</button>
     </form>
 </div>';

@@ -11,32 +11,32 @@ abstract class Ressource {
 
     protected function __construct() {}
 
-    /* returns array with pdo params as key. Useful for pdo to bind params */
     public static function get_fields() {
-        foreach (static::$_columns as $key => $val) {
-            $fields[":$key"] = '';
+        return static::$_columns;
+    }
+
+    /* add ':' before key names for pdo to bind params */
+    private static function _paramify ( array $params ) {
+        $paramified_keys = array();
+        foreach ($params as $key => $val) {
+            $paramified_keys[] = ":$key";
         }
-        return $fields;
+        return $paramified_keys;
     }
 
     public static function add_item ( array $params ) {
-        if (count($params) != count(static::$_columns))
-            return FALSE;
         $table = static::$_table_name;
-        $columns_str = implode(array_keys(static::$_columns), ', ');
-        $params_str = implode(array_keys($params), ', ');
-        $sql = "INSERT INTO `$table` ($columns_str) VALUES ($params_str)";
+        $columns = implode(array_keys($params), ', ');
+        $params_to_bind = implode((self::_paramify($params)), ', ');
+        $sql = "INSERT INTO `$table` ($columns) VALUES ($params_to_bind)";
         // echo $sql . PHP_EOL;
         return Database::insert($sql, $params);
     }
 
     public static function get_item_by($column, $value) {
         $table = static::$_table_name;
-        if (array_key_exists($column, static::$_columns) === TRUE) {
-            $sql = "SELECT * FROM `$table` WHERE `$column` = ?";
-            return Database::fetch_one($sql, array($value));
-        }
-        return FALSE;
+        $sql = "SELECT * FROM `$table` WHERE `$column` = ?";
+        return Database::fetch_one($sql, array($value));
     }
 
     public static function update_item_by_id($id, $column, $value) {

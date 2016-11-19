@@ -2,3 +2,4 @@
 ._.DS*
 *.sqlite3
 data/images/*.png
+.*.swp

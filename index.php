@@ -8,6 +8,10 @@ session_start();
 if (isset($_GET['page']))
 {
     switch ($_GET['page']) {
+        case 'picture':
+            require_once dirname(__FILE__) . '/controllers/Picture.controller.php';
+            $controller = new Picture_Ctrl($_GET['id']);
+            break ;
         case 'register':
             require_once dirname(__FILE__) . '/controllers/Register.controller.php';
             $controller = new Register_Ctrl($_POST);

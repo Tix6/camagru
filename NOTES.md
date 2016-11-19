@@ -16,7 +16,7 @@
 - Transforms controller into components and split index.php's controller into several.
 - CROP instead of RESIZE on picture first canvas.
 - TRY / CATCH Database.
-- Protect config directory.
+- Protect some directories.
 - User can handle alpha and ratio on pictures.
 
 ### BUGS

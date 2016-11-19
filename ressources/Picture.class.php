@@ -10,10 +10,12 @@ final class Picture extends Ressource {
     protected static $_columns = array(
         'id' => '',
         'user_id' => '',
+        'url_id' => '',
         'path' => '',
         'title' => '',
         'md5' => '',
         'likes' => '',
+        'comments' => '',
         'creation' => ''
     );
 

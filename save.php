@@ -3,12 +3,12 @@ session_start();
 
 require dirname(__FILE__) . '/components/Meta.php';
 require dirname(__FILE__) . '/components/Menu.php';
-require dirname(__FILE__) . '/components/Welcome.php';
+require dirname(__FILE__) . '/components/Save.php';
 require dirname(__FILE__) . '/components/Footer.php';
 
-$meta = new MetaComponent();
-$menu = new MenuComponent();
-$welcome = new WelcomeComponent();
+$meta   = new MetaComponent();
+$menu   = new MenuComponent();
+$save   = new SaveComponent();
 $footer = new FooterComponent();
 ?>
 <!doctype html>
@@ -21,7 +21,7 @@ $footer = new FooterComponent();
       <?php $menu(); ?>
   </header>
   <div class="container">
-      <?php $welcome(); ?>
+      <?php $save(); ?>
   </div>
   <footer>
      <?php $footer(); ?>

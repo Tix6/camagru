@@ -1,9 +1,9 @@
 <?php
 
-require_once dirname(__FILE__) . '/Controller.class.php';
+require_once dirname(__FILE__) . '/Component.php';
 require_once dirname(__FILE__) . '/../ressources/User.class.php';
 
-final class Reset_Ctrl extends Controller {
+final class ResetComponent extends Component {
 
     private $_token;
 
@@ -30,7 +30,9 @@ final class Reset_Ctrl extends Controller {
 
     private $_alert = '';
 
-    public function __construct( $token, array $posted ) {
+    public function __construct() {
+        $posted = $_POST;
+        $token = $_GET['token'];
         if (isset($token)) {
             $user = User::get_item_by('token', $token);
             if ($user) {
@@ -59,13 +61,13 @@ final class Reset_Ctrl extends Controller {
             header("refresh:5;url=index.php");
     }
 
-    public function render() {
+    public function __invoke() {
         echo
 '<h1 class="title">Changement de mot de passe</h1>
 <hr>'
 . $this->_alert .
 '<div class="register">
-    <form action="index.php?page=reset" method="POST">
+    <form action="user.php?page=reset" method="POST">
         <label>Nouveau mot de passe</label>
         <input type="password" name=":passwd" value="' . $this->_inputs[':passwd'] . '">'
         . '<p>' . $this->_error . '</p>' .

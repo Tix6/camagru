@@ -1,9 +1,9 @@
 <?php
 
-require_once dirname(__FILE__) . '/Controller.class.php';
+require_once dirname(__FILE__) . '/Component.php';
 require_once dirname(__FILE__) . '/../ressources/User.class.php';
 
-final class Confirm_Ctrl extends Controller {
+final class ConfirmComponent extends Component {
 
     private $_user;
 
@@ -15,7 +15,9 @@ final class Confirm_Ctrl extends Controller {
     /* alert to display */
     private $alert = '';
 
-    public function __construct( $id, $token ) {
+    public function __construct() {
+        $id = $_GET['id'];
+        $token = $_GET['token'];
         if ($id > 0 && strlen($token) == User::TOKEN_SIZE) {
             if (User::confirm_registration($id, $token) == 1)
                 $this->alert = $this->_alerts['success'];
@@ -26,7 +28,7 @@ final class Confirm_Ctrl extends Controller {
         }
     }
 
-    public function render() {
+    public function __invoke() {
         echo '<h1 class="title">Confirmation</h1>' . $this->alert;
     }
 }

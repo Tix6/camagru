@@ -39,13 +39,19 @@ abstract class Ressource {
         return Database::fetch_one($sql, array($value));
     }
 
+    public static function get_all_items_by($column, $value) {
+        $table = static::$_table_name;
+        $sql = "SELECT * FROM `$table` WHERE `$column` = ?";
+        return Database::fetch($sql, array($value));
+    }
+
     public static function update_item_by_id($id, $column, $value) {
         $table = static::$_table_name;
         if (array_key_exists($column, static::$_columns) === TRUE) {
             $sql = "UPDATE `$table` SET $column = ? WHERE id = ?";
             return Database::execute($sql, array($value, $id));
         }
-        return FALSE;
+        return false;
     }
 
     public static function del_item_by_id ( $id ) {
@@ -58,6 +64,24 @@ abstract class Ressource {
         $table = static::$_table_name;
         $sql = "SELECT * FROM `$table`";
         return Database::fetch($sql, null);
+    }
+
+    public static function increment($id, $column) {
+        $table = static::$_table_name;
+        if (array_key_exists($column, static::$_columns) === true) {
+            $sql = "UPDATE `$table` SET $column = $column + 1 WHERE id = ?";
+            return Database::execute($sql, array($id));
+        }
+        return false;
+    }
+
+    public static function decrement($id, $column) {
+        $table = static::$_table_name;
+        if (array_key_exists($column, static::$_columns) === true) {
+            $sql = "UPDATE `$table` SET $column = $column - 1 WHERE id = ?";
+            return Database::execute($sql, array($id));
+        }
+        return false;
     }
 }
 

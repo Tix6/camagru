@@ -19,13 +19,16 @@ $TABLES = array(
     'picture' => "CREATE TABLE IF NOT EXISTS `Picture` (
     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
     `user_id` int NOT NULL,
+    `url_id` varchar(255) NOT NULL,
     `title` varchar(255) NOT NULL,
     `path` varchar(255) NOT NULL,
     `md5` varchar(255) NOT NULL,
     `likes` int DEFAULT 0,
+    `comments` int DEFAULT 0,
     `creation` timestamp DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(user_id) REFERENCES User(id),
     UNIQUE (`path`),
+    UNIQUE (`url_id`),
     UNIQUE (`md5`)
     );",
 
@@ -41,9 +44,9 @@ $TABLES = array(
     'comment' => "CREATE TABLE IF NOT EXISTS `Comment` (
     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
     `user_id` int NOT NULL,
-    `user_name` varchar(255) NOT NULL,
     `picture_id` int NOT NULL,
     `comment` text NOT NULL,
+    `creation` timestamp DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`user_id`) REFERENCES User(id),
     FOREIGN KEY (`picture_id`) REFERENCES Picture(id)
     );",

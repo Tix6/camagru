@@ -1,77 +1,113 @@
 body {
-    background-color: #fff6e5;
-    color: #3e454c;
-    margin-top: 20px;
+    background-color: white;
+    color: black;
 }
 
-header, .container, footer {
-    width: 75%;
-    margin: auto;
-}
+/* HEADER ------------------------------------------------------------------- */
 
 header {
-    margin-bottom: 80px;
-}
-
-header .title {
-    display: inline-block;
-    font-size: 1.2em;
     font-weight: bold;
 }
 
-header > nav {
+header nav, header div, header ul {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
     align-items: center;
-    padding: 5px 10px 5px 10px;
-    background-color: rgba(0,0,0,0.4);
-    border-bottom: solid black 1px;
+}
+
+header > nav {
+    justify-content: space-between;
+    position: relative;
     left: 0;
-    position: fixed;
     right: 0;
     top: 0;
     z-index: 1000;
+    background-color: gray;
+    padding: 10px;
+    border-bottom: solid black 1px;
+}
+
+header .title {
+    text-transform: uppercase;
+    font-size: 1.2em;
+    margin-right: 20px;
 }
 
 header ul {
-    display: inline-block;
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
 header li {
-  display: inline-block;
-  padding: 1em;
+    margin-right: 10px;
 }
 
-hr {
-    display: inline-block;
-    width: 200px;
-    border: 1px solid #ddd;
-}
+/* -------------------------------------------------------------------------- */
+
+/* MAIN CONTAINER ----------------------------------------------------------- */
 
 .container {
-    background-color: white;
-    border: 2px solid #ddd;
-    border-radius: 15px;
     display: flex;
     flex-flow: column nowrap;
-    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #eee;
+    padding: 20px 20px 150px 20px;
 }
 
-.container > *:first-child {
-    margin-top: 20px;
+.container h1 {
+    text-transform: uppercase;
 }
 
-.container > *:last-child {
-    margin-bottom: 20px;
+/* -------------------------------------------------------------------------- */
+
+
+/* PICTURE CONTAINER -------------------------------------------------------- */
+
+.picture-container {
+    width: 640px;
+    padding: 20px;
 }
 
-.container > div {
-    margin-top: 10px;
+.picture-container > div {
+    padding-bottom: 20px;
 }
+
+.picture-container h1 {
+    font-size: 1.5em;
+}
+
+.picture-component > .title {
+    font-size: 2em;
+    text-transform: capitalize;
+}
+
+.picture-container figure {
+    margin: 0;
+    padding: 20px 0 20px 0;
+}
+
+.comment:not(:last-child) {
+    padding-bottom: 10px;
+}
+
+.comments > h1 {
+    padding-bottom: 10px;
+}
+
+.picture-info > span:not(:last-child)::after {
+    content: ' - ';
+}
+
+.add-comment textarea {
+    width: 100%;
+    resize: none;
+}
+
+
+/* -------------------------------------------------------------------------- */
+
 
 .register input, .register button {
     width: 200px;
@@ -116,7 +152,7 @@ button:hover {
     color: white;
 }
 
-input {
+input:not([type="file"]) {
     padding: 0.5em 0.6em;
     border: 1px solid #ccc;
     box-shadow: inset 0 1px 3px #ddd;
@@ -133,7 +169,11 @@ input:focus {
 }
 
 a:hover {
-    color: #2186c4;
+    color: #ccc;
+}
+
+figure {
+    margin: 0;
 }
 
 .alert-success, .alert-danger {
@@ -158,12 +198,4 @@ a:hover {
     cursor: -o-grabbing;
     cursor: -ms-grabbing;
     cursor: grabbing;
-}
-
-footer {
-    margin-top: 5px;
-    text-align: center;
-    color: #bbb;
-    font-size: 0.9em;
-    font-style: italic;
 }

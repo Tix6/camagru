@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__) . '/Controller.class.php';
+require_once dirname(__FILE__) . '/Component.php';
 require_once dirname(__FILE__) . '/../scripts/Image_Merged.class.php';
 require_once dirname(__FILE__) . '/../ressources/Picture.class.php';
 
-final class Save_Ctrl extends Controller {
+final class SaveComponent extends Component {
 
     private $_canvas_base64;
     private $_sticker_path;
@@ -30,15 +30,20 @@ final class Save_Ctrl extends Controller {
         return Picture::get_item_by('md5', $this->_image_md5);
     }
 
+    private function _init_url_id() {
+        /* php 7 only */
+        return bin2hex(random_bytes(4));
+    }
+
     private function _update_database() {
         $sql_params = array(
             'user_id' => $_SESSION['id'],
+            'url_id' => $this->_init_url_id(),
             'path' => $this->_image_path,
             'title' => $this->_image_title,
             'md5' => $this->_image_md5
         );
         $fields = Picture::get_fields();
-        $sql_params = array_intersect_key($sql_params, $fields);
         Picture::add_item($sql_params);
     }
 
@@ -58,7 +63,7 @@ final class Save_Ctrl extends Controller {
         }
     }
 
-    public function render() {
+    public function __invoke() {
         echo '<img src="' . $this->_image_path . '" alt="' . $this->_image_title . '">';
     }
 }

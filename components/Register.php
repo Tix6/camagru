@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__) . '/Controller.class.php';
+require_once dirname(__FILE__) . '/Component.php';
 require_once dirname(__FILE__) . '/../ressources/User.class.php';
 require_once dirname(__FILE__) . '/../mail/Mailer.class.php';
 
-final class Register_Ctrl extends Controller {
+final class RegisterComponent extends Component {
 
     /* filled by user's form */
     private $_inputs = NULL;
@@ -65,7 +65,8 @@ final class Register_Ctrl extends Controller {
         return User::add_item($sql_params);
     }
 
-    public function __construct( array $posted ) {
+    public function __construct() {
+        $posted = $_POST;
         if (isset($posted['register']) && $posted['register'] === 'ok')
         {
             $this->_inputs = $posted;
@@ -85,7 +86,7 @@ final class Register_Ctrl extends Controller {
         }
     }
 
-    public function render() {
+    public function __invoke() {
         $errors = array('name' => '', 'passwd' => '', 'mail' => '');
         if (isset($this->_inputs)) {
             foreach ($this->_err_handler as $key => $array) {
@@ -97,7 +98,7 @@ final class Register_Ctrl extends Controller {
 <hr>'
 . $this->_alert .
 '<div class="register">
-    <form action="index.php?page=register" method="POST">
+    <form action="user.php?page=register" method="POST">
         <label>Pseudo</label>
         <input type="text" name="name" value="' . $this->_inputs['name'] . '">
         <p>' . $errors['name'] . '</p>

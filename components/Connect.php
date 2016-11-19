@@ -1,9 +1,9 @@
 <?php
 
-require_once dirname(__FILE__) . '/Controller.class.php';
+require_once dirname(__FILE__) . '/Component.php';
 require_once dirname(__FILE__) . '/../ressources/User.class.php';
 
-final class Connect_Ctrl extends Controller {
+final class ConnectComponent extends Component {
 
     private $_inputs = array(
         'mail' => '',
@@ -22,7 +22,8 @@ final class Connect_Ctrl extends Controller {
 
     private $_alert = '';
 
-    public function __construct( array $posted ) {
+    public function __construct() {
+        $posted = $_POST;
         if (isset($_SESSION['is_auth']) === TRUE) {
             $this->_alert = $this->_alerts['already_connected'];
             return ;
@@ -55,18 +56,13 @@ final class Connect_Ctrl extends Controller {
         $_SESSION['name'] = $this->_user['name'];
     }
 
-    public function init_header() {
-        if (isset($_SESSION['is_auth']) && $_SESSION['is_auth'] === TRUE)
-            header("refresh:5;url=index.php");
-    }
-
-    public function render() {
+    public function __invoke() {
         echo '
 <h1 class="title">Connexion</h1>
 <hr>'
 . $this->_alert .
 '<div class="register">
-    <form action="index.php?page=connect" method="POST">
+    <form action="user.php?page=connect" method="POST">
         <label>Adresse mail</label>
         <input type="email" name="mail" value="' . $this->_inputs['mail'] . '">
         <label>Mot de passe</label>

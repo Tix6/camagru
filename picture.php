@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/components/Comments.php';
 require_once dirname(__FILE__) . '/ressources/Picture.class.php';
 
 $picture_url_id = (isset($_GET['id'])) ? $_GET['id'] : '0';
-$picture_array  = Picture::get_item_by('url_id', $picture_url_id);
+$picture_array  = Picture::get_item_by(array('url_id' => $picture_url_id));
 
 $components = array(
     'picture'       => new PictureComponent($picture_array),

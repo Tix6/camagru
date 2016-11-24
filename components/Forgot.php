@@ -7,8 +7,8 @@ require_once dirname(__FILE__) . '/../mail/Mailer.class.php';
 final class Forgot_Ctrl extends Controller {
 
     private $_inputs = array(
-        ':mail' => '',
-        ':passwd' => ''
+        'mail' => '',
+        'passwd' => ''
     );
 
     private $_user;
@@ -25,15 +25,15 @@ final class Forgot_Ctrl extends Controller {
 
     private function _send_reset_mail() {
         $title = "Camagru - Nouveau mot de passe.";
-        $link = '<a href="http://' . $_SERVER['HTTP_HOST'] . '/index.php?page=reset&token=' . urlencode($this->_reset_token) . '">Changer de mot de passe.</a>';
+        $link = '<a href="http://' . $_SERVER['HTTP_HOST'] . '/user.php?page=reset&token=' . urlencode($this->_reset_token) . '">Changer de mot de passe.</a>';
         $message = "Bonjour {$this->_user['name']}, changez votre mot de passe en cliquant sur le lien suivant :<br><br>$link";
-        Mailer::send($this->_inputs[':mail'], $title, $message);
+        Mailer::send($this->_inputs['mail'], $title, $message);
     }
 
     public function __construct( array $posted ) {
-        if (array_key_exists(':mail', $posted)) {
+        if (array_key_exists('mail', $posted)) {
             $this->_inputs = array_intersect_key($posted, $this->_inputs);
-            $user = User::get_item_by('mail', $this->_inputs[':mail']);
+            $user = User::get_item_by(array('mail' => $this->_inputs['mail']));
             if ($user) {
                 $this->_user = $user;
                 if ($user['confirmed'] != TRUE)
@@ -61,7 +61,7 @@ final class Forgot_Ctrl extends Controller {
 '<div class="register">
     <form action="index.php?page=forgot" method="POST">
         <label>Adresse mail</label>
-        <input type="email" name=":mail" value="' . $this->_inputs[':mail'] . '">
+        <input type="email" name="mail" value="' . $this->_inputs['mail'] . '">
         <button type="submit">Valider</button>
     </form>
 </div>

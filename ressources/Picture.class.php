@@ -24,7 +24,7 @@ final class Picture extends Ressource {
     }
 
     public static function del_item_by_id ( $id ) {
-        $ressource = self::get_item_by('id', $id);
+        $ressource = self::get_item_by(array('id' => $id));
         if (parent::del_item_by_id( $id ) && isset($ressource)) {
             return self::delete_image_file($ressource['path']);
         }

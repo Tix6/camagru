@@ -78,14 +78,9 @@ header li {
     font-size: 1.5em;
 }
 
-.picture-component > .title {
-    font-size: 2em;
-    text-transform: capitalize;
-}
-
-.picture-container figure {
-    margin: 0;
-    padding: 20px 0 20px 0;
+.picture-container > .picture-component > h2.title {
+    font-size: 30px;
+    margin-bottom: 10px;
 }
 
 .comment:not(:last-child) {
@@ -96,18 +91,62 @@ header li {
     padding-bottom: 10px;
 }
 
-.picture-info > span:not(:last-child)::after {
-    content: ' - ';
+.add-comment textarea {
+    width: 620px;
+    height: 50px;
+    padding: 10px;
+    resize: none;
+    overflow: auto;
 }
 
-.add-comment textarea {
+/* GALLERY CONTAINER -------------------------------------------------------- */
+
+.gallery-container {
+    align-items: center;
+}
+
+.gallery-container > h1 {
     width: 100%;
-    resize: none;
+    text-align: left;
+    padding-bottom: 20px;
+}
+
+.gallery-container > .picture-component > h2.title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.gallery-container hr {
+    margin: 20px 0 20px 0;
+}
+
+.gallery-container hr:last-of-type {
+    display: none;
 }
 
 
 /* -------------------------------------------------------------------------- */
 
+/* PICTURE COMPONENT -------------------------------------------------------- */
+
+.picture-component > h2.title {
+    margin: 0;
+}
+
+.picture-component > .picture-info {
+    margin-top: 5px;
+    color: gray;
+}
+
+.picture-component > .picture-info {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
 
 .register input, .register button {
     width: 200px;
@@ -174,6 +213,11 @@ a:hover {
 
 figure {
     margin: 0;
+}
+
+hr {
+    border-color: #ddd;
+    width: 80%;
 }
 
 .alert-success, .alert-danger {

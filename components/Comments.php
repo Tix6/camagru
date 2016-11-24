@@ -8,7 +8,7 @@ final class CommentsComponent extends Component {
     private $_comments;
 
     public function __construct ( $picture_id ) {
-        $comments = Comment::get_all_items_by('picture_id', $picture_id);
+        $comments = Comment::get_all_items_by(array('picture_id' => $picture_id));
         foreach ($comments as $com) {
             $this->_comments[] = new CommentComponent($com);
         }

@@ -15,34 +15,55 @@ abstract class Ressource {
         return static::$_columns;
     }
 
+    private static function _columns_to_str ( array $params ) {
+        return implode(array_keys($params), ', ');
+    }
+
     /* add ':' before key names for pdo to bind params */
     private static function _paramify ( array $params ) {
-        $paramified_keys = array();
+        $paramified = array();
         foreach ($params as $key => $val) {
-            $paramified_keys[] = ":$key";
+            $paramified[":$key"] = $val;
         }
-        return $paramified_keys;
+        return $paramified;
     }
 
     public static function add_item ( array $params ) {
         $table = static::$_table_name;
-        $columns = implode(array_keys($params), ', ');
-        $params_to_bind = implode((self::_paramify($params)), ', ');
+        $columns = self::_columns_to_str($params);
+        $params_to_bind = implode(array_keys(self::_paramify($params)), ', ');
         $sql = "INSERT INTO `$table` ($columns) VALUES ($params_to_bind)";
-        // echo $sql . PHP_EOL;
         return Database::insert($sql, $params);
     }
 
-    public static function get_item_by($column, $value) {
+    public static function get_item_by ( array $params ) {
         $table = static::$_table_name;
-        $sql = "SELECT * FROM `$table` WHERE `$column` = ?";
-        return Database::fetch_one($sql, array($value));
+        $paramified = self::_paramify($params);
+
+        $sql = array();
+        $sql[] = "SELECT * FROM `$table` WHERE";
+        foreach ($params as $key => $val) {
+            $sql[] = "`$key` = :$key";
+        }
+        $sql[0] = $sql[0] . $sql[1];
+        $sql = implode($sql, ' AND ');
+
+        return Database::fetch_one($sql, $paramified);
     }
 
-    public static function get_all_items_by($column, $value) {
+    public static function get_all_items_by ( array $params ) {
         $table = static::$_table_name;
-        $sql = "SELECT * FROM `$table` WHERE `$column` = ?";
-        return Database::fetch($sql, array($value));
+        $paramified = self::_paramify($params);
+
+        $sql = array();
+        $sql[] = "SELECT * FROM `$table` WHERE";
+        foreach ($params as $key => $val) {
+            $sql[] = "`$key` = :$key";
+        }
+        $sql[0] = $sql[0] . $sql[1];
+        $sql = implode($sql, ' AND ');
+
+        return Database::fetch($sql, $paramified);
     }
 
     public static function update_item_by_id($id, $column, $value) {
@@ -62,7 +83,7 @@ abstract class Ressource {
 
     public static function fetch_all() {
         $table = static::$_table_name;
-        $sql = "SELECT * FROM `$table`";
+        $sql = "SELECT * FROM `$table` ORDER BY `id` DESC";
         return Database::fetch($sql, null);
     }
 

@@ -35,7 +35,7 @@ final class ConnectComponent extends Component {
     }
 
     private function _auth() {
-        $user = User::get_item_by('mail', $this->_inputs['mail']);
+        $user = User::get_item_by(array('mail' => $this->_inputs['mail']));
         if ($user) {
             if ($user['confirmed'] != TRUE)
                 $this->_alert = $this->_alerts['not_confirmed'];

@@ -8,8 +8,8 @@ final class ResetComponent extends Component {
     private $_token;
 
     private $_inputs = array(
-        ':passwd' => '',
-        ':token' => ''
+        'passwd' => '',
+        'token' => ''
     );
 
     private $_err_handler = array(
@@ -34,19 +34,19 @@ final class ResetComponent extends Component {
         $posted = $_POST;
         $token = $_GET['token'];
         if (isset($token)) {
-            $user = User::get_item_by('token', $token);
+            $user = User::get_item_by(array('token' => $token));
             if ($user) {
                 $this->_token = $token;
                 $this->_alert = $this->_alerts['update'];
             }
-        } else if (isset($posted) && $posted[':token'] && $posted[':passwd']) {
-            if (preg_match($this->_err_handler[':passwd']['regexp'], $posted[':passwd']) == FALSE) {
-                $this->_error = $this->_err_handler[':passwd']['err_str'];
+        } else if (isset($posted) && $posted['token'] && $posted['passwd']) {
+            if (preg_match($this->_err_handler['passwd']['regexp'], $posted['passwd']) == FALSE) {
+                $this->_error = $this->_err_handler['passwd']['err_str'];
                 return ;
             }
-            $user = User::get_item_by('token', $posted[':token']);
+            $user = User::get_item_by(array('token' => $posted['token']));
             if ($user) {
-                User::update_item_by_id($user['id'], 'passwd', $posted[':passwd']);
+                User::update_item_by_id($user['id'], 'passwd', $posted['passwd']);
                 $this->_alert = $this->_alerts['success'];
             } else {
                 $this->_alert = $this->_alerts['err_token'];
@@ -69,7 +69,7 @@ final class ResetComponent extends Component {
 '<div class="register">
     <form action="user.php?page=reset" method="POST">
         <label>Nouveau mot de passe</label>
-        <input type="password" name=":passwd" value="' . $this->_inputs[':passwd'] . '">'
+        <input type="password" name=":passwd" value="' . $this->_inputs['passwd'] . '">'
         . '<p>' . $this->_error . '</p>' .
         '<input type="hidden" name=":token" value="' . $this->_token . '">
         <button type="submit">Valider</button>

@@ -17,7 +17,7 @@ final class CommentComponent extends Component {
     public function __construct ( array $comment ) {
         if ($comment) {
             $this->_comment = $comment;
-            $this->_user = User::get_item_by('id', $comment['user_id']);
+            $this->_user = User::get_item_by(array('id' => $comment['user_id']));
             if (isset($_SESSION['id']) && $_SESSION['id'] === $this->_comment['user_id'])
                 $this->_is_deletable = true;
         }

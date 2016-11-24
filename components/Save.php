@@ -27,7 +27,7 @@ final class SaveComponent extends Component {
     }
 
     private function _check_if_image_already_exist() {
-        return Picture::get_item_by('md5', $this->_image_md5);
+        return Picture::get_item_by(array('md5' => $this->_image_md5));
     }
 
     private function _init_url_id() {

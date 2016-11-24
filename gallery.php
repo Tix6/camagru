@@ -25,7 +25,7 @@ function redirect() {
   <header>
       <?php $menu(); ?>
   </header>
-  <div class="container">
+  <div class="container gallery-container">
       <?php $gallery(); ?>
   </div>
   <footer>

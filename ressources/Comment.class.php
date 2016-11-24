@@ -23,7 +23,7 @@ final class Comment extends Ressource {
     }
 
     public static function del_item_by_id ( $id ) {
-        $comment = self::get_item_by('id', $id);
+        $comment = self::get_item_by(array('id' => $id));
         if (parent::del_item_by_id($id)) {
             return Picture::decrement($comment['picture_id'], 'comments');
         }

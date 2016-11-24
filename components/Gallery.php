@@ -19,8 +19,11 @@ final class GalleryComponent extends Component {
         echo '
             <h1>Gallerie</h1>
         ';
-        foreach ($this->_pictures as $pic) {
-            $pic();
+        if (count($this->_pictures)) {
+            foreach ($this->_pictures as $pic) {
+                $pic();
+                echo '<hr>';
+            }
         }
     }
 }

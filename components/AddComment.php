@@ -24,7 +24,7 @@ final class AddCommentComponent extends Component {
         $this->_picture = $picture;
         if (isset($_SESSION['is_auth']) && $_SESSION['is_auth'] === true) {
             $this->_user_id = $_SESSION['id'];
-            if ($_POST['add-comment'] == 'ok') {
+            if (isset($_POST['add-comment']) && $_POST['add-comment'] == 'ok') {
                 $this->_update_database();
                 $this->_need_to_refresh = true;
             }

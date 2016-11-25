@@ -21,9 +21,9 @@ final class Like extends Ressource {
     }
 
     public static function del_item_by_id ( $id ) {
-        $comment = self::get_item_by(array('id' => $id));
+        $like = self::get_item_by(array('id' => $id));
         if (parent::del_item_by_id($id)) {
-            return Picture::decrement($comment['picture_id'], 'likes');
+            return Picture::decrement($like['picture_id'], 'likes');
         }
         return false;
     }

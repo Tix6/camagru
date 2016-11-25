@@ -58,7 +58,7 @@ if (isset($_GET['like'])) {
             Like::add_item(array('user_id' => $user_array['id'], 'picture_id' => $picture_array['id']));
             break;
         case 'del':
-            if ($user_array && $user_array['id'] === $_POST['comment_user_id'])
+            if ($user_array && $user_array['id'] === $_POST['like_user_id'])
                 Like::del_item_by_id($_POST['like_id']);
             break;
         default:
@@ -97,20 +97,20 @@ foreach ($components as $comp) {
 ?>
 <!doctype html>
 <html lang="fr">
-<head>
-    <?php $meta(); ?>
-</head>
-<body>
-  <header>
-      <?php $menu(); ?>
-  </header>
-  <div class="container picture-container">
-      <?php $components['picture'](); ?>
-      <?php $components['comments'](); ?>
-      <?php $components['add_comment'](); ?>
-  </div>
-  <footer>
-     <?php $footer(); ?>
-  </footer>
-</body>
+    <head>
+        <?php $meta(); ?>
+    </head>
+    <body>
+        <header>
+            <?php $menu(); ?>
+        </header>
+        <div class="picture-container">
+            <?php $components['picture'](); ?>
+            <?php $components['comments'](); ?>
+            <?php $components['add_comment'](); ?>
+        </div>
+        <footer>
+            <?php $footer(); ?>
+        </footer>
+    </body>
 </html>

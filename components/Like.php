@@ -42,8 +42,9 @@ final class LikeComponent extends Component {
             if ($this->_is_liked === true) {
                 echo '
                 <span class="likes">' . $pic['likes'] . '
-                    <form action="picture.php?id=' . $pic['url_id'] . '&like=del" method="POST">
+                <form action="picture.php?id=' . $pic['url_id'] . '&like=del" method="POST">
                         <input type="hidden" name="like_id" value="' . $like['id'] . '">
+                        <input type="hidden" name="like_user_id" value="' . $like['user_id'] . '">
                         <button type="submit" class="icon-heart liked"></button>
                     </form>
                 </span>

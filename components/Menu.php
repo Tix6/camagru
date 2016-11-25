@@ -5,11 +5,10 @@ require_once dirname(__FILE__) . '/Component.php';
 final class MenuComponent extends Component {
 
     private static $_items = array(
-        'gallery' => array('gallerie', 'gallery.php'),
         'connect' => array('se connecter', 'user.php?page=connect'),
         'register' => array('s\'enregister', 'user.php?page=register'),
         'add' => array('ajouter', 'add.php'),
-        'disconnect' => array('se deconnecter', 'user.php?page=disconnect')
+        'disconnect' => array('<i class="icon-login"></i>', 'user.php?page=disconnect')
     );
 
     private $_user;
@@ -20,13 +19,11 @@ final class MenuComponent extends Component {
         $this->_to_display[] = self::$_items['gallery'];
         if (isset($_SESSION) && isset($_SESSION['is_auth'])) {
             $this->_to_display[] = self::$_items['add'];
-            $this->_to_display[] = self::$_items['disconnect'];
             $this->_user = ucfirst($_SESSION['name']);
         }
         else {
             $this->_to_display[] = self::$_items['connect'];
             $this->_to_display[] = self::$_items['register'];
-            $this->_user = 'Invité';
         }
     }
 
@@ -47,8 +44,18 @@ final class MenuComponent extends Component {
                 . $this->_display_menu() .
                 '</ul>
             </div>
-            <div class="right">
-                <span class="user">' . $this->_user . '</span>
+            <div class="right">';
+        if (isset($this->_user)) {
+            echo '
+            <span class="user">' . $this->_user . '</span>
+            <a href="user.php?page=disconnect"><i class="icon-login"></i></a>
+            ';
+        } else {
+            echo '
+            <span class="user">Invité</span>
+            ';
+        }
+        echo '
             <div>
         </nav>
         ';

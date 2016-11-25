@@ -38,6 +38,7 @@ final class PictureComponent extends Component {
                 <h2 class="title"><a href="picture.php?id='. $pic['url_id'] .'">' . ucfirst($pic['title']) . '</a></h2>
                 <figure>
                     <a href="picture.php?id='. $pic['url_id'] .'"><img src="' . $pic['path'] . '" alt="' . $pic['title'] . '"></a>
+                    <div class="shadow"></div>
                 </figure>
                 <div class="picture-info">
                     <div class="left">

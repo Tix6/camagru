@@ -16,9 +16,6 @@ final class GalleryComponent extends Component {
     }
 
     public function __invoke() {
-        echo '
-            <h1>Gallerie</h1>
-        ';
         if (count($this->_pictures)) {
             foreach ($this->_pictures as $pic) {
                 $pic();

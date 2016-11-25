@@ -83,21 +83,6 @@ header li {
     margin-bottom: 10px;
 }
 
-.comment:not(:last-child) {
-    padding-bottom: 10px;
-}
-
-.comments > h1 {
-    padding-bottom: 10px;
-}
-
-.add-comment textarea {
-    width: 620px;
-    height: 50px;
-    padding: 10px;
-    resize: none;
-    overflow: auto;
-}
 
 /* GALLERY CONTAINER -------------------------------------------------------- */
 
@@ -134,14 +119,84 @@ header li {
 }
 
 .picture-component > .picture-info {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
     margin-top: 5px;
     color: gray;
 }
 
-.picture-component > .picture-info {
+
+.comments > h1 {
+    padding-bottom: 10px;
+}
+
+.comments > .comment {
+    margin-bottom: 20px;
+}
+
+.comment {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    width: auto;
+}
+
+.comment-text {
+    background-color: white;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 6px;
+    margin-bottom: 6px;
+}
+
+.comment-text > i {
+    color: inherit;
+    font-size: 0.5em;
+    opacity: 0.5;
+    vertical-align: top;
+}
+
+.comment-text > p {
+    width: auto;
+    margin: 0 5px 0 5px;
+}
+
+.comment-info {
+    display: flex;
+    flex-flow: row;
     justify-content: space-between;
+    height: 18px;
+    margin-left: 6px;
+    color: gray;
+    font-size: 0.8em;
+}
+
+.comment-info button {
+    margin: 0;
+    padding: 0;
+    color: gray;
+}
+
+.add-comment textarea {
+    width: 620px;
+    height: 50px;
+    padding: 10px;
+    resize: none;
+    overflow: auto;
+}
+
+.likes button, .likes form {
+    display: inline;
+    background-color: inherit;
+    margin: 0;
+    padding: 0;
+    margin-left: -1px !important;
+}
+
+.likes button:hover {
+    background-color: inherit;
+    color: red;
 }
 
 /* -------------------------------------------------------------------------- */

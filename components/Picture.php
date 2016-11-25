@@ -16,11 +16,11 @@ final class PictureComponent extends Component {
         return "{$date['day']}/{$date['month']}/{$date['year']}";
     }
 
-    public function __construct ( array $picture ) {
+    public function __construct ( array $picture, $user = array() ) {
         if ($picture) {
             $this->_picture = $picture;
             $this->_author = User::get_item_by(array('id' => $this->_picture['user_id']));
-            $this->_like_component = new LikeComponent($picture);
+            $this->_like_component = new LikeComponent($picture, $user);
         } else {
             $this->_error = true;
         }
@@ -44,7 +44,7 @@ final class PictureComponent extends Component {
                         <span class="username">' . ucfirst($author) . '</span>
                     </div>
                     <div class="right">
-                        <span class="comments">' . $pic['comments'] . ' <i class="icon-comment-1 animate-spin"></i></span>';
+                        <span class="comments">' . $pic['comments'] . ' <i class="icon-comment-1"></i></span>';
             ($this->_like_component)();
             echo '
                     </div>

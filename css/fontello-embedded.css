@@ -60,6 +60,15 @@
     font-size: 105%;
 }
 
+.liked {
+    color: red;
+}
+
+.liked:hover:before {
+    color: inherit;
+    content: '\f028';
+}
+
 .icon-camera:before { content: '\e800'; } /* '' */
 .icon-login:before { content: '\e801'; } /* '' */
 .icon-picture:before { content: '\e802'; } /* '' */

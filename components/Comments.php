@@ -7,10 +7,11 @@ final class CommentsComponent extends Component {
 
     private $_comments;
 
-    public function __construct ( $picture_id ) {
-        $comments = Comment::get_all_items_by(array('picture_id' => $picture_id));
-        foreach ($comments as $com) {
-            $this->_comments[] = new CommentComponent($com);
+    public function __construct ( array $picture, $user ) {
+        $pic_id = $picture['id'];
+        $comments = Comment::get_all_items_by(array('picture_id' => $pic_id));
+        foreach ($comments as $comment) {
+            $this->_comments[] = new CommentComponent($comment, $picture, $user);
         }
     }
 
@@ -20,8 +21,8 @@ final class CommentsComponent extends Component {
                 <h1>Commentaires</h1>
         ';
         if (count($this->_comments)) {
-            foreach ($this->_comments as $com) {
-                $com();
+            foreach ($this->_comments as $comment) {
+                $comment();
             }
         }
         echo '<div>';

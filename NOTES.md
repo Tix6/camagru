@@ -20,6 +20,7 @@
 - User can handle alpha and ratio on pictures.
 - CSS and JS minifyer.
 - Mobile responsiveness.
+- W3C validator.
 
 ### BUGS
 

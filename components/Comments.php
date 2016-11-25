@@ -18,7 +18,7 @@ final class CommentsComponent extends Component {
     public function __invoke() {
         echo '
             <div class="comments">
-                <h1>Commentaires</h1>
+                <h2>Commentaires</h2>
         ';
         if (count($this->_comments)) {
             foreach ($this->_comments as $comment) {

@@ -104,10 +104,10 @@ foreach ($components as $comp) {
   <header>
       <?php $menu(); ?>
   </header>
-  <div class="container picture-container">
-      <?php $components['picture'](); ?>
-      <?php $components['comments'](); ?>
-      <?php $components['add_comment'](); ?>
+  <div class="picture-wrap">
+          <?php $components['picture'](); ?>
+          <?php $components['comments'](); ?>
+          <?php $components['add_comment'](); ?>
   </div>
   <footer>
      <?php $footer(); ?>

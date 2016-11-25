@@ -8,9 +8,11 @@
 
 - Likes
 - User page with pictures...
+- Title Component
 
 ### OTHERS
 
+- cloud hashtag on page sides.
 - Remove special chars when echo inputs.
 - Drag and Drop doesn't work on mobile devices.
 - need_to_refresh()

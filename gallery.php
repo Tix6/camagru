@@ -22,13 +22,17 @@ function redirect() {
     <?php $meta(); ?>
 </head>
 <body>
-  <header>
-      <?php $menu(); ?>
-  </header>
-  <div class="container gallery-container">
-      <?php $gallery(); ?>
-  </div>
-  <footer>
-     <?php $footer(); ?>
-  </footer>
+    <header>
+        <?php $menu(); ?>
+    </header>
+    <div class="gallery-wrap">
+        <h1>Camagru</h1>
+        <h2>Gallerie</h2>
+        <div class="gallery">
+            <?php $gallery(); ?>
+        </div>
+    </div>
+    <footer>
+        <?php $footer(); ?>
+    </footer>
 </body>

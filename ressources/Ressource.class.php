@@ -70,6 +70,7 @@ abstract class Ressource {
         $table = static::$_table_name;
         if (array_key_exists($column, static::$_columns) === TRUE) {
             $sql = "UPDATE `$table` SET $column = ? WHERE id = ?";
+            echo $sql;
             return Database::execute($sql, array($value, $id));
         }
         return false;

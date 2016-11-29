@@ -20,7 +20,9 @@ $footer = new FooterComponent();
   <header>
       <?php $menu(); ?>
   </header>
-  <div class="container">
+  <div class="add-container">
+      <h1>Ajouter une image</h1>
+      <hr>
       <?php $add(); ?>
   </div>
   <footer>

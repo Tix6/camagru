@@ -9,8 +9,12 @@ $meta   = new MetaComponent();
 $menu   = new MenuComponent();
 $footer = new FooterComponent();
 
-function redirect() {
+function redirect_after() {
     header("refresh:5;url=index.php");
+}
+
+function redirect_now() {
+    header("Location: index.php");
 }
 
 if (isset($_GET['page'])) {
@@ -22,21 +26,29 @@ if (isset($_GET['page'])) {
         case 'connect':
             require dirname(__FILE__) . '/components/Connect.php';
             $component = new ConnectComponent();
+            if (count($_POST) > 0)
+                redirect_after();
+            break ;
+        case 'forgot':
+            require dirname(__FILE__) . '/components/Forgot.php';
+            $component = new ForgotComponent();
             break ;
         case 'reset':
             require dirname(__FILE__) . '/components/Reset.php';
             $component = new ResetComponent();
+            if (count($_POST) > 0)
+                redirect_now();
             break ;
         case 'confirm':
             require dirname(__FILE__) . '/components/Confirm.php';
             $component = new ConfirmComponent();
-            redirect();
+            redirect_after();
             break ;
         case 'disconnect':
             $_SESSION = array();
             session_destroy();
         default:
-            redirect();
+            redirect_now();
             break ;
     }
 }
@@ -50,7 +62,7 @@ if (isset($_GET['page'])) {
   <header>
       <?php $menu(); ?>
   </header>
-  <div class="container">
+  <div class="user-container">
       <?php $component(); ?>
   </div>
   <footer>

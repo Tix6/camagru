@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__) . '/Controller.class.php';
+require_once dirname(__FILE__) . '/Component.php';
 require_once dirname(__FILE__) . '/../ressources/User.class.php';
 require_once dirname(__FILE__) . '/../mail/Mailer.class.php';
 
-final class Forgot_Ctrl extends Controller {
+final class ForgotComponent extends Component {
 
     private $_inputs = array(
         'mail' => '',
@@ -30,7 +30,8 @@ final class Forgot_Ctrl extends Controller {
         Mailer::send($this->_inputs['mail'], $title, $message);
     }
 
-    public function __construct( array $posted ) {
+    public function __construct() {
+        $posted = $_POST;
         if (array_key_exists('mail', $posted)) {
             $this->_inputs = array_intersect_key($posted, $this->_inputs);
             $user = User::get_item_by(array('mail' => $this->_inputs['mail']));
@@ -53,13 +54,13 @@ final class Forgot_Ctrl extends Controller {
         }
     }
 
-    public function render() {
+    public function __invoke() {
         echo '
 <h1 class="title">Oublie de mot de passe</h1>
 <hr>'
 . $this->_alert .
 '<div class="register">
-    <form action="index.php?page=forgot" method="POST">
+    <form action="user.php?page=forgot" method="POST">
         <label>Adresse mail</label>
         <input type="email" name="mail" value="' . $this->_inputs['mail'] . '">
         <button type="submit">Valider</button>

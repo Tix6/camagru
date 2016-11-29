@@ -6,11 +6,12 @@
 
 ### MAIN
 
-- Likes
 - User page with pictures...
+- download page
 
 ### OTHERS
 
+- delete sticker
 - Remove special chars when echo inputs.
 - Drag and Drop doesn't work on mobile devices.
 - need_to_refresh()
@@ -24,6 +25,8 @@
 
 ### BUGS
 
+- word wrap on comment.
+- Double likes.
 - Sticker not moved is ignored.
 - Mail regex ('.' chars);
 - Confirm link.

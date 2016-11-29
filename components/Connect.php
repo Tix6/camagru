@@ -69,7 +69,7 @@ final class ConnectComponent extends Component {
         <input type="password" name="passwd" value="' . $this->_inputs['passwd'] . '">
         <button type="submit">Valider</button>
     </form>
-    <a href="index.php?page=forgot">Mot de passe oublié.</a>
+    <a href="user.php?page=forgot">Mot de passe oublié.</a>
 </div>
 ';
     }

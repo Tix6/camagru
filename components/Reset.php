@@ -13,7 +13,7 @@ final class ResetComponent extends Component {
     );
 
     private $_err_handler = array(
-        ':passwd' => array(
+        'passwd' => array(
             'is_valid' => FALSE,
             'err_str' => 'Une majuscule, une minuscule et un chiffre (taille >= 8)',
             'regexp' => "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/"
@@ -56,11 +56,6 @@ final class ResetComponent extends Component {
         }
     }
 
-    public function init_header() {
-        if ($this->_alert = $this->_alerts['success'])
-            header("refresh:5;url=index.php");
-    }
-
     public function __invoke() {
         echo
 '<h1 class="title">Changement de mot de passe</h1>
@@ -69,9 +64,9 @@ final class ResetComponent extends Component {
 '<div class="register">
     <form action="user.php?page=reset" method="POST">
         <label>Nouveau mot de passe</label>
-        <input type="password" name=":passwd" value="' . $this->_inputs['passwd'] . '">'
+        <input type="password" name="passwd" value="' . $this->_inputs['passwd'] . '">'
         . '<p>' . $this->_error . '</p>' .
-        '<input type="hidden" name=":token" value="' . $this->_token . '">
+        '<input type="hidden" name="token" value="' . $this->_token . '">
         <button type="submit">Valider</button>
     </form>
 </div>

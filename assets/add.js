@@ -2,6 +2,7 @@
 
     var container       = document.getElementById('type'),
         canvas          = document.getElementById('canvas'),
+        form            = document.getElementById('add-form'),
         ctx             = canvas.getContext('2d'),
         width           = 640,
         height          = 480;
@@ -10,8 +11,20 @@
 
     canvas.width = width;
     canvas.height = height;
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
+
+    var CanvasAndForm = {
+        'show': function() {
+            form.style.display = "block";
+            canvas.style.display = "block";
+        },
+        'hide': function() {
+            form.style.display = "none";
+            canvas.style.display = "none";
+        }
+    }
+
+    // Canvas and Form will be displayed after user choose mode.
+    CanvasAndForm.hide();
 
     function cleanCanvas() {
         canvas.width = width;
@@ -39,6 +52,7 @@
 
     webcam.addEventListener('click',
         function(e) {
+            CanvasAndForm.hide();
             cleanContainer();
             cleanCanvas();
             var video = document.createElement('video');
@@ -47,6 +61,7 @@
             var streaming = false;
 
             startButton.addEventListener('click', function(e){
+                CanvasAndForm.show();
                 putImageOnCanvas(video);
                 pictureInput.setAttribute('value', canvas.toDataURL('image/png'));
                 e.preventDefault();
@@ -99,9 +114,9 @@
 
     upload.addEventListener('click',
         function(e) {
+            CanvasAndForm.hide();
             cleanContainer();
             cleanCanvas();
-
             var image = document.createElement('img');
             var input = document.createElement('input');
             input.setAttribute('type', 'file');
@@ -119,6 +134,7 @@
                         image.src = dataURL;
                         image.onload = function() {
                             putImageOnCanvas(image);
+                            CanvasAndForm.show();
                             fillFormWithBase64Canvas();
                         };
                     };

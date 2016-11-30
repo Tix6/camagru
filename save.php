@@ -10,6 +10,7 @@ $meta   = new MetaComponent();
 $menu   = new MenuComponent();
 $save   = new SaveComponent();
 $footer = new FooterComponent();
+
 ?>
 <!doctype html>
 <html lang="fr">

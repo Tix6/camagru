@@ -81,8 +81,10 @@ final class ImageMerged {
 
     private function _free() {
         imagedestroy($this->_image);
-        imagedestroy($this->_sticker['raw']);
-        imagedestroy($this->_sticker['resized']);
+        if (file_exists($this->_sticker['path']) === true) {
+            imagedestroy($this->_sticker['raw']);
+            imagedestroy($this->_sticker['resized']);
+        }
     }
 
     public function __construct($base64, $stickerPath, $stickerOpt) {
@@ -92,18 +94,22 @@ final class ImageMerged {
         $this->_image = imagecreatefromstring($decode);
 
         $this->_sticker['path'] = $stickerPath;
-        $this->_sticker['raw'] = imagecreatefrompng($stickerPath);
-        $this->_enable_alpha($this->_sticker['raw']);
+        if (file_exists($this->_sticker['path']) === true) {
+            $this->_sticker['raw'] = imagecreatefrompng($stickerPath);
+            $this->_enable_alpha($this->_sticker['raw']);
 
-        $this->_sticker['x'] = $stickerOpt['x'];
-        $this->_sticker['y'] = $stickerOpt['y'];
-        $this->_sticker['ratio'] = $stickerOpt['ratio'];
+            $this->_sticker['x'] = $stickerOpt['x'];
+            $this->_sticker['y'] = $stickerOpt['y'];
+            $this->_sticker['ratio'] = $stickerOpt['ratio'];
+        }
     }
 
     public function __invoke() {
-        $this->_compute_sticker_size();
-        $this->_resize_sticker();
-        $this->_merge();
+        if (file_exists($this->_sticker['path']) === true) {
+            $this->_compute_sticker_size();
+            $this->_resize_sticker();
+            $this->_merge();
+        }
         $this->_init_pathname();
         $this->_save();
         $this->_free();

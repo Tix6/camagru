@@ -14,7 +14,7 @@ final class TreatComponent extends Component {
     }
 
     public function __invoke() {
-        $stickers = array();
+        $stickers = array(0 => '<option value="">aucun</option>');
         foreach ($this->_stickers as $sticker) {
             $stickers[] = "<option value=\"{$sticker['path']}\">{$sticker['title']}</option>";
         }

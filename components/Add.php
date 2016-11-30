@@ -12,7 +12,7 @@ final class AddComponent extends Component {
                 </ul>
                 <div id="type"></div>
                 <canvas id="canvas"></canvas>
-                <form action="treat.php" method="POST">
+                <form action="treat.php" method="POST" id="add-form">
                     <input id="pictureInput" type="hidden" name="picture" value="">
                     <button type="submit" class="next">Etape suivante</button>
                 </form>

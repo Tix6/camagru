@@ -7,7 +7,7 @@
 ### MAIN
 
 - User page with pictures...
-- download page
+- download and share component
 
 ### OTHERS
 

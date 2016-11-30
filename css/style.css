@@ -154,7 +154,7 @@ div[class$="container"] hr {
     margin: 0;
 }
 
-img {
+img, canvas, video {
     background-color: white;
     width: 100%;
     height: auto;
@@ -237,7 +237,6 @@ img {
 }
 
 /* -------------------------------------------------------------------------- */
-
 /* -------------------------------------------------------------------------- */
 
 .user-container > .register {

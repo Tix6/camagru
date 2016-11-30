@@ -58,6 +58,7 @@
         sticker.style.background = 'url("' + opt.value  + '")';
         sticker.style.backgroundSize = 'contain';
         sticker.style.backgroundRepeat = 'no-repeat';
+        putStickerDataToForm();
     }
 
     function setCanvas() {
@@ -72,6 +73,8 @@
         canvas.height = height;
         ctx.drawImage(image, 0, 0, width, height);
         putCanvasDataToForm();
+        var callback = (function() { parentDiv.appendChild(canvas) });
+        setTimeout(callback, 200);
     }
 
     function resetCanvas() {
@@ -148,8 +151,6 @@
 
     parentDiv.removeChild(image);
     setCanvas();
-    var callback = (function() { parentDiv.appendChild(canvas) });
-    setTimeout(callback, 200);
     /* firefox draggable compat. */
     sticker.addEventListener('dragstart', function(e) {
         e.dataTransfer.setData('text/plain', '');

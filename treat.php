@@ -20,7 +20,7 @@ $footer = new FooterComponent();
   <header>
       <?php $menu(); ?>
   </header>
-  <div class="container">
+  <div class="treat-container">
       <?php $treat(); ?>
   </div>
   <footer>

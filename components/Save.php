@@ -11,7 +11,8 @@ final class SaveComponent extends Component {
     private $_sticker_opt = array(
         'x' => 0,
         'y' => 0,
-        'ratio' => 0.1
+        'ratio' => 0.2,
+        'opacity' => 1
     );
     private $_image_title;
     private $_image_path;
@@ -52,6 +53,8 @@ final class SaveComponent extends Component {
         $this->_sticker_path = $_POST['sticker'];
         $this->_sticker_opt['x'] = $_POST['x'];
         $this->_sticker_opt['y'] = $_POST['y'];
+        $this->_sticker_opt['ratio'] = $_POST['ratio'];
+        $this->_sticker_opt['opacity'] = $_POST['opacity'];
         $this->_image_title = $_POST['title'];
 
         $this->_create_and_save_image_file();

@@ -12,7 +12,7 @@ final class ImageMerged {
         'new_height' => 0,
         'x' => 0,
         'y' => 0,
-        'ratio' => 1,
+        'ratio' => 0.2,
         'alpha' => 100,
         'quality' => 9
     );
@@ -101,6 +101,7 @@ final class ImageMerged {
             $this->_sticker['x'] = $stickerOpt['x'];
             $this->_sticker['y'] = $stickerOpt['y'];
             $this->_sticker['ratio'] = $stickerOpt['ratio'];
+            $this->_sticker['alpha'] = $stickerOpt['opacity'] * 100;
         }
     }
 

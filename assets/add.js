@@ -29,6 +29,8 @@
     function cleanCanvas() {
         canvas.width = width;
         canvas.height = height;
+        ctx.fillStyle = 'white';
+        ctx.fill();
     }
 
     function putImageOnCanvas(img) {

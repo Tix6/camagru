@@ -1,63 +1,92 @@
 (function() {
 
-    var width = 640;
-    var height = 480;
-
     var parentDiv = document.querySelector('#visu');
-    var image = document.querySelector('#pictureInput');
+
     var canvas = document.createElement('canvas');
+    var canvasWidth = 640;
+    var canvasHeight = 480;
+
     var ctx = canvas.getContext('2d');
+
+    var image = document.querySelector('#pictureInput');
     var textField = document.querySelector('#textField');
-
-    var rotateLeftButton = document.getElementById('rotateLeft');
-    var rotateRightButton = document.getElementById('rotateRight');
-    var cinemaButton = document.getElementById('cinema');
     var stickers = document.querySelector('#stickers');
+    var sticker = document.querySelector('#dragItem');
+    var ratio = document.querySelector('#ratio');
+    var opacity = document.querySelector('#opacity');
 
-    rotateLeftButton.addEventListener('click', function(e) {
-        rotateCanvas('left');
+    var text = {
+        'top': document.getElementById('top-text'),
+        'bottom': document.getElementById('bottom-text')
+    };
+
+    text.top.addEventListener('change', function(e) {
         e.preventDefault();
+        ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight / 2, 0, 0, canvasWidth, canvasHeight / 2);
+        ctx.save();
+        ctx.font = 'small-caps bold 40px Dosis';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = 'white';
+        ctx.shadowColor = 'black';
+        ctx.shadowBlur = 3;
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+        var x = canvasWidth / 2;
+        ctx.fillText(text.top.value, x, 50, canvasWidth - 40);
+        putCanvasDataToForm();
+        ctx.restore();
     });
 
-    rotateRightButton.addEventListener('click', function(e) {
-        rotateCanvas('right');
+    text.bottom.addEventListener('change', function(e) {
         e.preventDefault();
+        ctx.drawImage(image, 0, canvasHeight / 2, canvasWidth, canvasHeight / 2, 0, canvasHeight / 2, canvasWidth, canvasHeight / 2);
+        ctx.save();
+        ctx.font = 'small-caps bold 40px Dosis';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = 'white';
+        ctx.shadowColor = 'black';
+        ctx.shadowBlur = 3;
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+        var x = canvasWidth / 2;
+        ctx.fillText(text.bottom.value, x, canvasHeight - 30, canvasWidth - 40);
+        putCanvasDataToForm();
+        ctx.restore();
     });
 
-    cinemaButton.addEventListener('click', function(e) {
-        isCinemaMode = !isCinemaMode;
-        cinemaMode();
-        e.preventDefault();
-    });
 
-    stickers.addEventListener('click', function(e) {
+    stickers.addEventListener('change', function(e) {
         setSticker();
         e.preventDefault();
     });
 
-    var degrees = 0;
-    var rotate = {
-        "reset": function () {
-            return degrees;
-        },
-        "left": function() {
-            degrees -= 90;
-            return degrees;
-        },
-        "right": function() {
-            degrees += 90;
-            return degrees;
-        }
-    };
-    var isCinemaMode = false;
+    ratio.addEventListener('change', function(e) {
+        setSticker();
+        e.preventDefault();
+    });
 
-    var sticker = document.querySelector('#dragItem');
+    opacity.addEventListener('change', function(e) {
+        setSticker();
+        e.preventDefault();
+    });
 
     function setSticker() {
-        var opt = stickers.options[stickers.selectedIndex];
-        sticker.style.background = 'url("' + opt.value  + '")';
-        sticker.style.backgroundSize = 'contain';
-        sticker.style.backgroundRepeat = 'no-repeat';
+        var stickerSelected = stickers.options[stickers.selectedIndex].value;
+        sticker.src = stickerSelected;
+
+        var opacitySelected = opacity.options[opacity.selectedIndex].value;
+        sticker.style.opacity = opacitySelected;
+
+        var ratioSelected = ratio.options[ratio.selectedIndex].value;
+        var image = new Image();
+        image.onload = function(){
+            sticker.style.width = this.width * ratioSelected + 'px';
+        };
+        image.src = stickerSelected;
+        image = null;
+
+        sticker.style.backgroundColor = 'transparent';
+        sticker.style.border = '1px dashed black';
         putStickerDataToForm();
     }
 
@@ -69,28 +98,19 @@
             e.preventDefault();
             setStickerPos(e.clientX, e.clientY);
         }, false);
-        canvas.width = width;
-        canvas.height = height;
-        ctx.drawImage(image, 0, 0, width, height);
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+        ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight);
         putCanvasDataToForm();
         var callback = (function() { parentDiv.appendChild(canvas) });
         setTimeout(callback, 200);
     }
 
     function resetCanvas() {
-        canvas.width = width;
-        canvas.height = height;
-        putCanvasDataToForm();
-    }
-
-    function rotateCanvas(direction) {
-        isCinemaMode = false;
-        resetCanvas();
-        ctx.save();
-        ctx.translate(canvas.width/2,canvas.height/2);
-        ctx.rotate(rotate[direction]() * (Math.PI/180));
-        ctx.drawImage(image, -width/2, -height/2, width, height);
-        ctx.restore();
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+        ctx.fillStyle = 'white';
+        ctx.fill();
         putCanvasDataToForm();
     }
 
@@ -111,13 +131,19 @@
         var stickerPos = getStickerPosFromCanvas();
         var stickerInputX = document.querySelector('#inputX');
         var stickerInputY = document.querySelector('#inputY');
-        stickerInputX.setAttribute('value', stickerPos.x);
-        stickerInputY.setAttribute('value', stickerPos.y);
+        var stickerInputRatio = document.querySelector('#inputRatio');
+        var stickerInputOpacity = document.querySelector('#inputOpacity');
+        var x = (stickerPos.x / canvas.getBoundingClientRect().width) * canvasWidth;
+        var y = (stickerPos.y / canvas.getBoundingClientRect().height) * canvasHeight;
+        stickerInputX.setAttribute('value', x);
+        stickerInputY.setAttribute('value', y);
+        stickerInputRatio.setAttribute('value', ratio.options[ratio.selectedIndex].value);
+        stickerInputOpacity.setAttribute('value', opacity.options[opacity.selectedIndex].value);
     }
 
     function setStickerPos(windowX, windowY) {
-        var new_x = windowX - (parseInt(sticker.style.width) / 2);
-        var new_y = windowY - (parseInt(sticker.style.height) / 2);
+        var new_x = windowX - (parseInt(sticker.width) / 2);
+        var new_y = windowY - (parseInt(sticker.height) / 2);
         sticker.style.left = new_x + 'px';
         sticker.style.top = new_y + 'px';
         setTimeout(correctStickerPos, 300);
@@ -137,16 +163,6 @@
         else if (stickerPos.y + stickerBounds.height > canvasBounds.height)
             sticker.style.top = canvasBounds.top + canvasBounds.height - stickerBounds.height + 'px';
         putStickerDataToForm();
-    }
-
-    function cinemaMode() {
-        if (isCinemaMode === true) {
-            ctx.fillRect(0, 0, width, 60);
-            ctx.fillRect(0, height - 60, width, 60);
-        } else {
-            rotateCanvas('reset');
-        }
-        putCanvasDataToForm();
     }
 
     parentDiv.removeChild(image);

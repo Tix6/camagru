@@ -239,6 +239,11 @@ img, canvas, video {
 /* -------------------------------------------------------------------------- */
 /* TREAT -------------------------------------------------------------------- */
 
+/*.treat-container {
+    position: fixed;
+    margin: 0 auto;
+}*/
+
 .treat-container > form {
     width: 100%;
 }
@@ -303,6 +308,10 @@ button {
 button:hover {
     background-color: #2186c4;
     color: white;
+}
+
+input, select {
+    font-size: 0.9em;
 }
 
 input:not([type="file"]) {

@@ -8,12 +8,28 @@ final class TreatComponent extends Component {
     private $_base64_pic;
     private $_stickers;
 
+    private $_colors = array(
+        'Noir'      => 'black',
+        'Blanc'     => 'white',
+        'Gris'      => 'gray',
+        'Bleu'      => 'royalblue',
+        'Cyan'      => 'cyan',
+        'Vert'      => 'green',
+        'Rouge'     => 'red',
+        'Jaune'     => 'yellow',
+        'Or'        => 'gold',
+        'Orange'    => 'orange',
+        'Violet'    => 'blueviolet',
+        'Rose'      => 'violet'
+    );
+
     public function __construct() {
       $this->_base64_pic = $_POST['picture'];
       $this->_stickers = Sticker::fetch_all();
     }
 
     public function __invoke() {
+        $colors = $this->_colors;
         $stickers = array(0 => '<option value="">aucun</option>');
         foreach ($this->_stickers as $sticker) {
             $stickers[] = "<option value=\"{$sticker['path']}\">{$sticker['title']}</option>";
@@ -32,14 +48,14 @@ final class TreatComponent extends Component {
                 . implode("\n", $stickers) .
             '</select>
             <span>taille :</span>
-            <select id="ratio" name="ratio">
+            <select id="sticker-ratio" name="ratio">
                 <option value="0.1">petit</option>
                 <option value="0.2">moyen</option>
                 <option value="0.3">grand</option>
                 <option value="0.4">geant</option>
             </select>
             <span>transparence :</span>
-            <select id="opacity" name="opacity">
+            <select id="sticker-opacity" name="opacity">
                 <option value="1">100 %</option>
                 <option value="0.9">90 %</option>
                 <option value="0.8">80 %</option>
@@ -51,10 +67,30 @@ final class TreatComponent extends Component {
                 <option value="0.2">20 %</option>
                 <option value="0.1">10 %</option>
             </select>
-            <label>3. Ajouter du texte <i class="optional">(optionnel)</i></label>
-            <input id="top-text" type="text" name="top-text" value="" placeholder="texte du haut">
-            <input id="bottom-text" type="text" name="bottom-text" value="" placeholder="texte du bas">
-            <label>4. Choisissez une bordure <i class="optional">(optionnel)</i></label>
+            <label>3. Choisissez une bordure <i class="optional">(optionnel)</i></label>
+            </select>
+            <span>taille :</span>
+            <select id="border-size" name="ratio">
+            <option value="0">aucun</option>
+            <option value="3">petit</option>
+            <option value="30">moyen</option>
+            <option value="140">grand</option>
+            </select>
+            <span>couleur :</span>
+            <select id="border-color" name="border-color">';
+            foreach ($colors as $name => $value) {
+                echo "<option value=\"$value\">$name</option>";
+            }
+            echo '</select>
+            <label>4. Ajouter du texte <i class="optional">(optionnel)</i></label>
+            <input id="text-top" type="text" name="top-text" value="" placeholder="texte du haut">
+            <input id="text-bottom" type="text" name="bottom-text" value="" placeholder="texte du bas">
+            <span>couleur :</span>
+            <select id="text-color" name="text-color">';
+            foreach ($colors as $name => $value) {
+                echo "<option value=\"$value\">$name</option>";
+            }
+            echo '</select>
             <input id="inputX" type="hidden" name="x" value="">
             <input id="inputY" type="hidden" name="y" value="">
             <input id="inputRatio" type="hidden" name="ratio" value="">

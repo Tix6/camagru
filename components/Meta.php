@@ -25,7 +25,7 @@ final class MetaComponent extends Component {
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/fontello-embedded.css">
         <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
-        ';
+        <link href="https://fonts.googleapis.com/css?family=Khula:800" rel="stylesheet">';
     }
 }
 

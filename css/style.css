@@ -252,9 +252,10 @@ img, canvas, video {
     font-size: 0.8em;
 }
 
-/*.treat-container > form  > hr{
-    margin-bottom: 10px;
-}*/
+.treat-container div[class^="step"] {
+    text-align: center;
+    transition: 1s;
+}
 
 /* -------------------------------------------------------------------------- */
 /* USER --------------------------------------------------------------------- */

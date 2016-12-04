@@ -20,7 +20,8 @@
     var text = {
         'top': document.getElementById('text-top'),
         'bottom': document.getElementById('text-bottom'),
-        'color': document.getElementById('text-color')
+        'color': document.getElementById('text-color'),
+        'shadow': document.getElementById('text-shadow')
     };
 
     var border = {
@@ -28,12 +29,69 @@
         'color': document.getElementById('border-color')
     };
 
+    var draw = {
+        'isActive': document.getElementById('draw-checkbox'),
+        'color': document.getElementById('draw-color'),
+        'reset': document.getElementById('draw-reset')
+    }
+
+    var mousePressed = false;
+    var mousePos;
+    var lastX, lastY;
+
+    var steps = {
+        'selected': 0,
+        'nextButton': document.getElementById('next-step'),
+        'prevButton': document.getElementById('prev-step'),
+        'allSteps': [
+            document.querySelector('.step-1'),
+            document.querySelector('.step-2'),
+            document.querySelector('.step-3'),
+            document.querySelector('.step-4'),
+            document.querySelector('.step-5')
+        ]
+    }
+
+    var validationButton = document.querySelector('.validation');
+
 /* -------------------------------------------------------------------------- */
 /* LISTENERS ---------------------------------------------------------------- */
 
     window.addEventListener('resize', function(e) {
-        setSticker();
+        // if (        var stickerSelected = sticker.selector.options[sticker.selector.selectedIndex].value;)
+        // setSticker();
         correctStickerPos();
+        e.preventDefault();
+    });
+
+    canvas.addEventListener('mousedown', function (e) {
+        mousePressed = true;
+        mousePos = getMousePos(canvas, e);
+        drawWithMouseOnCanvas(mousePos.x, mousePos.y, false);
+        e.preventDefault();
+    });
+
+    canvas.addEventListener('mousemove', function (e) {
+        if (mousePressed) {
+            mousePos = getMousePos(canvas, e);
+            drawWithMouseOnCanvas(mousePos.x, mousePos.y, true);
+        }
+        e.preventDefault();
+    });
+
+    canvas.addEventListener('mouseup', function (e) {
+        if (mousePressed) {
+            mousePressed = false;
+            putCanvasDataToForm();
+        }
+        e.preventDefault();
+    });
+
+    canvas.addEventListener('mouseleave', function (e) {
+        if (mousePressed) {
+            mousePressed = false;
+            putCanvasDataToForm();
+        }
         e.preventDefault();
     });
 
@@ -53,7 +111,8 @@
     });
 
     Object.keys(text).forEach(function(key) {
-        text[key].addEventListener('change', function(e) {
+        var eventType = (key == 'color' || key == 'shadow') ? 'change' : 'keyup';
+        text[key].addEventListener(eventType, function(e) {
             doCanvasStuff();
             e.preventDefault();
         });
@@ -65,6 +124,46 @@
             e.preventDefault();
         });
     });
+
+    draw.reset.addEventListener('click', function(e) {
+        doCanvasStuff();
+        e.preventDefault();
+    })
+
+    steps.nextButton.addEventListener('click', function(e) {
+        if (steps.selected < steps.allSteps.length) {
+            steps.selected += 1;
+        }
+        displayStep();
+        e.preventDefault();
+    })
+
+    steps.prevButton.addEventListener('click', function(e) {
+        if (steps.selected > 0) {
+            steps.selected -= 1;
+        }
+        displayStep();
+        e.preventDefault();
+    })
+
+/* -------------------------------------------------------------------------- */
+/* STEPS -------------------------------------------------------------------- */
+
+    displayStep();
+
+    function displayStep() {
+        console.log('etape: ', steps.selected);
+        steps.prevButton.style.display = (steps.selected == 0) ? 'none' : 'inline';
+        steps.nextButton.style.display = (steps.selected == steps.allSteps.length - 1) ? 'none' : 'inline';
+        validationButton.style.display = (steps.selected == steps.allSteps.length - 1) ? 'block' : 'none';
+        steps.allSteps.forEach(function (step, index) {
+            if (index != steps.selected) {
+                step.style.display = 'none';
+            } else {
+                step.style.display = 'block';
+            }
+        });
+    }
 
 /* -------------------------------------------------------------------------- */
 /* CANVAS ------------------------------------------------------------------- */
@@ -85,11 +184,36 @@
         setTimeout(callback, 200);
     }
 
+    function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        var canvasZoom = canvasWidth / rect.width;
+        return {
+            x: (evt.clientX - rect.left) * canvasZoom,
+            y: (evt.clientY - rect.top) * canvasZoom
+        };
+    }
+
+    function drawWithMouseOnCanvas(x, y, isDown) {
+    if (draw.isActive.checked && isDown) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.strokeStyle = draw.color.value;
+        ctx.lineWidth = 3;
+        ctx.lineJoin = "round";
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.restore();
+    }
+        lastX = x; lastY = y;
+    }
+
     function doCanvasStuff() {
         resetCanvas();
         drawBorderOnCanvas(border.size.value, border.color.value);
-        writeTextOnCanvas(text.top.value, 'top', text.color.value);
-        writeTextOnCanvas(text.bottom.value, 'bottom', text.color.value);
+        writeTextOnCanvas(text.top.value, 'top', text.color.value, text.shadow.checked);
+        writeTextOnCanvas(text.bottom.value, 'bottom', text.color.value, text.shadow.checked);
         putCanvasDataToForm();
     }
 
@@ -103,7 +227,6 @@
 
     function drawBorderOnCanvas(size, color) {
         if (size > 0) {
-            console.log('border');
             ctx.save();
             ctx.beginPath();
             ctx.rect(0, 0, canvasWidth, canvasHeight);
@@ -116,16 +239,23 @@
         }
     }
 
-    function writeTextOnCanvas(string, position, color) {
+    function writeTextOnCanvas(string, position, color, isShadow) {
         ctx.save();
-        ctx.font = 'small-caps bold 48px Dosis';
+        string = string.trim().toUpperCase();
+        ctx.font = '44px Khula, sans-serif';
         ctx.textAlign = 'center';
         ctx.fillStyle = color;
+        if (isShadow) {
+            ctx.shadowColor = 'black';
+            ctx.shadowBlur = 3;
+            ctx.shadowOffsetX = 1;
+            ctx.shadowOffsetY = 1;
+        }
         var x = canvasWidth / 2;
         if (position == 'top')
-            ctx.fillText(text.top.value, x, 56, canvasWidth - 40);
+            ctx.fillText(string, x, 56, canvasWidth - 30);
         else if (position == 'bottom')
-            ctx.fillText(text.bottom.value, x, canvasHeight - 30, canvasWidth - 40);
+            ctx.fillText(string, x, canvasHeight - 30, canvasWidth - 40);
         ctx.restore();
     }
 

@@ -23,8 +23,6 @@ $TABLES = array(
     `title` varchar(255) NOT NULL,
     `path` varchar(255) NOT NULL,
     `md5` varchar(255) NOT NULL,
-    `likes` int DEFAULT 0,
-    `comments` int DEFAULT 0,
     `creation` timestamp DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(user_id) REFERENCES User(id),
     UNIQUE (`path`),

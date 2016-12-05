@@ -25,7 +25,7 @@ final class ForgotComponent extends Component {
 
     private function _send_reset_mail() {
         $title = "Camagru - Nouveau mot de passe.";
-        $link = '<a href="http://' . $_SERVER['HTTP_HOST'] . '/user.php?page=reset&token=' . urlencode($this->_reset_token) . '">Changer de mot de passe.</a>';
+        $link = '<a href="http://' . $_SERVER['HTTP_HOST'] . '/camagru/user.php?page=reset&token=' . urlencode($this->_reset_token) . '">Changer de mot de passe.</a>';
         $message = "Bonjour {$this->_user['name']}, changez votre mot de passe en cliquant sur le lien suivant :<br><br>$link";
         Mailer::send($this->_inputs['mail'], $title, $message);
     }

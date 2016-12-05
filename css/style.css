@@ -223,18 +223,14 @@ img, canvas, video {
     overflow: auto;
 }
 
-.likes button, .likes form {
-    display: inline;
-    background-color: inherit;
-    margin: 0;
-    padding: 0;
-    margin-left: -1px !important;
-}
-
-.likes button:hover {
-    background-color: inherit;
+.likes > .del {
     color: red;
 }
+
+.likes > .add:hover {
+    color: red;
+}
+
 
 /* -------------------------------------------------------------------------- */
 /* TREAT -------------------------------------------------------------------- */

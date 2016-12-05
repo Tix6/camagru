@@ -8,6 +8,7 @@
 
 - User page with pictures...
 - download and share component
+- Gallery with filters and multiple pics on a row.
 
 ### OTHERS
 
@@ -15,25 +16,19 @@
 - Remove special chars when echo inputs.
 - Drag and Drop doesn't work on mobile devices.
 - CROP instead of RESIZE on picture first canvas.
+- Stickers should be displayed in a better way.
 - TRY / CATCH Database.
-- Protect some directories.
-- User can handle alpha and ratio on pictures.
 - CSS and JS minifyer.
-- Mobile responsiveness.
 - W3C validator.
+- find a better way to handle /camagru in mail sending.
 
 ### BUGS
 
 - redirection on failed connect.
 - word wrap on comment.
-- Double likes.
-- Sticker not moved is ignored.
-- Mail regex ('.' chars);
-- Confirm link.
 - Change header after posting data to avoid request duplication.
 - Confirm page with parameters bugs.
 - Empty parameters in image generation cycle.
-- Canvas white background issue with alpha channel.
 
 
 ## HIDDEN FEATURES

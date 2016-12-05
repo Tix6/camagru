@@ -1,10 +1,5 @@
 <?php
 session_start();
-//
-// echo '$_GET' . PHP_EOL;
-// print_r($_GET);
-// echo '$_POST' . PHP_EOL;
-// print_r($_POST);
 
 /* USER --------------------------------------------------------------------- */
 
@@ -52,19 +47,23 @@ if ($user_array) {
 
 require_once dirname(__FILE__) . '/ressources/Like.class.php';
 
-if (isset($_GET['like'])) {
-    switch ($_GET['like']) {
-        case 'add':
-            Like::add_item(array('user_id' => $user_array['id'], 'picture_id' => $picture_array['id']));
-            break;
-        case 'del':
-            if ($user_array && $user_array['id'] === $_POST['like_user_id'])
-                Like::del_item_by_id($_POST['like_id']);
-            break;
-        default:
-            break;
+if ($user_array) {
+    if (isset($_GET['like'])) {
+        $like = Like::get_item_by(array('user_id' => $user_array['id'], 'picture_id' => $picture_array['id']));
+        switch ($_GET['like']) {
+            case 'add':
+                if ($like === false)
+                Like::add_item(array('user_id' => $user_array['id'], 'picture_id' => $picture_array['id']));
+                break;
+            case 'del':
+                if ($like !== false)
+                Like::del_item_by_id($like['id']);
+                break;
+            default:
+                break;
+        }
+        header("Location: picture.php?id=$picture_url_id");
     }
-    header("Location: picture.php?id=$picture_url_id");
 }
 
 /* -------------------------------------------------------------------------- */

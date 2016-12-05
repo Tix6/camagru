@@ -2,6 +2,7 @@
 
 require_once dirname(__FILE__) . '/Component.php';
 require_once dirname(__FILE__) . '/Like.php';
+require_once dirname(__FILE__) . '/CommentCount.php';
 require_once dirname(__FILE__) . '/../ressources/User.class.php';
 
 final class PictureComponent extends Component {
@@ -21,6 +22,7 @@ final class PictureComponent extends Component {
             $this->_picture = $picture;
             $this->_author = User::get_item_by(array('id' => $this->_picture['user_id']));
             $this->_like_component = new LikeComponent($picture, $user);
+            $this->_comment_component = new CommentCountComponent($picture);
         } else {
             $this->_error = true;
         }
@@ -44,8 +46,8 @@ final class PictureComponent extends Component {
                     <div class="left">
                         <span class="username">' . ucfirst($author) . '</span>
                     </div>
-                    <div class="right">
-                        <span class="comments">' . $pic['comments'] . ' <i class="icon-comment-1"></i></span>';
+                    <div class="right">';
+            ($this->_comment_component)();
             ($this->_like_component)();
             echo '
                     </div>

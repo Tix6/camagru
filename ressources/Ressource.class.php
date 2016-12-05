@@ -87,24 +87,6 @@ abstract class Ressource {
         $sql = "SELECT * FROM `$table` ORDER BY `id` DESC";
         return Database::fetch($sql, null);
     }
-
-    public static function increment($id, $column) {
-        $table = static::$_table_name;
-        if (array_key_exists($column, static::$_columns) === true) {
-            $sql = "UPDATE `$table` SET $column = $column + 1 WHERE id = ?";
-            return Database::execute($sql, array($id));
-        }
-        return false;
-    }
-
-    public static function decrement($id, $column) {
-        $table = static::$_table_name;
-        if (array_key_exists($column, static::$_columns) === true) {
-            $sql = "UPDATE `$table` SET $column = $column - 1 WHERE id = ?";
-            return Database::execute($sql, array($id));
-        }
-        return false;
-    }
 }
 
 ?>

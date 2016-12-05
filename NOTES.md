@@ -11,10 +11,9 @@
 
 ### OTHERS
 
-- delete sticker
+- delete picture
 - Remove special chars when echo inputs.
 - Drag and Drop doesn't work on mobile devices.
-- need_to_refresh()
 - CROP instead of RESIZE on picture first canvas.
 - TRY / CATCH Database.
 - Protect some directories.
@@ -25,6 +24,7 @@
 
 ### BUGS
 
+- redirection on failed connect.
 - word wrap on comment.
 - Double likes.
 - Sticker not moved is ignored.

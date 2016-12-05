@@ -1,1 +1,8 @@
+<Files .htaccess>
+order allow,deny
+deny from all
+</Files>
+
+Options All -Indexes
+
 ErrorDocument 404     /camagru/404.html

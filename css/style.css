@@ -69,6 +69,9 @@ footer {
     body > header > nav {
         justify-content: space-around;
     }
+    div[class$="container"] {
+        width: 1024px;
+    }
 }
 
 @media all and (min-width: 992px) {
@@ -124,27 +127,57 @@ div[class$="container"] hr {
     width: 100% !important;
 }
 
+body > .gallery-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.gallery-container > .picture-mini {
+    width: 260px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* PICTURE MINI ------------------------------------------------------------- */
+
+.picture-mini {
+    position: relative;
+}
+
+.picture-info-hover {
+    display: flex;
+    flex-flow: row-nowrap;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    transition: 0.5s;
+    opacity : 0;
+    font-size: 1.2em;
+    text-shadow: 1px 1px rgba(0,0,0,.8);
+}
+
+.picture-info-hover:hover {
+    opacity: 1;
+    background-color: rgba(0,0,0,0.4);
+    color: white;
+    transition: 0.5s;
+}
+
+
 /* -------------------------------------------------------------------------- */
 /* PICTURE CONTAINER -------------------------------------------------------- */
 
 .picture-container > .picture-component > h2.title {
     font-size: 30px;
     margin-bottom: 10px;
-}
-
-/* GALLERY CONTAINER -------------------------------------------------------- */
-
-.gallery-container > .picture-component > h2.title {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.gallery-container hr {
-    margin: 20px 0 20px 0;
-}
-
-.gallery-container hr:last-of-type {
-    display: none;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -287,6 +320,12 @@ label {
     display: block;
     text-align: left;
     margin-bottom: 5px;
+}
+p, h1, h2, h3, h4, h5 {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    word-break: break-all;
 }
 
 button {

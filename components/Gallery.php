@@ -2,7 +2,8 @@
 
 require_once dirname(__FILE__) . '/Component.php';
 require_once dirname(__FILE__) . '/../ressources/Picture.class.php';
-require_once dirname(__FILE__) . '/Picture.php';
+require_once dirname(__FILE__) . '/PictureMini.php';
+require_once dirname(__FILE__) . '/../ressources/User.class.php';
 
 final class GalleryComponent extends Component {
 
@@ -10,8 +11,9 @@ final class GalleryComponent extends Component {
 
     public function __construct () {
         $pictures = Picture::fetch_all();
+
         foreach ($pictures as $pic) {
-            $this->_pictures[] = new PictureComponent($pic);
+            $this->_pictures[] = new PictureMiniComponent($pic);
         }
     }
 
@@ -19,7 +21,6 @@ final class GalleryComponent extends Component {
         if (count($this->_pictures)) {
             foreach ($this->_pictures as $pic) {
                 $pic();
-                echo '<hr>';
             }
         }
     }

@@ -99,14 +99,17 @@ footer {
 }
 
 div[class$="container"] {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: flex-start;
-    align-items: center;
     margin: 0 auto;
     padding: 60px 10px 40px 10px;
     background-color: #eee;
     border: 1px solid #ccc;
+}
+
+div[class$="container"]:not(.gallery-container) {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
 }
 
 div[class$="container"] > div {
@@ -123,19 +126,14 @@ div[class$="container"] hr {
     width: 30%;
 }
 
-.gallery-container hr {
-    width: 100% !important;
-}
-
 body > .gallery-container {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
-    align-items: center;
 }
 
 .gallery-container > .picture-mini {
-    width: 260px;
+    width: 30%;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -158,17 +156,16 @@ body > .gallery-container {
     left: 0;
     right: 0;
     z-index: 10;
-    transition: 0.5s;
+    transition: .2s;
     opacity : 0;
     font-size: 1.2em;
-    text-shadow: 1px 1px rgba(0,0,0,.8);
 }
 
 .picture-info-hover:hover {
     opacity: 1;
     background-color: rgba(0,0,0,0.4);
     color: white;
-    transition: 0.5s;
+    transition: .2s;
 }
 
 
@@ -249,9 +246,12 @@ img, canvas, video {
 }
 
 .add-comment textarea {
-    width: 100%;
+    width: 98%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     height: 50px;
-    /*padding: 10px;*/
+    padding: 5px;
     resize: none;
     overflow: auto;
 }
@@ -264,14 +264,8 @@ img, canvas, video {
     color: red;
 }
 
-
 /* -------------------------------------------------------------------------- */
 /* TREAT -------------------------------------------------------------------- */
-
-/*.treat-container {
-    position: fixed;
-    margin: 0 auto;
-}*/
 
 .treat-container > form {
     width: 100%;

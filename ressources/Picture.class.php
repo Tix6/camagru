@@ -30,6 +30,21 @@ final class Picture extends Ressource {
         }
         return false;
     }
+
+    public static function get_most_liked ( $limit = -1 ) {
+        $sql = "SELECT picture.*, COUNT(like.id) FROM like INNER JOIN picture ON picture.id = like.picture_id GROUP BY picture_id ORDER BY COUNT(like.id) DESC LIMIT $limit";
+        return Database::fetch($sql);
+    }
+
+    public static function get_most_commented ( $limit = -1 ) {
+        $sql = "SELECT picture.*, COUNT(comment.id) FROM comment INNER JOIN picture ON picture.id = comment.picture_id GROUP BY picture_id ORDER BY COUNT(comment.id) DESC LIMIT $limit";
+        return Database::fetch($sql);
+    }
+
+    public static function get_last_week ( $limit = -1 ) {
+        $sql = "SELECT * FROM picture WHERE creation > date('now', '-7 day') ORDER BY creation DESC LIMIT $limit";
+        return Database::fetch($sql);
+    }
 }
 
 ?>

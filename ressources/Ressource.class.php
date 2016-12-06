@@ -82,10 +82,10 @@ abstract class Ressource {
         return Database::execute($sql, array($id));
     }
 
-    public static function fetch_all() {
+    public static function fetch_all( $order = 'DESC', $limit = -1 ) {
         $table = static::$_table_name;
-        $sql = "SELECT * FROM `$table` ORDER BY `id` DESC";
-        return Database::fetch($sql, null);
+        $sql = "SELECT * FROM `$table` ORDER BY `id` $order LIMIT $limit";
+        return Database::fetch($sql);
     }
 }
 

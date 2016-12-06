@@ -5,6 +5,9 @@ require_once dirname(__FILE__) . '/Component.php';
 final class MenuComponent extends Component {
 
     private static $_items = array(
+        'new' => array('nouveautés', 'index.php?filter=new'),
+        'liked' => array('les + aimés', 'index.php?filter=like'),
+        'commented' => array('les + commentés', 'index.php?filter=comment'),
         'connect' => array('se connecter', 'user.php?page=connect'),
         'register' => array('s\'enregister', 'user.php?page=register'),
         'add' => array('ajouter', 'add.php'),
@@ -16,7 +19,9 @@ final class MenuComponent extends Component {
     private $_to_display = array();
 
     public function __construct() {
-        $this->_to_display[] = self::$_items['gallery'];
+        $this->_to_display[] = self::$_items['new'];
+        $this->_to_display[] = self::$_items['liked'];
+        $this->_to_display[] = self::$_items['commented'];
         if (isset($_SESSION) && isset($_SESSION['is_auth'])) {
             $this->_to_display[] = self::$_items['add'];
             $this->_user = ucfirst($_SESSION['name']);

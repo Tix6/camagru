@@ -11,10 +11,6 @@ $menu   = new MenuComponent();
 $gallery = new GalleryComponent();
 $footer = new FooterComponent();
 
-function redirect() {
-    header("refresh:5;url=index.php");
-}
-
 ?>
 <!doctype html>
 <html lang="fr">

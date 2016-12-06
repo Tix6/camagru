@@ -56,7 +56,8 @@ final class Database {
         return $stmt->fetch();
     }
 
-    public static function fetch($sql, $params) {
+    public static function fetch($sql, $params = null) {
+        // echo $sql;
         $stmt = self::prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll();

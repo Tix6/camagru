@@ -14,7 +14,10 @@ final class MenuComponent extends Component {
         'disconnect' => array('<i class="icon-login"></i>', 'user.php?page=disconnect')
     );
 
-    private $_user;
+    private $_user = array(
+        'id' => 0,
+        'name' => ''
+    );
 
     private $_to_display = array();
 
@@ -24,7 +27,8 @@ final class MenuComponent extends Component {
         $this->_to_display[] = self::$_items['commented'];
         if (isset($_SESSION) && isset($_SESSION['is_auth'])) {
             $this->_to_display[] = self::$_items['add'];
-            $this->_user = ucfirst($_SESSION['name']);
+            $this->_user['name'] = ucfirst($_SESSION['name']);
+            $this->_user['id'] = $_SESSION['id'];
         }
         else {
             $this->_to_display[] = self::$_items['connect'];
@@ -52,7 +56,7 @@ final class MenuComponent extends Component {
             <div class="right">';
         if (isset($this->_user)) {
             echo '
-            <span class="user">' . $this->_user . '</span>
+            <a href="profile.php?user=' . $this->_user['id'] . '">' . $this->_user['name'] . '</a>
             <a href="user.php?page=disconnect"><i class="icon-login"></i></a>
             ';
         } else {

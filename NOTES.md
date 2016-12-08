@@ -6,21 +6,19 @@
 
 ### MAIN
 
-- User page with pictures...
-- download and share component
-- Gallery with filters and multiple pics on a row.
-
 ### OTHERS
 
-- delete picture
 - Remove special chars when echo inputs.
-- Drag and Drop doesn't work on mobile devices.
+- mail on comment
 - CROP instead of RESIZE on picture first canvas.
 - Stickers should be displayed in a better way.
 - TRY / CATCH Database.
 - CSS and JS minifyer.
 - W3C validator.
 - find a better way to handle /camagru in mail sending.
+- Drag and Drop doesn't work on mobile devices.
+- save page
+- delete picture
 
 ### BUGS
 

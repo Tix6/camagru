@@ -34,7 +34,7 @@ final class PictureComponent extends Component {
         } else {
             $pic = $this->_picture;
             $date = $this->_parse_date($pic['creation']);
-            $author = $this->_author['name'];
+            $author = ucfirst($this->_author['name']);
             echo '
             <div class="picture-component">
                 <h2 class="title"><a href="picture.php?id='. $pic['url_id'] .'">' . ucfirst($pic['title']) . '</a></h2>
@@ -43,7 +43,7 @@ final class PictureComponent extends Component {
                 </figure>
                 <div class="picture-info">
                     <div class="left">
-                        <span class="username">' . ucfirst($author) . '</span>
+                        <a href="profile.php?user=' . $this->_author['id'] . '">' . $author . '</a>
                     </div>
                     <div class="right">';
             ($this->_comment_component)();

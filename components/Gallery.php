@@ -13,7 +13,9 @@ final class GalleryComponent extends Component {
     const LIMIT   = 21;
 
     private function _fetch() {
-        if (isset($_GET['filter'])) {
+        if (isset($_GET['user'])) {
+            $pictures = Picture::get_all_items_by(array('user_id' => $_GET['user']));
+        } else if (isset($_GET['filter'])) {
             switch ($_GET['filter']) {
                 case 'new':
                     $pictures = Picture::get_last_week(self::LIMIT);
@@ -46,6 +48,8 @@ final class GalleryComponent extends Component {
             foreach ($this->_pictures as $pic) {
                 $pic();
             }
+        } else {
+            echo '<p>Aucun résultats.</p>';
         }
     }
 }

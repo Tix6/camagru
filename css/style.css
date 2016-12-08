@@ -114,9 +114,6 @@ div[class$="container"]:not(.gallery-container) {
 
 div[class$="container"] > div {
     width: 100%;
-}
-
-div[class$="container"] > div:not(:last-child) {
     margin-bottom: 20px;
 }
 
@@ -306,6 +303,11 @@ img, canvas, video {
     color: #f14d4d;
 }
 
+.user > h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 
 /* -------------------------------------------------------------------------- */
 /* OTHER -------------------------------------------------------------------- */
@@ -320,6 +322,10 @@ p, h1, h2, h3, h4, h5 {
     overflow: hidden;
     white-space: nowrap;
     word-break: break-all;
+}
+
+strong {
+    font-family: 'arial', sans-serif;
 }
 
 button {

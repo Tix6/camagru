@@ -8,8 +8,8 @@
 
 ### OTHERS
 
-- Remove special chars when echo inputs.
-- mail on comment
+- mail on comment.
+- trim and size on input.
 - CROP instead of RESIZE on picture first canvas.
 - Stickers should be displayed in a better way.
 - TRY / CATCH Database.

@@ -221,9 +221,8 @@ img, canvas, video {
     vertical-align: top;
 }
 
-.comment-text > p {
-    width: auto;
-    margin: 0 5px 0 5px;
+.comment-text > span {
+    word-break: break-word;
 }
 
 .comment-info {

@@ -53,11 +53,11 @@ if ($user_array) {
         switch ($_GET['like']) {
             case 'add':
                 if ($like === false)
-                Like::add_item(array('user_id' => $user_array['id'], 'picture_id' => $picture_array['id']));
+                    Like::add_item(array('user_id' => $user_array['id'], 'picture_id' => $picture_array['id']));
                 break;
             case 'del':
                 if ($like !== false)
-                Like::del_item_by_id($like['id']);
+                    Like::del_item_by_id($like['id']);
                 break;
             default:
                 break;

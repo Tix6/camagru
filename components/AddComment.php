@@ -20,7 +20,7 @@ final class AddCommentComponent extends Component {
             echo '
             <div class="add-comment">
                 <form action="picture.php?id=' . $this->_picture['url_id'] . '&comment=add" method="POST">
-                    <textarea name="comment" placeholder="Votre commentaire..." rows="4" maxlength="' . self::MAX_LENGTH_COMMENT . '"></textarea>
+                    <textarea name="comment" placeholder="Votre commentaire..." rows="4" minlength="2" maxlength="' . self::MAX_LENGTH_COMMENT . '"></textarea>
                     <input type="hidden" name="picture_id" value="' . $this->_picture['id'] . '">
                     <input type="hidden" name="user_id" value="' . $this->_user['id'] . '">
                     <button type="submit">Poster</button>

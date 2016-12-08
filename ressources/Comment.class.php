@@ -14,6 +14,12 @@ final class Comment extends Ressource {
         'picture_id' => '',
         'comment' => ''
     );
+
+    /* override */
+    public static function add_item ( array $params ) {
+        $params['comment'] = self::_filter_input($params['comment']);
+        parent::add_item($params);
+    }
 }
 
 ?>

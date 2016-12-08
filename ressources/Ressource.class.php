@@ -15,6 +15,10 @@ abstract class Ressource {
         return static::$_columns;
     }
 
+    public static function _filter_input($input) {
+        return htmlentities(trim($input), ENT_QUOTES);
+    }
+
     private static function _columns_to_str ( array $params ) {
         return implode(array_keys($params), ', ');
     }

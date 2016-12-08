@@ -18,6 +18,7 @@ final class User extends Ressource {
 
     /* override */
     public static function add_item ( array $params ) {
+        $params['name'] = self::_filter_input($params['name']);
         $params['passwd'] = self::passwd_hash($params['passwd']);
         return parent::add_item($params);
     }

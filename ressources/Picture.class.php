@@ -14,22 +14,26 @@ final class Picture extends Ressource {
         'path' => '',
         'title' => '',
         'md5' => '',
-        'likes' => '',
-        'comments' => '',
         'creation' => ''
     );
 
-    public static function delete_image_file( $path ) {
-        return unlink($path);
+    /* override */
+    public static function add_item ( array $params ) {
+        $params['title'] = self::_filter_input($params['title']);
+        return parent::add_item($params);
     }
 
-    public static function del_item_by_id ( $id ) {
-        $ressource = self::get_item_by(array('id' => $id));
-        if (parent::del_item_by_id( $id ) && isset($ressource)) {
-            return self::delete_image_file($ressource['path']);
-        }
-        return false;
-    }
+    // public static function delete_image_file( $path ) {
+    //     return unlink($path);
+    // }
+    //
+    // public static function del_item_by_id ( $id ) {
+    //     $ressource = self::get_item_by(array('id' => $id));
+    //     if (parent::del_item_by_id( $id ) && isset($ressource)) {
+    //         return self::delete_image_file($ressource['path']);
+    //     }
+    //     return false;
+    // }
 
     public static function get_most_liked ( $limit = -1 ) {
         $sql = "SELECT picture.*, COUNT(like.id) FROM like INNER JOIN picture ON picture.id = like.picture_id GROUP BY picture_id ORDER BY COUNT(like.id) DESC LIMIT $limit";

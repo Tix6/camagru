@@ -11,6 +11,7 @@ h1, h2, h3 {
 }
 
 header {
+    font-size: 1.2em;
     font-weight: bold;
 }
 
@@ -23,6 +24,7 @@ header nav, header div, header ul {
 header > nav {
     position: fixed;
     justify-content: space-between;
+    align-items: center;
     background-color: #fefefe;
     left: 0;
     right: 0;
@@ -47,6 +49,10 @@ header ul {
 
 header li {
     margin-right: 10px;
+}
+
+header .add {
+    color: #208aea;
 }
 
 footer {
@@ -100,7 +106,7 @@ footer {
 
 div[class$="container"] {
     margin: 0 auto;
-    padding: 60px 10px 40px 10px;
+    padding: 70px 10px 40px 10px;
     background-color: #eee;
     border: 1px solid #ccc;
 }

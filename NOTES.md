@@ -9,6 +9,8 @@
 ### OTHERS
 
 - mail on comment.
+- pagination.
+- user page should not be reachable without login.
 - trim and size on input.
 - CROP instead of RESIZE on picture first canvas.
 - Stickers should be displayed in a better way.

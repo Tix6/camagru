@@ -14,7 +14,7 @@ final class PictureMiniComponent extends Component {
     public function __construct ( array $picture ) {
         if ($picture) {
             $this->_picture = $picture;
-            $this->_like_component = new LikeComponent($picture, $user);
+            $this->_like_component = new LikeComponent($picture, true);
             $this->_comment_component = new CommentCountComponent($picture);
         } else {
             $this->_error = true;

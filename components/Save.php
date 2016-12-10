@@ -6,6 +6,7 @@ require_once dirname(__FILE__) . '/../ressources/Picture.class.php';
 
 final class SaveComponent extends Component {
 
+    const NEED_AUTH = true;
     private $_canvas_base64;
     private $_sticker_path;
     private $_sticker_opt = array(
@@ -49,25 +50,31 @@ final class SaveComponent extends Component {
     }
 
     public function __construct() {
-        $this->_canvas_base64 = $_POST['canvas'];
-        $this->_sticker_path = $_POST['sticker'];
-        $this->_sticker_opt['x'] = $_POST['x'];
-        $this->_sticker_opt['y'] = $_POST['y'];
-        $this->_sticker_opt['ratio'] = $_POST['ratio'];
-        $this->_sticker_opt['opacity'] = $_POST['opacity'];
-        $this->_image_title = $_POST['title'];
+        parent::__construct();
+        if ($this->_user_is_auth === true && isset($_POST['canvas']) && isset($_POST['title']))
+        {
+            $this->_canvas_base64 = $_POST['canvas'];
+            $this->_sticker_path = $_POST['sticker'];
+            $this->_sticker_opt['x'] = $_POST['x'];
+            $this->_sticker_opt['y'] = $_POST['y'];
+            $this->_sticker_opt['ratio'] = $_POST['ratio'];
+            $this->_sticker_opt['opacity'] = $_POST['opacity'];
+            $this->_image_title = $_POST['title'];
 
-        $this->_create_and_save_image_file();
-        $this->_compute_md5_image_checksum();
-        if ($this->_check_if_image_already_exist() === false) {
-            $this->_update_database();
-        } else {
-            Picture::delete_image_file($this->_image_path);
+            $this->_create_and_save_image_file();
+            $this->_compute_md5_image_checksum();
+            if ($this->_check_if_image_already_exist() === false) {
+                $this->_update_database();
+            } else {
+                // Picture::delete_image_file($this->_image_path);
+            }
         }
     }
 
     public function __invoke() {
-        echo '<img src="' . $this->_image_path . '" alt="' . $this->_image_title . '">';
+        if (parent::__invoke() === true) {
+            echo '<img src="' . $this->_image_path . '" alt="' . $this->_image_title . '">';
+        }
     }
 }
 

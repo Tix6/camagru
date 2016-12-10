@@ -31,11 +31,11 @@ final class MenuComponent extends Component {
     }
 
     public function __construct() {
-        if (isset($_SESSION) && isset($_SESSION['is_auth'])) {
+        parent::__construct();
+        if ($this->_user_is_auth) {
             $id = $_SESSION['id'];
             $username = ucfirst($_SESSION['name']);
             $user_item = array($username, "profile.php?user=$id");
-            // array_splice($this->_items_for_user_auth, 1, 0, array($user_item));
             array_unshift($this->_items_for_user_auth, $user_item);
             $this->_items_to_display = $this->_items_for_user_auth;
         } else {

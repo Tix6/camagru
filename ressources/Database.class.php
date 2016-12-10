@@ -41,6 +41,7 @@ final class Database {
     public static function execute($sql, $params) {
         $stmt = self::prepare($sql);
         $stmt->execute($params);
+        // echo $sql;
         return $stmt->rowCount();
     }
 

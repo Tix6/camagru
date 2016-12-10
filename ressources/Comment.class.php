@@ -18,7 +18,7 @@ final class Comment extends Ressource {
     /* override */
     public static function add_item ( array $params ) {
         $params['comment'] = self::_filter_input($params['comment']);
-        parent::add_item($params);
+        return parent::add_item($params);
     }
 }
 

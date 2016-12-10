@@ -13,8 +13,8 @@ final class GalleryComponent extends Component {
     const LIMIT   = 21;
 
     private function _fetch() {
-        if (isset($_GET['user'])) {
-            $pictures = Picture::get_all_items_by(array('user_id' => $_GET['user']));
+        if (isset($_GET['id'])) {
+            $pictures = Picture::get_all_items_by(array('user_id' => $_GET['id']));
         } else if (isset($_GET['filter'])) {
             switch ($_GET['filter']) {
                 case 'new':
@@ -34,8 +34,10 @@ final class GalleryComponent extends Component {
             $pictures = Picture::fetch_all(self::ORDER, self::LIMIT);
         }
 
-        foreach ($pictures as $pic) {
-            $this->_pictures[] = new PictureMiniComponent($pic);
+        if ($pictures) {
+            foreach ($pictures as $pic) {
+                $this->_pictures[] = new PictureMiniComponent($pic);
+            }
         }
     }
 

@@ -7,7 +7,6 @@ final class CommentComponent extends Component {
 
     private $_comment;
     private $_picture;
-    private $_auth_user;
     private $_is_deletable = false;
 
     private function _parse_date ( $raw ) {
@@ -29,28 +28,29 @@ final class CommentComponent extends Component {
         return "{$date['day']} {$month[$date['month']]} {$date['year']}";
     }
 
-    public function __construct ( array $comment, array $picture, $user ) {
+    public function __construct ( array $comment ) {
+        parent::__construct();
         if ($comment) {
             $this->_comment = $comment;
-            $this->_picture = $picture;
-            $this->_auth_user = $user;
-            if ($this->_auth_user && $this->_auth_user['id'] === $this->_comment['user_id'])
-                $this->_is_deletable = true;
+            if ($this->_user_is_auth) {
+                $user_auth_id = $_SESSION['id'];
+                if ($user_auth_id === $this->_comment['user_id'])
+                    $this->_is_deletable = true;
+            }
         }
     }
 
     public function __invoke() {
         $com = $this->_comment;
         $date = $this->_parse_date($com['creation']);
-        $pic_id = $this->_picture['url_id'];
         $author = User::get_item_by(array('id' => $this->_comment['user_id']));
         echo '
         <div class="comment">
             <div class="comment-info">
-                <p>' . ucfirst($author['name']) . ' - ' . $date . '</p>';
+                <span><a href="profile.php?id='. $author['id'] .'">' . ucfirst($author['name']) . '</a> - ' . $date . '</span>';
         if ($this->_is_deletable === true) {
             echo '
-                <form action="picture.php?id=' . $pic_id . '&comment=del" method="POST">
+                <form action="' . $_SERVER['REQUEST_URI'] . '&comment=del" method="POST">
                 <input type="hidden" name="comment_id" value="' . $com['id'] . '">
                 <input type="hidden" name="comment_user_id" value="' . $com['user_id'] . '">
                 <button type="submit" class="icon-trash">supprimer</button>

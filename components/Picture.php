@@ -3,26 +3,25 @@
 require_once dirname(__FILE__) . '/Component.php';
 require_once dirname(__FILE__) . '/Like.php';
 require_once dirname(__FILE__) . '/CommentCount.php';
-require_once dirname(__FILE__) . '/../ressources/User.class.php';
 
 final class PictureComponent extends Component {
 
     private $_picture;
     private $_author;
     private $_error = false;
-    private $_like_component;
 
     private function _parse_date ($raw) {
         $date = date_parse($raw);
         return "{$date['day']}/{$date['month']}/{$date['year']}";
     }
 
-    public function __construct ( array $picture, $user = array() ) {
+    public function __construct ( array $picture ) {
+        parent::__construct();
         if ($picture) {
             $this->_picture = $picture;
             $this->_author = User::get_item_by(array('id' => $this->_picture['user_id']));
-            $this->_like_component = new LikeComponent($picture, $user);
-            $this->_comment_component = new CommentCountComponent($picture);
+            $this->_like_component      = new LikeComponent($picture, false);
+            $this->_comment_component   = new CommentCountComponent($picture);
         } else {
             $this->_error = true;
         }

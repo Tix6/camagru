@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/Component.php';
 require_once dirname(__FILE__) . '/../ressources/Sticker.class.php';
 
 final class TreatComponent extends Component {
-
+    const NEED_AUTH = true;
     private $_base64_pic;
     private $_stickers;
 
@@ -24,11 +24,14 @@ final class TreatComponent extends Component {
     );
 
     public function __construct() {
-      $this->_base64_pic = $_POST['picture'];
-      $this->_stickers = Sticker::fetch_all();
+        parent::__construct();
+        $this->_base64_pic = $_POST['picture'];
+        $this->_stickers = Sticker::fetch_all();
     }
 
     public function __invoke() {
+        if (parent::__invoke() === false)
+            return ;
         $colors = $this->_colors;
         $stickers = array(0 => '<option value="">aucun</option>');
         foreach ($this->_stickers as $sticker) {

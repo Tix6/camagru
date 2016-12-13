@@ -31,7 +31,7 @@ final class RegisterComponent extends Component {
 
     private $_alerts = array(
         'success' => '<p class="alert-success">Compte crée, vous allez recevoir un mail de confirmation.</p>',
-        'failure' => '<p class="alert-danger">Echec de création du compte. (nom ou mail deja utilisé).</p>'
+        'failure' => '<p class="alert-danger">Echec de création du compte. (Ce mail est déjà utilisé).</p>'
     );
 
     /* alert to display */
@@ -40,7 +40,7 @@ final class RegisterComponent extends Component {
     private function check_form() {
         $is_valid_form = TRUE;
         foreach ($this->_err_handler as $key => $array) {
-            if (preg_match($array['regexp'], $this->_inputs[$key]) == FALSE)
+            if (preg_match($array['regexp'], $this->_inputs[$key]) == FALSE || !$this->_inputs[$key])
                 $is_valid_form = FALSE;
             else
                 $this->_err_handler[$key]['is_valid'] = TRUE;
@@ -62,7 +62,11 @@ final class RegisterComponent extends Component {
     private function _create_user() {
         $fields = User::get_fields();
         $sql_params = array_intersect_key($this->_inputs, $fields);
-        return User::add_item($sql_params);
+        try {
+            return User::add_item($sql_params);
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 
     public function __construct() {

@@ -5,7 +5,6 @@ require_once dirname(__FILE__) . '/Component.php';
 final class MenuComponent extends Component {
 
     private $_items = array(
-        array('nouveautés', 'index.php?filter=new'),
         array('les + aimés', 'index.php?filter=like'),
         array('les + commentés', 'index.php?filter=comment'),
         array('<span class="add">ajouter</span>', 'add.php')
@@ -35,7 +34,7 @@ final class MenuComponent extends Component {
         if ($this->_user_is_auth) {
             $id = $_SESSION['id'];
             $username = ucfirst($_SESSION['name']);
-            $user_item = array($username, "profile.php?user=$id");
+            $user_item = array($username, "profile.php?id=$id");
             array_unshift($this->_items_for_user_auth, $user_item);
             $this->_items_to_display = $this->_items_for_user_auth;
         } else {

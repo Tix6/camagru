@@ -26,7 +26,7 @@ final class PicturePageComponent extends Component {
         }
     }
 
-    private function _comment() {
+    private function _comment_handler() {
         switch ($_GET['comment']) {
             case 'add':
                 $params = array(
@@ -39,7 +39,7 @@ final class PicturePageComponent extends Component {
                 break;
             case 'del':
                 if ($this->_user_auth['id'] === $_POST['comment_user_id'])
-                    Comment::del_item_by_id($_POST['comment_id']);
+                    Comment::del_item_by(array('id' => $_POST['comment_id']));
                 break;
             default:
                 break;
@@ -47,7 +47,7 @@ final class PicturePageComponent extends Component {
         $this->_redirect("picture.php?id={$this->_picture['url_id']}");
     }
 
-    private function _like() {
+    private function _like_handler() {
         $like = Like::get_item_by(array('user_id' => $this->_user_auth['id'], 'picture_id' => $this->_picture['id']));
         switch ($_GET['like']) {
             case 'add':
@@ -56,12 +56,21 @@ final class PicturePageComponent extends Component {
                 break;
             case 'del':
                 if ($like !== false)
-                    Like::del_item_by_id($like['id']);
+                    Like::del_item_by(array('id' => $like['id']));
                 break;
             default:
                 break;
         }
         $this->_redirect("picture.php?id={$this->_picture['url_id']}");
+    }
+
+    private function _picture_handler() {
+        if ($_GET['picture'] === 'del') {
+            if ($this->_user_auth['id'] === $this->_picture['user_id']) {
+                if (Picture::delete_picture_by_id($this->_picture['id']))
+                    $this->_redirect("index.php");
+            }
+        }
     }
 
     public function __construct () {
@@ -76,9 +85,11 @@ final class PicturePageComponent extends Component {
             $this->_user_auth = User::get_item_by(array('id' => $_SESSION['id']));
             if ($this->_user_auth) {
                 if (isset($_GET['like']))
-                    $this->_like();
-                if (isset($_GET['comment']))
-                    $this->_comment();
+                    $this->_like_handler();
+                else if (isset($_GET['comment']))
+                    $this->_comment_handler();
+                else if (isset($_GET['picture']))
+                    $this->_picture_handler();
             }
         }
 

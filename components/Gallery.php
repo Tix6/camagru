@@ -7,31 +7,37 @@ require_once dirname(__FILE__) . '/../ressources/User.class.php';
 
 final class GalleryComponent extends Component {
 
-    private $_pictures;
-
     const ORDER   = 'DESC';
-    const LIMIT   = 21;
+    const LIMIT   = 12;
+
+    private $_pictures;
+    private $_pic_count;
+
+    /* warning: first page is equal to zero */
+    private $_page = 0;
+    private $_offset = 0;
 
     private function _fetch() {
         if (isset($_GET['id'])) {
-            $pictures = Picture::get_all_items_by(array('user_id' => $_GET['id']));
-        } else if (isset($_GET['filter'])) {
+            $this->_pic_count = Picture::get_row_count_by(array('user_id' => $_GET['id']));
+            $pictures = Picture::get_all_items_by(array('user_id' => $_GET['id']), self::ORDER, self::LIMIT, $this->_offset);
+        }
+        else if (isset($_GET['filter'])) {
+            $this->_pic_count = Picture::get_row_count();
             switch ($_GET['filter']) {
-                case 'new':
-                    $pictures = Picture::get_last_week(self::LIMIT);
-                    break ;
                 case 'like':
-                    $pictures = Picture::get_most_liked(self::LIMIT);
+                    $pictures = Picture::get_most_liked(self::LIMIT, $this->_offset);
                     break ;
                 case 'comment':
-                    $pictures = Picture::get_most_commented(self::LIMIT);
+                    $pictures = Picture::get_most_commented(self::LIMIT, $this->_offset);
                     break ;
                 default:
-                    $pictures = Picture::fetch_all(self::ORDER, self::LIMIT);
+                    $pictures = Picture::fetch_all(self::ORDER, self::LIMIT, $this->_offset);
                     break ;
             }
         } else {
-            $pictures = Picture::fetch_all(self::ORDER, self::LIMIT);
+            $this->_pic_count = Picture::get_row_count();
+            $pictures = Picture::fetch_all(self::ORDER, self::LIMIT, $this->_offset);
         }
 
         if ($pictures) {
@@ -41,7 +47,49 @@ final class GalleryComponent extends Component {
         }
     }
 
+    private function _compute_offset() {
+        if (isset($_GET['page'])) {
+            $page = intval($_GET['page']);
+            $this->_page = ($page >= 0) ? $page : 0;
+            $this->_offset = $this->_page * self::LIMIT;
+        }
+    }
+
+    private function _update_url_params($name, $value) {
+        $params = $_GET;
+        unset($params[$name]);
+        $params[$name] = $value;
+        return basename($_SERVER['PHP_SELF']).'?'.http_build_query($params);
+    }
+
+    private function _pagination() {
+        $page_count = ceil($this->_pic_count / self::LIMIT);
+        $page_link = range($this->_page - 5, $this->_page + 5);
+
+        echo '<ul>';
+        if ($this->_page != 0) {
+            echo '<li><a href="'.($this->_update_url_params('page', '0')).'"><<</a></li>';
+        }
+        if ($this->_page > 0) {
+            echo '<li><a href="'.($this->_update_url_params('page', $this->_page - 1)).'"><</a></li>';
+        }
+        foreach ($page_link as $page) {
+            if ($page >= 0 && $page + 1 <= $page_count) {
+                if ($page != $this->_page)
+                    echo '<li><a href="'.($this->_update_url_params('page', $page)).'">'.$page.'</a></li>';
+                else
+                    echo '<li><a class="selected" href="#">' . $this->_page . '</a></li>';
+            }
+        }
+        if ($this->_page + 1 < $page_count) {
+            echo '<li><a href="'.($this->_update_url_params('page', $this->_page - 1)).'">></a></li>';
+            echo '<li><a href="'.($this->_update_url_params('page', $page_count - 1)).'">>></a></li>';
+        }
+        echo '</ul>';
+    }
+
     public function __construct () {
+        $this->_compute_offset();
         $this->_fetch();
     }
 
@@ -50,7 +98,11 @@ final class GalleryComponent extends Component {
             foreach ($this->_pictures as $pic) {
                 $pic();
             }
-        } else {
+            echo '<div class="pagination">';
+            $this->_pagination();
+            echo '</div>';
+        }
+        else {
             echo '<p>Aucun résultats.</p>';
         }
     }

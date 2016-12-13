@@ -27,6 +27,16 @@ final class PictureComponent extends Component {
         }
     }
 
+    private function _delete_link() {
+        if ($this->_user_is_auth) {
+            if ($_SESSION['id'] == $this->_author['id']) {
+                $script = "return confirm('Etes vous sûr de vouloir supprimer cette photo ?')";
+                return '<a href="picture.php?id=' .$this->_picture['url_id']. '&picture=del" onclick="' . $script . '"><i class="icon-trash"></i> supprimer</a>';
+            }
+        }
+        return '';
+    }
+
     public function __invoke() {
         if ($this->_error) {
             echo 'Cette image n\'existe pas.';
@@ -36,13 +46,15 @@ final class PictureComponent extends Component {
             $author = ucfirst($this->_author['name']);
             echo '
             <div class="picture-component">
-                <h2 class="title">' . ucfirst($pic['title']) . '</h2>
+                <div class="top">
+                    <h2 class="title">' . ucfirst($pic['title']) . '</h2>' .  $this->_delete_link() . '
+                </div>
                 <figure>
                     <a href="picture.php?id='. $pic['url_id'] .'"><img src="' . $pic['path'] . '" alt="' . $pic['title'] . '"></a>
                 </figure>
                 <div class="picture-info">
                     <div class="left">
-                        <a href="profile.php?user=' . $this->_author['id'] . '">' . $author . '</a>
+                        <a href="profile.php?id=' . $this->_author['id'] . '">' . $author . '</a>
                     </div>
                     <div class="right">';
             ($this->_comment_component)();

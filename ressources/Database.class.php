@@ -41,7 +41,6 @@ final class Database {
     public static function execute($sql, $params) {
         $stmt = self::prepare($sql);
         $stmt->execute($params);
-        // echo $sql;
         return $stmt->rowCount();
     }
 
@@ -54,11 +53,12 @@ final class Database {
     public static function fetch_one($sql, $params) {
         $stmt = self::prepare($sql);
         $stmt->execute($params);
-        return $stmt->fetch();
+        $fetched = $stmt->fetch();
+        $stmt->closeCursor();
+        return $fetched;
     }
 
     public static function fetch($sql, $params = null) {
-        // echo $sql;
         $stmt = self::prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll();

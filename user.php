@@ -10,7 +10,7 @@ $menu   = new MenuComponent();
 $footer = new FooterComponent();
 
 function redirect_after() {
-    header("refresh:5;url=index.php");
+    header("refresh:3;url=index.php");
 }
 
 function redirect_now() {
@@ -26,8 +26,6 @@ if (isset($_GET['page'])) {
         case 'connect':
             require dirname(__FILE__) . '/components/Connect.php';
             $component = new ConnectComponent();
-            if (count($_POST) > 0)
-                redirect_after();
             break ;
         case 'forgot':
             require dirname(__FILE__) . '/components/Forgot.php';
@@ -36,13 +34,10 @@ if (isset($_GET['page'])) {
         case 'reset':
             require dirname(__FILE__) . '/components/Reset.php';
             $component = new ResetComponent();
-            if (count($_POST) > 0)
-                redirect_now();
             break ;
         case 'confirm':
             require dirname(__FILE__) . '/components/Confirm.php';
             $component = new ConfirmComponent();
-            redirect_after();
             break ;
         case 'disconnect':
             $_SESSION = array();
@@ -51,7 +46,13 @@ if (isset($_GET['page'])) {
             redirect_now();
             break ;
     }
+    if ($component->_need_to_refresh === true) {
+        redirect_after();
+    }
+} else {
+    redirect_now();
 }
+
 ?>
 <!doctype html>
 <html lang="fr">

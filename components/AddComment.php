@@ -5,9 +5,10 @@ require_once dirname(__FILE__) . '/../ressources/Comment.class.php';
 
 final class AddCommentComponent extends Component {
 
-    const NEED_AUTH             = true;
-    const ACTION_NAME           = 'commenter';
-    const MAX_LENGTH_COMMENT    = 200;
+    const MAX_LENGTH_COMMENT = 200;
+
+    protected $_need_auth = true;
+    protected $_action_name = 'commenter';
 
     private $_picture_id;
 

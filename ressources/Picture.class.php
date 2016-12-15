@@ -39,13 +39,13 @@ final class Picture extends Ressource {
     }
 
     public static function get_most_liked ( $limit = -1, $offset = 0 ) {
-        $sql = "SELECT picture.*, COUNT(like.id) FROM like INNER JOIN picture ON picture.id = like.picture_id GROUP BY picture_id ORDER BY COUNT(like.id) DESC LIMIT $limit OFFSET $offset";
-        return Database::fetch($sql);
+        $sql = "SELECT picture.*, COUNT(like.id) FROM like INNER JOIN picture ON picture.id = like.picture_id GROUP BY picture_id ORDER BY COUNT(like.id) DESC LIMIT :limit OFFSET :offset";
+        return Database::fetch($sql, array('limit' => $limit, 'offset' => $offset));
     }
 
     public static function get_most_commented ( $limit = -1, $offset = 0 ) {
-        $sql = "SELECT picture.*, COUNT(comment.id) FROM comment INNER JOIN picture ON picture.id = comment.picture_id GROUP BY picture_id ORDER BY COUNT(comment.id) DESC LIMIT $limit OFFSET $offset";
-        return Database::fetch($sql);
+        $sql = "SELECT picture.*, COUNT(comment.id) FROM comment INNER JOIN picture ON picture.id = comment.picture_id GROUP BY picture_id ORDER BY COUNT(comment.id) DESC LIMIT :limit OFFSET :offset";
+        return Database::fetch($sql, array('limit' => $limit, 'offset' => $offset));
     }
 
     // public static function get_last_week ( $limit = -1, $offset = 0 ) {

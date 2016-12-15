@@ -50,7 +50,7 @@ final class RegisterComponent extends Component {
 
     private function _send_confirmation_mail() {
         $title = "Camagru - Confirmez votre compte {$this->_inputs['name']}.";
-        $link = '<a href="http://' . $_SERVER['HTTP_HOST'] . '/camagru/index.php?page=confirm&id=' . urlencode($this->_user_id) . '&token=' . urlencode($this->_inputs['token']) . '">Cliquez ici pour activer votre compte.</a>';
+        $link = '<a href="http://' . $_SERVER['HTTP_HOST'] . '/camagru/user.php?page=confirm&id=' . urlencode($this->_user_id) . '&token=' . urlencode($this->_inputs['token']) . '">Cliquez ici pour activer votre compte.</a>';
         $message = "Bonjour {$this->_inputs['name']}, merci de confirmer ton inscription en cliquant sur le lien suivant :<br><br>$link";
         Mailer::send($this->_inputs['mail'], $title, $message);
     }

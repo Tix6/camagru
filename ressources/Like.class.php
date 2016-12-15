@@ -12,6 +12,13 @@ final class Like extends Ressource {
         'user_id' => '',
         'picture_id' => ''
     );
+
+    /* override: returns count of all picture commented */
+    public static function get_row_count() {
+        $table = static::$_table_name;
+        $sql = "SELECT COUNT(*) FROM `$table` GROUP BY $table.picture_id";
+        return count(Database::fetch($sql, null));
+    }
 }
 
 ?>

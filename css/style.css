@@ -2,6 +2,7 @@ body {
     background-color: #f8f8f8;
     color: #666;
     font-family: 'Dosis', sans-serif;
+    font-size: 18px;
 }
 
 /* HEADER ------------------------------------------------------------------- */
@@ -106,7 +107,7 @@ footer {
 
 div[class$="container"] {
     margin: 0 auto;
-    padding: 70px 10px 20px 10px;
+    padding: 70px 10px 50px 10px;
     background-color: #eee;
     border: 1px solid #ccc;
     border-radius: 2px;
@@ -126,8 +127,9 @@ div[class$="container"] > div {
 
 div[class$="container"] hr {
     border-color: #ddd;
-    margin-top: 10px;
+    margin-top: 5px;
     width: 30%;
+    display: none;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -145,6 +147,7 @@ body > .gallery-container {
 
 .gallery-container .pagination {
     text-align: center;
+    margin: 0 auto;
 }
 
 .gallery-container .pagination > ul {
@@ -157,7 +160,6 @@ body > .gallery-container {
 
 .gallery-container .pagination > ul > li > a {
     background-color: #fff;
-    font-size: 1.2em;
     padding: 5px 10px 5px 10px;
     margin: 0 3px 0 3px;
     border-radius: 2px;
@@ -255,11 +257,11 @@ img, canvas, video {
 }
 
 .comment-text {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
     padding: 10px 5px 10px 5px;
-    border: 1px solid gray;
-    border-radius: 6px;
-    margin-bottom: 6px;
+    border: 1px solid #ccc;
+    margin: 6px 0 6px 0;
 }
 
 .comment-text > i {
@@ -269,8 +271,13 @@ img, canvas, video {
     vertical-align: top;
 }
 
-.comment-text > span {
-    word-break: break-word;
+.comment-text span {
+    /* For Firefox */
+    white-space: pre-wrap;
+    word-break: break-all;
+
+    /* For Chrome and IE */
+    word-wrap: break-word;
 }
 
 .comment-info {
@@ -283,21 +290,35 @@ img, canvas, video {
     font-size: 0.8em;
 }
 
-.comment-info button {
+.comment-info button, .comment-info button:hover {
+    box-shadow: none;
     margin: 0;
     padding: 0;
     color: gray;
+    background-color: transparent;
 }
 
 .add-comment textarea {
     width: 98%;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-color: #ccc;
+    border-radius: 2px;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 5px;
     height: 50px;
     padding: 5px;
     resize: none;
     overflow: auto;
+}
+
+.add-comment textarea:focus {
+    outline: none;
+}
+
+.add-comment textarea + button {
+    margin: 5px 0 0 5px;
 }
 
 .likes > .del {
@@ -309,19 +330,65 @@ img, canvas, video {
 }
 
 /* -------------------------------------------------------------------------- */
-/* TREAT -------------------------------------------------------------------- */
+/* ADD ---------------------------------------------------------------------- */
 
-.treat-container > form {
+.add-container canvas {
+    margin-bottom: 20px;
+}
+
+.add-container video + button {
     width: 100%;
 }
 
-.optional {
+.add-container ul {
+    padding: 0;
+    width: 50%;
+    list-style: none;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.add-container li {
+    text-align: center;
+}
+
+.add-container ul i {
+    display: block;
+    font-size: 4em;
+}
+
+.add-container input[type="text"] {
+    width: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* TREAT -------------------------------------------------------------------- */
+
+.optional, .required {
     font-size: 0.8em;
 }
 
-.treat-container div[class^="step"] {
-    text-align: center;
-    transition: 1s;
+.treat-container h3 {
+    margin: 0;
+    padding: 5px;
+}
+
+.treat-container label {
+    margin: 10px;
+}
+
+.treat-container .step, .treat-container label {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.treat-container .step {
+    font-size: 1.1em;
+    margin: 10px;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -336,7 +403,7 @@ img, canvas, video {
 }
 
 .register label {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .register button {
@@ -344,8 +411,8 @@ img, canvas, video {
 }
 
 .register p {
-    max-width: 200px;
-    margin-top: 5px;
+    position: absolute;
+    padding-bottom: 5px;
     font-size: 0.8em;
     color: #f14d4d;
 }
@@ -364,10 +431,13 @@ label {
     text-align: left;
     margin-bottom: 5px;
 }
+
 p, h1, h2, h3, h4, h5 {
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     word-break: break-all;
+    padding-bottom: 5px;
 }
 
 strong {
@@ -377,19 +447,27 @@ strong {
 button {
     display: block;
     padding: 0.5em 1em;
-    color: #444; /* rgba not supported (IE 8) */
-    color: rgba(0, 0, 0, 0.80); /* rgba supported */
-    border: 1px solid #999;  /*IE 6/7/8*/
-    border: none rgba(0, 0, 0, 0);  /*IE9 + everything else*/
-    background-color: #E6E6E6;
+    color: #444;
+    color: white;
+    border: none rgba(0, 0, 0, 0);
+    background-color: #5da8eb;
     text-decoration: none;
-    border-radius: 2px;
+    border-radius: 5px;
     cursor: pointer;
+    box-shadow: 0 4px #ccc;
+    margin-bottom: 3px;
+    outline: none;
 }
 
 button:hover {
     background-color: #2186c4;
-    color: white;
+    transform: translateY(1px);
+    box-shadow: 0 3px #ccc;
+}
+
+button:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px #ccc;
 }
 
 input, select {
@@ -425,6 +503,7 @@ figure {
     margin-top: 10px;
     color: white;
     padding: 10px;
+    margin: 5px 0 5px 0;
     border-radius: 5px;
 }
 

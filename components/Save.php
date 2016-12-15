@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../ressources/Picture.class.php';
 
 final class SaveComponent extends Component {
 
-    const NEED_AUTH = true;
+    protected $_need_auth = true;
     private $_canvas_base64;
     private $_sticker_path;
     private $_sticker_opt = array(
@@ -18,6 +18,16 @@ final class SaveComponent extends Component {
     private $_image_title;
     private $_image_path;
     private $_image_md5;
+
+    private $_picture_url_id;
+
+    private $_alerts = array(
+        'success' => '<p class="alert-success">Merci, vous allez être redirigé.</p>',
+        'err_already_exist' => '<p class="alert-danger">Cette image existe déjà.</p>',
+        'err_incomplete' => '<p class="alert-danger">Informations manquantes (titre, photo...).</p>'
+    );
+
+    private $_alert = '';
 
     private function _create_and_save_image_file() {
         $merged = new ImageMerged($this->_canvas_base64, $this->_sticker_path, $this->_sticker_opt);
@@ -34,46 +44,55 @@ final class SaveComponent extends Component {
 
     private function _init_url_id() {
         /* php 7 only */
-        return bin2hex(random_bytes(4));
+        $this->_picture_url_id = bin2hex(random_bytes(4));
     }
 
     private function _update_database() {
+        $this->_init_url_id();
+
         $sql_params = array(
             'user_id' => $_SESSION['id'],
-            'url_id' => $this->_init_url_id(),
+            'url_id' => $this->_picture_url_id,
             'path' => $this->_image_path,
             'title' => $this->_image_title,
             'md5' => $this->_image_md5
         );
-        $fields = Picture::get_fields();
+
         Picture::add_item($sql_params);
     }
 
     public function __construct() {
         parent::__construct();
-        if ($this->_user_is_auth === true && isset($_POST['canvas']) && isset($_POST['title']))
-        {
-            $this->_canvas_base64 = $_POST['canvas'];
+
+        $base64 = (isset($_POST['canvas'])) ? $_POST['canvas'] : '';
+        $title = (isset($_POST['title'])) ? trim($_POST['title']) : '';
+
+        if ($this->_user_is_auth === true && !empty($base64) && !empty($title)) {
+            $this->_canvas_base64 = $base64;
+            $this->_image_title = $title;
             $this->_sticker_path = $_POST['sticker'];
             $this->_sticker_opt['x'] = $_POST['x'];
             $this->_sticker_opt['y'] = $_POST['y'];
             $this->_sticker_opt['ratio'] = $_POST['ratio'];
             $this->_sticker_opt['opacity'] = $_POST['opacity'];
-            $this->_image_title = $_POST['title'];
 
             $this->_create_and_save_image_file();
             $this->_compute_md5_image_checksum();
             if ($this->_check_if_image_already_exist() === false) {
                 $this->_update_database();
+                $this->_alert = $this->_alerts['success'];
+                header("refresh:3;url=picture.php?id={$this->_picture_url_id}");
             } else {
-                // Picture::delete_image_file($this->_image_path);
+                $this->_alert = $this->_alerts['err_already_exist'];
             }
+        } else {
+            $this->_alert = $this->_alerts['err_incomplete'];
         }
     }
 
     public function __invoke() {
         if (parent::__invoke() === true) {
-            echo '<img src="' . $this->_image_path . '" alt="' . $this->_image_title . '">';
+            echo $this->_alert;
         }
     }
 }

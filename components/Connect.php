@@ -43,6 +43,7 @@ final class ConnectComponent extends Component {
                 $this->_user = $user;
                 $this->_set_session();
                 $this->_alert = $this->_alerts['success'];
+                $this->_need_to_refresh = true;
             } else
                 $this->_alert = $this->_alerts['not_valid'];
         }

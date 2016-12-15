@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/Component.php';
 require_once dirname(__FILE__) . '/../ressources/Sticker.class.php';
 
 final class TreatComponent extends Component {
-    const NEED_AUTH = true;
+    protected $_need_auth = true;
     private $_base64_pic;
     private $_stickers;
 
@@ -26,6 +26,9 @@ final class TreatComponent extends Component {
     public function __construct() {
         parent::__construct();
         $this->_base64_pic = $_POST['picture'];
+        if (empty($this->_base64_pic)) {
+            $this->_redirect('add.php');
+        }
         $this->_stickers = Sticker::fetch_all();
     }
 
@@ -44,9 +47,9 @@ final class TreatComponent extends Component {
         </div>
         <form action="save.php" method="POST">
             <div class="step-1">
-                <h3>1. Choisissez un titre</h3>
-                <label>Titre :
-                <input type="text" name="title" value="" placeholder="indiquez un titre">
+                <h3>1. Choisissez un titre <i class="required">(requis)</i></h3>
+                <label>
+                <input type="text" name="title" value="" placeholder="indiquez un titre" minlength="5" maxlength="100">
                 </label>
             </div>
             <div class="step-2">
@@ -107,18 +110,18 @@ final class TreatComponent extends Component {
                 echo '</select>
                 </label>
                 <label>Ombre :
-                <input id="text-shadow" type="checkbox"> activer
+                <span><input id="text-shadow" type="checkbox"> activer</span>
                 </label>
-                <label>Haut :
+                <label>
                 <input id="text-top" type="text" name="top-text" value="" placeholder="texte du haut">
                 </label>
-                <label>Bas :
+                <label>
                 <input id="text-bottom" type="text" name="bottom-text" value="" placeholder="texte du bas">
                 </label>
             </div>
             <div class="step-5">
-                <h3>5. Desinner <i class="optional">(optionnel)</i></h3>
-                <label><input id="draw-checkbox" type="checkbox"> activer</label>
+                <h3>5. Dessiner <i class="optional">(optionnel)</i></h3>
+                <label><span><input id="draw-checkbox" type="checkbox"> activer</span></label>
                 <label>Couleur :
                 <select id="draw-color">';
                 foreach ($colors as $name => $value) {
@@ -126,15 +129,17 @@ final class TreatComponent extends Component {
                 }
                 echo '</select>
                 </label>
-                <a id="draw-reset" href="#">Effacer</a>
+                <label><a id="draw-reset" href="#">Effacer</a></label>
             </div>
             <input id="inputX" type="hidden" name="x" value="">
             <input id="inputY" type="hidden" name="y" value="">
             <input id="inputRatio" type="hidden" name="ratio" value="">
             <input id="inputOpacity" type="hidden" name="opacity" value="">
             <input id="inputCanvas" type="hidden" name="canvas" value="">
-            <a id="prev-step" href="#"><< Précédent</a>
-            <a id="next-step" href="#">Suivant >></a>
+            <div class="step">
+            <a id="prev-step" href="#">Précédent</a>
+            <a id="next-step" href="#">Suivant</a>
+            </div>
             <button type="submit" class="validation">Valider</button>
         </form>
         <script type="text/javascript" src="assets/treat.js"></script>

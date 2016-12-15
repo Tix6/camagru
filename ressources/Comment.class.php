@@ -18,7 +18,17 @@ final class Comment extends Ressource {
     /* override */
     public static function add_item ( array $params ) {
         $params['comment'] = self::_filter_input($params['comment']);
-        return parent::add_item($params);
+        if (!empty($params['comment'])) {
+            return parent::add_item($params);
+        }
+        return false;
+    }
+
+    /* override: returns count of all picture commented */
+    public static function get_row_count() {
+        $table = static::$_table_name;
+        $sql = "SELECT COUNT(*) FROM `$table` GROUP BY $table.picture_id";
+        return count(Database::fetch($sql, null));
     }
 }
 

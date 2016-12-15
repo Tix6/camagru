@@ -58,8 +58,6 @@
 /* LISTENERS ---------------------------------------------------------------- */
 
     window.addEventListener('resize', function(e) {
-        // if (        var stickerSelected = sticker.selector.options[sticker.selector.selectedIndex].value;)
-        // setSticker();
         correctStickerPos();
         e.preventDefault();
     });
@@ -152,7 +150,6 @@
     displayStep();
 
     function displayStep() {
-        console.log('etape: ', steps.selected);
         steps.prevButton.style.display = (steps.selected == 0) ? 'none' : 'inline';
         steps.nextButton.style.display = (steps.selected == steps.allSteps.length - 1) ? 'none' : 'inline';
         validationButton.style.display = (steps.selected == steps.allSteps.length - 1) ? 'block' : 'none';

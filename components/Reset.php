@@ -48,6 +48,7 @@ final class ResetComponent extends Component {
             if ($user) {
                 User::update_item_by_id($user['id'], 'passwd', $posted['passwd']);
                 $this->_alert = $this->_alerts['success'];
+                $this->_need_to_refresh = true;
             } else {
                 $this->_alert = $this->_alerts['err_token'];
             }

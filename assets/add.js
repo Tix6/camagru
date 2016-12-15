@@ -72,9 +72,25 @@
             container.appendChild(video);
             container.appendChild(startButton);
 
+            /* FIREFOX */
+            if (navigator.mozGetUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ audio: false, video: true }).then(function(stream) {
+                    video.src = window.URL.createObjectURL(stream);
+                    video.onloadedmetadata = function(e) {
+                    video.play();
+                  };
+                })
+                  .catch(function(err) {
+                      cleanContainer();
+                      cleanCanvas();
+                      alert('Webcam indisponible.');
+                });
+                return ;
+            }
+
+            /* OTHERS BROWSERS */
             navigator.getMedia = ( navigator.getUserMedia ||
                                    navigator.webkitGetUserMedia ||
-                                   navigator.mozGetUserMedia ||
                                    navigator.msGetUserMedia);
 
             navigator.getMedia(
@@ -83,17 +99,15 @@
                 audio: false
             },
                 function(stream) {
-                    if (navigator.mozGetUserMedia) {
-                        video.mozSrcObject = stream;
-                    } else {
-                        var vendorURL = window.URL || window.webkitURL;
-                        video.src = vendorURL.createObjectURL(stream);
-                    }
+                    var vendorURL = window.URL || window.webkitURL;
+                    video.src = vendorURL.createObjectURL(stream);
                     video.play();
-                    },
-                    function(err) {
-                        console.log("An error occured! " + err);
-                    }
+                },
+                function(err) {
+                    cleanContainer();
+                    cleanCanvas();
+                    alert('Webcam indisponible.');
+                }
             );
 
             video.addEventListener('canplay', function(ev){
@@ -133,12 +147,14 @@
 
                     reader.onload = function() {
                         dataURL = reader.result;
-                        image.src = dataURL;
-                        image.onload = function() {
-                            putImageOnCanvas(image);
-                            CanvasAndForm.show();
-                            fillFormWithBase64Canvas();
-                        };
+                        if (dataURL.match(/^data:image\/(png|jpeg);base64/)) {
+                            image.src = dataURL;
+                            image.onload = function() {
+                                putImageOnCanvas(image);
+                                CanvasAndForm.show();
+                                fillFormWithBase64Canvas();
+                            };
+                        }
                     };
 
                     reader.readAsDataURL(file);

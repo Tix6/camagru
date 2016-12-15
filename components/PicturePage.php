@@ -13,10 +13,13 @@ require_once dirname(__FILE__) . '/Comments.php';
 final class PicturePageComponent extends Component {
 
     private $_picture;
+    private $_user_auth;
+
+    private $_add_comment_error = '';
 
     private function _send_comment_mail($comment) {
         $dest = User::get_item_by(array('id' => $this->_picture['user_id']));
-        if ($dest) {
+        if ($dest && $dest['id'] != $this->_user_auth['id']) {
             $destname = ucfirst($dest['name']);
             $title = 'Camagru - Nouveau commentaire sur votre image.';
             $author = '<a href="http://' . $_SERVER['HTTP_HOST'] . '/camagru/profile.php?id='. $this->_user_auth['id'] .'">' . ucfirst($this->_user_auth['name']) . '</a>';
@@ -29,6 +32,10 @@ final class PicturePageComponent extends Component {
     private function _comment_handler() {
         switch ($_GET['comment']) {
             case 'add':
+                if (mb_strlen(trim($_POST['comment'])) > 200) {
+                    $this->_add_comment_error = '<p class="alert-danger">Votre commentaire est trop long.</p>';
+                    return ;
+                }
                 $params = array(
                     'comment' => $_POST['comment'],
                     'user_id' => $this->_user_auth['id'],
@@ -104,6 +111,7 @@ final class PicturePageComponent extends Component {
         if ($this->_picture) {
             ($this->_picture_compo)();
             ($this->_comments_compo)();
+            echo $this->_add_comment_error;
             ($this->_add_comment_compo)();
         } else {
             echo "<p class=\"error\">Il semblerait que cette image n'existe pas.</p>";

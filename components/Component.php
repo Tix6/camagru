@@ -1,10 +1,13 @@
 <?php
 
 abstract class Component {
-    const NEED_AUTH = false;
-    const ACTION_NAME = 'faire cette action';
 
+    protected $_action_name = 'faire cette action';
+    protected $_need_auth = false;
     protected $_user_is_auth = false;
+
+    /* used as signal to refresh for parent page */
+    public $_need_to_refresh = false;
 
     private function _is_auth() {
         if (isset($_SESSION['is_auth']))
@@ -15,7 +18,6 @@ abstract class Component {
 
     protected function _redirect($uri) {
         header("Location: $uri");
-        exit();
     }
 
     public function __construct() {
@@ -23,8 +25,8 @@ abstract class Component {
     }
 
     public function __invoke() {
-        if (static::NEED_AUTH === true && $this->_user_is_auth === false) {
-            $action = static::ACTION_NAME;
+        if ($this->_need_auth === true && $this->_user_is_auth === false) {
+            $action = $this->_action_name;
             echo "<p class=\"error-auth\">Vous devez vous connecter pour $action.</p>";
             echo '<a href="user.php?page=connect">Connectez vous ici.</a>';
             return false;

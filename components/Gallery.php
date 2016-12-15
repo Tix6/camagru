@@ -23,15 +23,17 @@ final class GalleryComponent extends Component {
             $pictures = Picture::get_all_items_by(array('user_id' => $_GET['id']), self::ORDER, self::LIMIT, $this->_offset);
         }
         else if (isset($_GET['filter'])) {
-            $this->_pic_count = Picture::get_row_count();
             switch ($_GET['filter']) {
                 case 'like':
+                    $this->_pic_count = Like::get_row_count();
                     $pictures = Picture::get_most_liked(self::LIMIT, $this->_offset);
                     break ;
                 case 'comment':
+                    $this->_pic_count = Comment::get_row_count();
                     $pictures = Picture::get_most_commented(self::LIMIT, $this->_offset);
                     break ;
                 default:
+                    $this->_pic_count = Picture::get_row_count();
                     $pictures = Picture::fetch_all(self::ORDER, self::LIMIT, $this->_offset);
                     break ;
             }
@@ -63,29 +65,31 @@ final class GalleryComponent extends Component {
     }
 
     private function _pagination() {
-        $page_count = ceil($this->_pic_count / self::LIMIT);
-        $page_link = range($this->_page - 5, $this->_page + 5);
+        if ($this->_pic_count > self::LIMIT) {
+            $page_count = ceil($this->_pic_count / self::LIMIT);
+            $page_link = range($this->_page - 5, $this->_page + 5);
 
-        echo '<ul>';
-        if ($this->_page != 0) {
-            echo '<li><a href="'.($this->_update_url_params('page', '0')).'"><<</a></li>';
-        }
-        if ($this->_page > 0) {
-            echo '<li><a href="'.($this->_update_url_params('page', $this->_page - 1)).'"><</a></li>';
-        }
-        foreach ($page_link as $page) {
-            if ($page >= 0 && $page + 1 <= $page_count) {
-                if ($page != $this->_page)
-                    echo '<li><a href="'.($this->_update_url_params('page', $page)).'">'.$page.'</a></li>';
-                else
-                    echo '<li><a class="selected" href="#">' . $this->_page . '</a></li>';
+            echo '<ul>';
+            if ($this->_page != 0) {
+                echo '<li><a href="'.($this->_update_url_params('page', '0')).'"><<</a></li>';
             }
+            if ($this->_page > 0) {
+                echo '<li><a href="'.($this->_update_url_params('page', $this->_page - 1)).'"><</a></li>';
+            }
+            foreach ($page_link as $page) {
+                if ($page >= 0 && $page + 1 <= $page_count) {
+                    if ($page != $this->_page)
+                        echo '<li><a href="'.($this->_update_url_params('page', $page)).'">'.($page + 1).'</a></li>';
+                    else
+                        echo '<li><a class="selected" href="#">' . ($this->_page + 1) . '</a></li>';
+                }
+            }
+            if ($this->_page + 1 < $page_count) {
+                echo '<li><a href="'.($this->_update_url_params('page', $this->_page + 1)).'">></a></li>';
+                echo '<li><a href="'.($this->_update_url_params('page', $page_count - 1)).'">>></a></li>';
+            }
+            echo '</ul>';
         }
-        if ($this->_page + 1 < $page_count) {
-            echo '<li><a href="'.($this->_update_url_params('page', $this->_page - 1)).'">></a></li>';
-            echo '<li><a href="'.($this->_update_url_params('page', $page_count - 1)).'">>></a></li>';
-        }
-        echo '</ul>';
     }
 
     public function __construct () {

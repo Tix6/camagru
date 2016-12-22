@@ -46,6 +46,8 @@ final class GalleryComponent extends Component {
             foreach ($pictures as $pic) {
                 $this->_pictures[] = new PictureMiniComponent($pic);
             }
+        } else {
+            $this->_redirect($_SERVER['SCRIPT_NAME']);
         }
     }
 
@@ -53,7 +55,7 @@ final class GalleryComponent extends Component {
         if (isset($_GET['page'])) {
             $page = intval($_GET['page']);
             $this->_page = ($page >= 0) ? $page : 0;
-            $this->_offset = $this->_page * self::LIMIT;
+            $this->_offset = intval($this->_page * self::LIMIT);
         }
     }
 

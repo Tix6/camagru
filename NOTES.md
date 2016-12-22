@@ -13,10 +13,8 @@
 - error on input not displayed fully.
 - find a better way to handle /camagru in mail sending.
 - Misplacing sticker
-- feed stickers.
 - captcha | limit on comment
 - deletion when level = 1
-- fix warnings
 
 ### BUGS
 

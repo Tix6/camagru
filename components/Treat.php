@@ -121,7 +121,16 @@ final class TreatComponent extends Component {
             </div>
             <div class="step-5">
                 <h3>5. Dessiner <i class="optional">(optionnel)</i></h3>
-                <label><span><input id="draw-checkbox" type="checkbox"> activer</span></label>
+                <label>Activer
+                <input id="draw-checkbox" type="checkbox">
+                </label>
+                <label>Taille :
+                <select id="draw-size">
+                <option value="2">petit</option>
+                <option value="5">moyen</option>
+                <option value="10">grand</option>
+                </select>
+                </label>
                 <label>Couleur :
                 <select id="draw-color">';
                 foreach ($colors as $name => $value) {
@@ -137,8 +146,8 @@ final class TreatComponent extends Component {
             <input id="inputOpacity" type="hidden" name="opacity" value="">
             <input id="inputCanvas" type="hidden" name="canvas" value="">
             <div class="step">
-            <a id="prev-step" href="#">Précédent</a>
-            <a id="next-step" href="#">Suivant</a>
+            <button class="button-small" id="prev-step" href="#">Précédent</button>
+            <button class="button-small" id="next-step" href="#">Suivant</button>
             </div>
             <button type="submit" class="validation">Valider</button>
         </form>

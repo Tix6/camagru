@@ -31,6 +31,7 @@
 
     var draw = {
         'isActive': document.getElementById('draw-checkbox'),
+        'size': document.getElementById('draw-size'),
         'color': document.getElementById('draw-color'),
         'reset': document.getElementById('draw-reset')
     }
@@ -195,7 +196,7 @@
         ctx.save();
         ctx.beginPath();
         ctx.strokeStyle = draw.color.value;
-        ctx.lineWidth = 3;
+        ctx.lineWidth = draw.size.options[draw.size.options.selectedIndex].value;
         ctx.lineJoin = "round";
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(x, y);
@@ -238,7 +239,7 @@
 
     function writeTextOnCanvas(string, position, color, isShadow) {
         ctx.save();
-        string = string.trim().toUpperCase();
+        string = string.trim();
         ctx.font = '44px Khula, sans-serif';
         ctx.textAlign = 'center';
         ctx.fillStyle = color;

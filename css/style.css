@@ -460,7 +460,6 @@ button {
 }
 
 button:hover {
-    background-color: #2186c4;
     transform: translateY(1px);
     box-shadow: 0 3px #ccc;
 }
@@ -470,8 +469,20 @@ button:active {
     box-shadow: 0 1px #ccc;
 }
 
+.button-small {
+    padding: 0.3em 0.5em !important;
+    font-size: 0.8em;
+}
+
+button.validation {
+    width: 100%;
+    text-align: center;
+    background-color: #2ecc71;
+}
+
 input, select {
     font-size: 0.9em;
+    outline: none;
 }
 
 input:not([type="file"]) {

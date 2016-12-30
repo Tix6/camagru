@@ -45,7 +45,7 @@ final class PicturePageComponent extends Component {
                     $this->_send_comment_mail($_POST['comment']);
                 break;
             case 'del':
-                if ($this->_user_auth['id'] === $_POST['comment_user_id'])
+                if ($this->_user_auth['id'] === $_POST['comment_user_id'] || isset($_SESSION['admin']))
                     Comment::del_item_by(array('id' => $_POST['comment_id']));
                 break;
             default:
@@ -73,7 +73,7 @@ final class PicturePageComponent extends Component {
 
     private function _picture_handler() {
         if ($_GET['picture'] === 'del') {
-            if ($this->_user_auth['id'] === $this->_picture['user_id']) {
+            if ($this->_user_auth['id'] === $this->_picture['user_id'] || isset($_SESSION['admin'])) {
                 if (Picture::delete_picture_by_id($this->_picture['id']))
                     $this->_redirect("index.php");
             }

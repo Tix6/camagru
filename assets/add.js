@@ -79,11 +79,10 @@
                     video.onloadedmetadata = function(e) {
                     video.play();
                   };
-                })
-                  .catch(function(err) {
-                      cleanContainer();
-                      cleanCanvas();
-                      alert('Webcam indisponible.');
+                }).catch(function(err) {
+                    cleanContainer();
+                    cleanCanvas();
+                    alert('Webcam indisponible.');
                 });
                 return ;
             }

@@ -46,8 +46,6 @@ final class GalleryComponent extends Component {
             foreach ($pictures as $pic) {
                 $this->_pictures[] = new PictureMiniComponent($pic);
             }
-        } else {
-            $this->_redirect($_SERVER['SCRIPT_NAME']);
         }
     }
 

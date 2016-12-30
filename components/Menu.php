@@ -11,7 +11,7 @@ final class MenuComponent extends Component {
     );
 
     private $_items_for_user_auth = array(
-        array('<i class="icon-login"></i>', 'user.php?page=disconnect')
+        array('<i class="icon-logout"></i>', 'user.php?page=disconnect')
     );
 
     private $_items_for_guest = array(

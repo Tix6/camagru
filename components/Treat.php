@@ -41,15 +41,17 @@ final class TreatComponent extends Component {
             $stickers[] = "<option value=\"{$sticker['path']}\">{$sticker['title']}</option>";
         }
         echo '
-        <div id="visu">
+        <div id="visu" style="visibility:hidden;">
+            <img id="pictureInput" style=alt="Embedded Image" src="' . $this->_base64_pic . '" />
             <img id="dragItem" draggable="true" style="width:100%;height:auto;position:absolute;" ondragstart="return true;">
-            <img id="pictureInput" alt="Embedded Image" src="' . $this->_base64_pic . '" />
+            <canvas id="canvas">
+            </canvas>
         </div>
         <form action="save.php" method="POST">
             <div class="step-1">
                 <h3>1. Choisissez un titre <i class="required">(requis)</i></h3>
                 <label>
-                <input type="text" name="title" value="" placeholder="indiquez un titre" minlength="5" maxlength="100">
+                <input type="text" name="title" value="" placeholder="indiquez un titre" maxlength="100">
                 </label>
             </div>
             <div class="step-2">
@@ -80,6 +82,12 @@ final class TreatComponent extends Component {
                     <option value="0.2">20 %</option>
                     <option value="0.1">10 %</option>
                 </select>
+                </label>
+                <label>Position :
+                <a href="#" id="dir-top"><i class="icon-up"></i></a>
+                <a href="#" id="dir-down"><i class="icon-down"></i></a>
+                <a href="#" id="dir-left"><i class="icon-left"></i></a>
+                <a href="#" id="dir-right"><i class="icon-right"></i></a>
                 </label>
             </div>
             <div class="step-3">

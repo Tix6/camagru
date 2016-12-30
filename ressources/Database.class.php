@@ -39,31 +39,46 @@ final class Database {
     }
 
     public static function execute($sql, $params) {
-        $stmt = self::prepare($sql);
-        $stmt->execute($params);
-        return $stmt->rowCount();
+        try {
+            $stmt = self::prepare($sql);
+            $stmt->execute($params);
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 
     public static function insert($sql, $params) {
-        $stmt = self::prepare($sql);
-        $stmt->execute($params);
-        return self::$_pdo_st->lastInsertId();
+        try {
+            $stmt = self::prepare($sql);
+            $stmt->execute($params);
+            return self::$_pdo_st->lastInsertId();
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 
     public static function fetch_one($sql, $params) {
-        $stmt = self::prepare($sql);
-        $stmt->execute($params);
-        $fetched = $stmt->fetch();
-        $stmt->closeCursor();
-        return $fetched;
+        try {
+            $stmt = self::prepare($sql);
+            $stmt->execute($params);
+            $fetched = $stmt->fetch();
+            $stmt->closeCursor();
+            return $fetched;
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 
     public static function fetch($sql, $params = null) {
-        $stmt = self::prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetchAll();
+        try {
+            $stmt = self::prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            return false;
+        }
     }
-
 }
 
 ?>

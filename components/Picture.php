@@ -29,7 +29,7 @@ final class PictureComponent extends Component {
 
     private function _delete_link() {
         if ($this->_user_is_auth) {
-            if ($_SESSION['id'] == $this->_author['id']) {
+            if ($_SESSION['id'] == $this->_author['id'] || isset($_SESSION['admin'])) {
                 $script = "return confirm('Etes vous sûr de vouloir supprimer cette photo ?')";
                 return '<a href="picture.php?id=' .$this->_picture['url_id']. '&picture=del" onclick="' . $script . '"><i class="icon-trash"></i> supprimer</a>';
             }

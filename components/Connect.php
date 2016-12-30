@@ -55,6 +55,9 @@ final class ConnectComponent extends Component {
         $_SESSION['is_auth'] = TRUE;
         $_SESSION['id'] = $this->_user['id'];
         $_SESSION['name'] = $this->_user['name'];
+        if ($this->_user['level'] == 1) {
+            $_SESSION['admin'] = true;
+        }
     }
 
     public function __invoke() {

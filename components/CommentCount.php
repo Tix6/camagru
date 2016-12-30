@@ -14,6 +14,6 @@ final class CommentCountComponent extends Component {
 
     public function __invoke() {
         echo '
-            <span class="comments-count">' . $this->_comments_count . ' <i class="icon-comment-1"></i></span>';
+            <span class="comments-count">' . $this->_comments_count . ' <i class="icon-comment"></i></span>';
     }
 }

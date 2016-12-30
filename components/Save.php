@@ -58,7 +58,7 @@ final class SaveComponent extends Component {
             'md5' => $this->_image_md5
         );
 
-        Picture::add_item($sql_params);
+        return Picture::add_item($sql_params);
     }
 
     public function __construct() {
@@ -79,9 +79,12 @@ final class SaveComponent extends Component {
             $this->_create_and_save_image_file();
             $this->_compute_md5_image_checksum();
             if ($this->_check_if_image_already_exist() === false) {
-                $this->_update_database();
-                $this->_alert = $this->_alerts['success'];
-                header("refresh:3;url=picture.php?id={$this->_picture_url_id}");
+                if ($this->_update_database()) {
+                    $this->_alert = $this->_alerts['success'];
+                    header("refresh:3;url=picture.php?id={$this->_picture_url_id}");
+                }
+                else
+                    $this->_alert = $this->_alerts['err_incomplete'];
             } else {
                 $this->_alert = $this->_alerts['err_already_exist'];
             }

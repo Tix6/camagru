@@ -34,7 +34,7 @@ final class CommentComponent extends Component {
             $this->_comment = $comment;
             if ($this->_user_is_auth) {
                 $user_auth_id = $_SESSION['id'];
-                if ($user_auth_id === $this->_comment['user_id'])
+                if ($user_auth_id === $this->_comment['user_id'] || isset($_SESSION['admin']))
                     $this->_is_deletable = true;
             }
         }

@@ -62,11 +62,7 @@ final class RegisterComponent extends Component {
     private function _create_user() {
         $fields = User::get_fields();
         $sql_params = array_intersect_key($this->_inputs, $fields);
-        try {
-            return User::add_item($sql_params);
-        } catch (PDOException $e) {
-            return false;
-        }
+        return User::add_item($sql_params);
     }
 
     public function __construct() {

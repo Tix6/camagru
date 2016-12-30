@@ -13,8 +13,6 @@ final class ProfileComponent extends Component {
 
         if (isset($_GET['id']))
             $this->_user = User::get_item_by(array('id' => $_GET['id']));
-        else
-            return ;
 
         if ($this->_user) {
             $this->_user_compo    = new UserComponent($this->_user);

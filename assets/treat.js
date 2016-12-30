@@ -1,7 +1,7 @@
 (function() {
     var parentDiv = document.querySelector('#visu');
 
-    var canvas = document.createElement('canvas');
+    var canvas = document.querySelector('#canvas');
     var canvasWidth = 640;
     var canvasHeight = 480;
 
@@ -14,7 +14,13 @@
         'dragItem': document.querySelector('#dragItem'),
         'selector': document.querySelector('#stickers'),
         'ratio': document.querySelector('#sticker-ratio'),
-        'opacity': document.querySelector('#sticker-opacity')
+        'opacity': document.querySelector('#sticker-opacity'),
+        'direction': {
+            'up': document.querySelector('#dir-top'),
+            'down': document.querySelector('#dir-down'),
+            'left': document.querySelector('#dir-left'),
+            'right': document.querySelector('#dir-right')
+        }
     };
 
     var text = {
@@ -59,6 +65,7 @@
 /* LISTENERS ---------------------------------------------------------------- */
 
     window.addEventListener('resize', function(e) {
+        setSticker();
         correctStickerPos();
         e.preventDefault();
     });
@@ -71,8 +78,8 @@
     });
 
     canvas.addEventListener('mousemove', function (e) {
+        mousePos = getMousePos(canvas, e);
         if (mousePressed) {
-            mousePos = getMousePos(canvas, e);
             drawWithMouseOnCanvas(mousePos.x, mousePos.y, true);
         }
         e.preventDefault();
@@ -107,6 +114,13 @@
     sticker.opacity.addEventListener('change', function(e) {
         setSticker();
         e.preventDefault();
+    });
+
+    Object.keys(sticker.direction).forEach(function(key) {
+        sticker.direction[key].addEventListener('click', function(e) {
+            changeStickerPosWithDirection(key);
+            e.preventDefault();
+        });
     });
 
     Object.keys(text).forEach(function(key) {
@@ -177,33 +191,33 @@
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
         ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight);
+        parentDiv.style.visibility = 'visible';
         putCanvasDataToForm();
-        var callback = (function() { parentDiv.appendChild(canvas) });
-        setTimeout(callback, 200);
     }
 
     function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
-        var canvasZoom = canvasWidth / rect.width;
+        var x = Math.round( ((evt.clientX - rect.left) / (rect.right - rect.left)) * canvas.width);
+        var y = Math.round( ((evt.clientY - rect.top) / (rect.bottom - rect.top)) * canvas.height);
         return {
-            x: (evt.clientX - rect.left) * canvasZoom,
-            y: (evt.clientY - rect.top) * canvasZoom
+            'x': x,
+            'y': y
         };
     }
 
     function drawWithMouseOnCanvas(x, y, isDown) {
-    if (draw.isActive.checked && isDown) {
-        ctx.save();
-        ctx.beginPath();
-        ctx.strokeStyle = draw.color.value;
-        ctx.lineWidth = draw.size.options[draw.size.options.selectedIndex].value;
-        ctx.lineJoin = "round";
-        ctx.moveTo(lastX, lastY);
-        ctx.lineTo(x, y);
-        ctx.closePath();
-        ctx.stroke();
-        ctx.restore();
-    }
+        if (draw.isActive.checked && isDown) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.strokeStyle = draw.color.value;
+            ctx.lineWidth = draw.size.options[draw.size.options.selectedIndex].value;
+            ctx.lineJoin = "round";
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.restore();
+        }
         lastX = x; lastY = y;
     }
 
@@ -267,23 +281,28 @@
 
     function setSticker() {
         var stickerSelected = sticker.selector.options[sticker.selector.selectedIndex].value;
-        sticker.dragItem.src = stickerSelected;
+        if (stickerSelected) {
+            sticker.dragItem.src = stickerSelected;
 
-        var opacitySelected = sticker.opacity.options[sticker.opacity.selectedIndex].value;
-        sticker.dragItem.style.opacity = opacitySelected;
+            var opacitySelected = sticker.opacity.options[sticker.opacity.selectedIndex].value;
+            sticker.dragItem.style.opacity = opacitySelected;
 
-        var ratioSelected = sticker.ratio.options[sticker.ratio.selectedIndex].value;
-        var image = new Image();
-        image.onload = function() {
-            var canvasZoom = canvas.getBoundingClientRect().width / canvasWidth;
-            var width = (this.width * canvasZoom) * ratioSelected;
-            sticker.dragItem.style.width = width + 'px';
-        };
-        image.src = stickerSelected;
-        image = null;
+            var ratioSelected = sticker.ratio.options[sticker.ratio.selectedIndex].value;
+            var image = new Image();
+            image.onload = function() {
+                var canvasZoom = canvas.getBoundingClientRect().width / canvasWidth;
+                var width = Math.round((this.width * canvasZoom) * ratioSelected);
+                sticker.dragItem.style.width = width + 'px';
+                sticker.dragItem.style.backgroundColor = 'transparent';
+                sticker.dragItem.style.border = '1px dashed black';
+                sticker.dragItem.style.visibility = 'visible';
+            };
+            image.src = stickerSelected;
+            image = null;
 
-        sticker.dragItem.style.backgroundColor = 'transparent';
-        sticker.dragItem.style.border = '1px dashed black';
+        } else {
+            sticker.dragItem.style.visibility = 'hidden';
+        }
         putStickerDataToForm();
     }
 
@@ -293,6 +312,35 @@
         sticker.dragItem.style.left = new_x + 'px';
         sticker.dragItem.style.top = new_y + 'px';
         setTimeout(correctStickerPos, 300);
+    }
+
+    function changeStickerPosWithDirection(direction) {
+        var stickerBounds = sticker.dragItem.getBoundingClientRect();
+        var topPos = stickerBounds.top;
+        var leftPos = stickerBounds.left;
+
+        var canvasBounds = canvas.getBoundingClientRect();
+        var vScale = Math.round((canvasBounds.height - stickerBounds.height) / 10);
+        var hScale = Math.round((canvasBounds.width - stickerBounds.width) / 10);
+
+        switch (direction) {
+            case 'up':
+                sticker.dragItem.style.top = (topPos - vScale) + 'px';
+                break ;
+            case 'down':
+                sticker.dragItem.style.top = (topPos + vScale) + 'px';
+                break ;
+            case 'left':
+                sticker.dragItem.style.left = (leftPos - hScale) + 'px';
+                break ;
+            case 'right':
+                sticker.dragItem.style.left = (leftPos + hScale) + 'px';
+                break ;
+            default:
+                break ;
+        }
+
+        correctStickerPos();
     }
 
     /* like setStickerPos but invoked with timeout to inform user about misplacing sticker */
